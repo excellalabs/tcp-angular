@@ -1,5 +1,6 @@
+import { Component, OnInit } from '@angular/core';
+
 import { BaseForm } from '../abstracts/base-form.class';
-import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({

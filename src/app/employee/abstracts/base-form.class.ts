@@ -12,6 +12,10 @@ export abstract class BaseForm {
 
   abstract buildForm(): FormGroup;
 
+  emitFormReady(): void {
+    this.formReady.emit(this.formGroup);
+  }
+
   registerForm(name: string, control: AbstractControl): void {
     this.formGroup.setControl(name, control);
   }

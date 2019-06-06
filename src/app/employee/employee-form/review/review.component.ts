@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+
+import { IEmployee } from '../../../models/employee.interface';
 
 @Component({
   selector: 'tcp-review',
@@ -7,9 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReviewComponent implements OnInit {
 
-  constructor() { }
+  @Input() employee: IEmployee;
 
-  ngOnInit() {
+  constructor() {
   }
+
+  ngOnInit() { }
 
 }
