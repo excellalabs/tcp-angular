@@ -1,15 +1,9 @@
-import { LayoutModule } from '@angular/cdk/layout';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import {
-  MatButtonModule,
-  MatIconModule,
-  MatListModule,
-  MatSidenavModule,
-  MatToolbarModule,
-} from '@angular/material';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 
+import { LayoutModule } from '@angular/cdk/layout';
 import { MainNavComponent } from './main-nav.component';
+import { MaterialModule } from '../material.module';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('MainNavComponent', () => {
   let component: MainNavComponent;
@@ -21,11 +15,7 @@ describe('MainNavComponent', () => {
       imports: [
         NoopAnimationsModule,
         LayoutModule,
-        MatButtonModule,
-        MatIconModule,
-        MatListModule,
-        MatSidenavModule,
-        MatToolbarModule,
+        MaterialModule
       ]
     }).compileComponents();
   }));
