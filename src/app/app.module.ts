@@ -7,6 +7,7 @@ import { EmployeeFormComponent } from './employee-form/employee-form.component';
 import { ErrorComponent } from './error/error.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
+import { MaterialModule } from './material.module';
 import { NgModule } from '@angular/core';
 
 @NgModule({
@@ -22,6 +23,7 @@ import { NgModule } from '@angular/core';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]
