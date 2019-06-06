@@ -1,6 +1,7 @@
 import { RouterModule, Routes } from '@angular/router';
 
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+import { CommonModule } from '@angular/common';
 import { DataDisplayComponent } from './data-display/data-display.component';
 import { EmployeeFormComponent } from './employee-form/employee-form.component';
 import { ErrorComponent } from './error/error.component';
@@ -18,7 +19,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [CommonModule, RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
