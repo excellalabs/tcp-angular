@@ -1,3 +1,28 @@
-<p>
-  bio-form works!
-</p>
+<form [formGroup]="formGroup">
+  <div fxLayoutGap="5px">
+    <mat-form-field fxFlex="40%">
+      <input matInput placeholder="First Name">
+    </mat-form-field>
+    <mat-form-field fxFlex="20%">
+      <input matInput placeholder="Middle Initial">
+    </mat-form-field>
+    <mat-form-field fxFlex="40%">
+      <input matInput placeholder="Last Name">
+    </mat-form-field>
+  </div>
+  <div fxLayoutGap="20px" fxLayoutAlign="space-between end">
+    <mat-form-field fxFlex="50%">
+      <input matInput [matDatepicker]="dateOfBirth" placeholder="Date of Birth">
+      <mat-datepicker-toggle matSuffix [for]="dateOfBirth"></mat-datepicker-toggle>
+      <mat-datepicker #dateOfBirth></mat-datepicker>
+    </mat-form-field>
+    <div fxFlex="50%">
+      <mat-label>Gender</mat-label>
+      <mat-radio-group  fxLayoutAlign="space-between center" aria-label="gender">
+        <mat-radio-button fxFlex value="FEMALE">Female</mat-radio-button>
+        <mat-radio-button fxFlex value="MALE">Male</mat-radio-button>
+        <mat-radio-button fxFlex value="OTHER">Other</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+</form>
