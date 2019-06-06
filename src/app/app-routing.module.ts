@@ -15,6 +15,7 @@ const routes: Routes = [
   { path: 'employee-form', component: EmployeeFormComponent },
   { path: 'data-display', component: DataDisplayComponent },
   { path: 'admin-panel', component: AdminPanelComponent },
+  { path: '', redirectTo: 'home', pathMatch: 'full'},
   { path: '**', component: ErrorComponent }
 ];
 
