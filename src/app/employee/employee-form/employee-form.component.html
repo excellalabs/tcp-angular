@@ -1,3 +1,18 @@
-<p>
-  employee-form works!
-</p>
+<mat-vertical-stepper>
+  <mat-step>
+      <ng-template matStepLabel>Employee Biographical Info</ng-template>
+      <tcp-bio-form></tcp-bio-form>
+  </mat-step>
+  <mat-step>
+      <ng-template matStepLabel>Employee Contact Info</ng-template>
+      <tcp-contact-form></tcp-contact-form>
+  </mat-step>
+  <mat-step>
+      <ng-template matStepLabel>Employee Skills</ng-template>
+      <tcp-skills-form></tcp-skills-form>
+  </mat-step>
+  <mat-step>
+      <ng-template matStepLabel>Review</ng-template>
+      <tcp-review></tcp-review>
+  </mat-step>
+</mat-vertical-stepper>
