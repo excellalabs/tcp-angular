@@ -5,13 +5,15 @@ import { NgModule } from '@angular/core';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { EmployeeFormComponent } from './employee-form/employee-form.component';
+import { DataDisplayComponent } from './data-display/data-display.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     LoginComponent,
-    EmployeeFormComponent
+    EmployeeFormComponent,
+    DataDisplayComponent
   ],
   imports: [
     BrowserModule,
