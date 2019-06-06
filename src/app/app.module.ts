@@ -6,6 +6,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { EmployeeFormComponent } from './employee-form/employee-form.component';
 import { DataDisplayComponent } from './data-display/data-display.component';
+import { ErrorComponent } from './error/error.component';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { DataDisplayComponent } from './data-display/data-display.component';
     HomeComponent,
     LoginComponent,
     EmployeeFormComponent,
-    DataDisplayComponent
+    DataDisplayComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
