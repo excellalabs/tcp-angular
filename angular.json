@@ -22,6 +22,7 @@
               "src/favicon.ico"
             ],
             "styles": [
+              "src/theme.scss",
               "src/styles.css"
             ],
             "scripts": []
