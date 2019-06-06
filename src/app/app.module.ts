@@ -7,6 +7,7 @@ import { LoginComponent } from './login/login.component';
 import { EmployeeFormComponent } from './employee-form/employee-form.component';
 import { DataDisplayComponent } from './data-display/data-display.component';
 import { ErrorComponent } from './error/error.component';
+import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { ErrorComponent } from './error/error.component';
     LoginComponent,
     EmployeeFormComponent,
     DataDisplayComponent,
-    ErrorComponent
+    ErrorComponent,
+    AdminPanelComponent
   ],
   imports: [
     BrowserModule,
