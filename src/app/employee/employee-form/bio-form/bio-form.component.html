@@ -1,28 +1,42 @@
-<form [formGroup]="formGroup">
+<form [formGroup]="formGroup" class="form-content">
   <div fxLayoutGap="5px">
     <mat-form-field fxFlex="40%">
-      <input matInput placeholder="First Name">
+      <input matInput placeholder="First Name" required [formControl]="firstName">
+      <mat-error *ngIf="firstName.hasError('required')"> {{ 'First Name' | requiredMessage }}</mat-error>
     </mat-form-field>
     <mat-form-field fxFlex="20%">
-      <input matInput placeholder="Middle Initial">
+      <input matInput placeholder="Middle Initial" [formControl]="middleInitial" maxlength="1">
     </mat-form-field>
     <mat-form-field fxFlex="40%">
-      <input matInput placeholder="Last Name">
+      <input matInput placeholder="Last Name" required [formControl]="lastName">
+      <mat-error *ngIf="lastName.hasError('required')"> {{ 'Last Name' | requiredMessage }}</mat-error>
     </mat-form-field>
   </div>
-  <div fxLayoutGap="20px" fxLayoutAlign="space-between end">
+  <div fxLayoutGap="20px" fxLayoutAlign="space-between center">
     <mat-form-field fxFlex="50%">
-      <input matInput [matDatepicker]="dateOfBirth" placeholder="Date of Birth">
-      <mat-datepicker-toggle matSuffix [for]="dateOfBirth"></mat-datepicker-toggle>
-      <mat-datepicker #dateOfBirth></mat-datepicker>
+      <input matInput [matDatepicker]="dateOfBirthPicker" placeholder="Date of Birth" required [formControl]="dateOfBirth">
+      <mat-datepicker-toggle matSuffix [for]="dateOfBirthPicker"></mat-datepicker-toggle>
+      <mat-datepicker #dateOfBirthPicker></mat-datepicker>
+      <mat-error *ngIf="dateOfBirth.hasError('required')"> {{ 'Date of Birth' | requiredMessage }}</mat-error>
     </mat-form-field>
     <div fxFlex="50%">
-      <mat-label>Gender</mat-label>
-      <mat-radio-group  fxLayoutAlign="space-between center" aria-label="gender">
+      <mat-radio-group  fxLayoutAlign="space-between center" [formControl]="gender" aria-label="gender" required>
         <mat-radio-button fxFlex value="FEMALE">Female</mat-radio-button>
         <mat-radio-button fxFlex value="MALE">Male</mat-radio-button>
         <mat-radio-button fxFlex value="OTHER">Other</mat-radio-button>
       </mat-radio-group>
+    </div>
+  </div>
+  <div fxLayoutGap="20px" fxLayoutAlign="space-between center">
+    <mat-form-field fxFlex="50%">
+      <mat-label>Enthnicity</mat-label>
+      <mat-select [formControl]="ethnicity">
+        <mat-option *ngFor="let ethnicity of ethnicityOptions" [value]="ethnicity">{{ ethnicity }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="ethnicity.hasError('required')"> {{ 'Ethnicity' | requiredMessage }}</mat-error>
+    </mat-form-field>
+    <div fxFlex="50%">
+      <mat-checkbox [formControl]="usCitizen">US Citizen</mat-checkbox>
     </div>
   </div>
 </form>

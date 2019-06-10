@@ -9,6 +9,7 @@ import { EmployeeRoutingModule } from './employee-routing.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from '../material.module';
 import { NgModule } from '@angular/core';
+import { PipeModule } from '../pipes/pipe.module';
 import { ReviewComponent } from './employee-form/review/review.component';
 import { SkillsFormComponent } from './employee-form/skills-form/skills-form.component';
 
@@ -27,7 +28,8 @@ import { SkillsFormComponent } from './employee-form/skills-form/skills-form.com
     FlexLayoutModule,
     FormsModule,
     MaterialModule,
-    ReactiveFormsModule,
+    PipeModule,
+    ReactiveFormsModule
   ]
 })
 export class EmployeeModule { }

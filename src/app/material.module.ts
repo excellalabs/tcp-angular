@@ -1,5 +1,6 @@
 import {
   MatButtonModule,
+  MatCheckboxModule,
   MatDatepickerModule,
   MatFormFieldModule,
   MatIconModule,
@@ -7,6 +8,7 @@ import {
   MatListModule,
   MatNativeDateModule,
   MatRadioModule,
+  MatSelectModule,
   MatSidenavModule,
   MatStepperModule,
   MatToolbarModule
@@ -18,6 +20,7 @@ import { NgModule } from '@angular/core';
 const materialModules = [
   LayoutModule,
   MatButtonModule,
+  MatCheckboxModule,
   MatDatepickerModule,
   MatFormFieldModule,
   MatIconModule,
@@ -26,6 +29,7 @@ const materialModules = [
   MatNativeDateModule,
   MatToolbarModule,
   MatRadioModule,
+  MatSelectModule,
   MatSidenavModule,
   MatStepperModule
 ];

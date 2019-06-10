@@ -10,6 +10,7 @@ import { LoginComponent } from './login/login.component';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { MaterialModule } from './material.module';
 import { NgModule } from '@angular/core';
+import { PipeModule } from './pipes/pipe.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,7 @@ import { NgModule } from '@angular/core';
     ErrorComponent,
     HomeComponent,
     LoginComponent,
-    MainNavComponent
+    MainNavComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -26,6 +27,7 @@ import { NgModule } from '@angular/core';
     MaterialModule,
     EmployeeModule,
     AdminModule,
+    PipeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
