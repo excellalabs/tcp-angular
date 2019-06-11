@@ -16,6 +16,7 @@
     "e2e": "ng e2e",
     "predocker:build": "npm run build && npm run test -- --watch=false && npm run e2e",
     "docker:build": "cross-conf-env docker image build . -t $npm_package_config_imageRepo:$npm_package_version",
+    "postdocker:build": "npm run docker:tag",
     "docker:tag": "cross-conf-env docker image tag $npm_package_config_imageRepo:$npm_package_version $npm_package_config_imageRepo:latest",
     "docker:run": "run-s -c docker:clean docker:runHelper",
     "docker:clean": "cross-conf-env docker rm -f $npm_package_config_imageName",
