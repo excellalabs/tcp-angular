@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { IEmployeeSkill, PROFICIENCY } from '../../../models/skill.interface';
 
 import { BaseForm } from '../../abstracts/base-form.class';
-import { FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'tcp-skills-form',
@@ -10,7 +13,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class SkillsFormComponent extends BaseForm implements OnInit {
 
-  constructor() {
+  constructor(private fb: FormBuilder) {
     super();
     this.formGroup = this.buildForm();
   }
@@ -20,7 +23,13 @@ export class SkillsFormComponent extends BaseForm implements OnInit {
   }
 
   buildForm(): FormGroup {
-    return new FormGroup({});
+    return this.fb.group({
+      skillList: this.fb.array([])
+    });
+  }
+
+  get skillListFormArray(): FormArray {
+    return this.formGroup.get('skillList') as FormArray
   }
 
 }
