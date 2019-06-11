@@ -21,7 +21,7 @@ export class SkillDetailComponent extends BaseForm implements OnInit {
     super();
     this.formGroup = this.buildForm();
     this.filteredSkills$ = combineLatest([
-      this.skillName.valueChanges.pipe(
+      this.skill.valueChanges.pipe(
         startWith(''),
         map(s => typeof s === 'string' ? s : s.name)
       ),
@@ -32,13 +32,15 @@ export class SkillDetailComponent extends BaseForm implements OnInit {
   }
 
   ngOnInit() {
+    this.emitFormReady();
     this.skillService.fetch();
   }
 
   buildForm(): FormGroup {
     return this.fb.group({
-      skillName: ['', [Validators.required]],
-      proficiency: ['', [Validators.required]]
+      skill: ['', [Validators.required]],
+      proficiency: ['', [Validators.required]],
+      primary: [false, []]
     })
   }
 
@@ -46,8 +48,8 @@ export class SkillDetailComponent extends BaseForm implements OnInit {
     return skill ? `${skill.name} (${skill.category.name})` : undefined;
   }
 
-  get skillName(): AbstractControl {
-    return this.formGroup.get('skillName');
+  get skill(): AbstractControl {
+    return this.formGroup.get('skill');
   }
 
 }

@@ -1,4 +1,9 @@
-<div class="form-content">
-  <tcp-skill-detail *ngFor="let ctrl of skillListFormArray"></tcp-skill-detail>
+<div class="form-content" fxLayout="column">
+  <div *ngFor="let skill of skillList; let i = index">
+    <tcp-skill-detail (formReady)="registerSkillDetail(i, $event)"></tcp-skill-detail>
+  </div>
+  <div>
+    <button mat-raised-button color="primary" (click)="addSkill()">Add Skill</button>
+  </div>
 </div>
 
