@@ -8,9 +8,7 @@
         <div class="col">
           <mat-form-field class="full-width">
             <textarea matInput placeholder="Address" formControlName="line1"></textarea>
-            <mat-error *ngIf="formGroup.controls['line1'].hasError('required')">
-              Address is <strong>required</strong>
-            </mat-error>
+            <mat-error *ngIf="formGroup.controls['line1'].hasError('required')">{{ 'Address' | requiredMessage }}</mat-error>
           </mat-form-field>
         </div>
       </div>
@@ -32,9 +30,7 @@
         <div class="col">
           <mat-form-field class="full-width">
             <input matInput placeholder="City" formControlName="city">
-            <mat-error *ngIf="formGroup.controls['city'].hasError('required')">
-              City is <strong>required</strong>
-            </mat-error>
+            <mat-error *ngIf="formGroup.controls['city'].hasError('required')">{{ 'City' | requiredMessage }}</mat-error>
           </mat-form-field>
         </div>
         <div class="col">
@@ -44,9 +40,7 @@
                 {{ state.code}}  - {{ state.name }}
               </mat-option>
             </mat-select>
-            <mat-error *ngIf="formGroup.controls['stateCode'].hasError('required')">
-              State is <strong>required</strong>
-            </mat-error>
+            <mat-error *ngIf="formGroup.controls['stateCode'].hasError('required')">{{ 'State' | requiredMessage }}</mat-error>
           </mat-form-field>
         </div>
       </div>
