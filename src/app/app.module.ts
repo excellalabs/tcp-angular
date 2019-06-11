@@ -13,6 +13,7 @@ import { NgModule } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { HttpClientModule } from '@angular/common/http'
 import { AuthService } from './services/auth/auth.service'
+import { PipeModule } from './pipes/pipe.module'
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { AuthService } from './services/auth/auth.service'
     MaterialModule,
     EmployeeModule,
     AdminModule,
+    PipeModule,
     ReactiveFormsModule,
     HttpClientModule
   ],

@@ -1,11 +1,17 @@
 import {
   MatButtonModule,
-  MatIconModule,
-  MatListModule,
-  MatSidenavModule,
-  MatToolbarModule,
+  MatCheckboxModule,
+  MatDatepickerModule,
   MatFormFieldModule,
-  MatInputModule
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatNativeDateModule,
+  MatRadioModule,
+  MatSelectModule,
+  MatSidenavModule,
+  MatStepperModule,
+  MatToolbarModule
 } from '@angular/material'
 
 import { LayoutModule } from '@angular/cdk/layout'
@@ -13,13 +19,20 @@ import { NgModule } from '@angular/core'
 
 const materialModules = [
   LayoutModule,
-  MatToolbarModule,
   MatButtonModule,
-  MatSidenavModule,
-  MatIconModule,
-  MatListModule,
+  MatCheckboxModule,
+  MatDatepickerModule,
   MatFormFieldModule,
-  MatInputModule
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatNativeDateModule,
+  MatToolbarModule,
+  MatRadioModule,
+  MatSelectModule,
+  MatSidenavModule,
+  MatStepperModule,
+  MatButtonModule
 ]
 
 @NgModule({
