@@ -3,17 +3,17 @@ import { EventEmitter, Output } from '@angular/core';
 
 export abstract class BaseForm {
 
-  @Output() formReady: EventEmitter<FormGroup>;
+  @Output() formReady: EventEmitter<AbstractControl>;
   formGroup: FormGroup;
 
   constructor() {
-    this.formReady = new EventEmitter<FormGroup>(true); // true = async
+    this.formReady = new EventEmitter<AbstractControl>(true); // true = async
   }
 
   abstract buildForm(): FormGroup;
 
-  emitFormReady(): void {
-    this.formReady.emit(this.formGroup);
+  emitFormReady(control: AbstractControl = null): void {
+    this.formReady.emit(control ? control : this.formGroup);
   }
 
   registerForm(name: string, control: AbstractControl): void {

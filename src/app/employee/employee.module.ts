@@ -13,6 +13,7 @@ import { MaterialModule } from '../material.module';
 import { NgModule } from '@angular/core';
 import { PipeModule } from '../pipes/pipe.module';
 import { ReviewComponent } from './employee-form/review/review.component';
+import { SkillDetailComponent } from './employee-form/skills-form/skill-detail/skill-detail.component';
 import { SkillsFormComponent } from './employee-form/skills-form/skills-form.component';
 import { StateService } from './services/state/state.service';
 
@@ -25,6 +26,7 @@ import { StateService } from './services/state/state.service';
     ReviewComponent,
     SkillsFormComponent,
     AddressFormComponent,
+    SkillDetailComponent,
   ],
   imports: [
     CommonModule,
