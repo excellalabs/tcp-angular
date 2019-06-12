@@ -1,17 +1,20 @@
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IState, StateService } from '../../../services/state/state.service';
 
 import { BaseForm } from '../../../abstracts/base-form.class';
+import { IUSAddress } from '../../../../models/address.interface';
+import { hasChanged } from '../../../../utils/functions';
 
 @Component({
   selector: 'tcp-address-form',
   templateUrl: './address-form.component.html',
   styleUrls: ['./address-form.component.scss']
 })
-export class AddressFormComponent extends BaseForm implements OnInit, OnDestroy {
+export class AddressFormComponent extends BaseForm implements OnInit, OnChanges, OnDestroy {
 
+  @Input() address: IUSAddress = {} as IUSAddress
   hasUnitNumber = false;
   states$ = new BehaviorSubject<IState[]>([]);
 
@@ -27,6 +30,12 @@ export class AddressFormComponent extends BaseForm implements OnInit, OnDestroy 
     this.subs.push(
       this.stateService.getStates().subscribe(states => this.states$.next(states))
     );
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (hasChanged(changes.address)) {
+      this.formGroup.patchValue(this.address)
+    }
   }
 
   ngOnDestroy() {

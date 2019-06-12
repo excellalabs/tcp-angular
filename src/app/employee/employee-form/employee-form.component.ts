@@ -22,7 +22,6 @@ export class EmployeeFormComponent extends BaseForm implements OnInit, OnDestroy
   constructor(private activatedRoute: ActivatedRoute, private employeesService: EmployeesService) {
     super();
     this.formGroup = this.buildForm();
-    this.employee$.subscribe(console.log)
   }
 
   buildForm(): FormGroup {

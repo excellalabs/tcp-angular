@@ -6,6 +6,7 @@ import { map, startWith, tap } from 'rxjs/operators';
 
 import { BaseForm } from '../../../abstracts/base-form.class';
 import { SkillsService } from '../../../../services/skills/skills.service';
+import { hasChanged } from '../../../../utils/functions';
 
 @Component({
   selector: 'tcp-skill-detail',
@@ -41,17 +42,13 @@ export class SkillDetailComponent extends BaseForm implements OnInit, OnChanges,
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (this.hasChanged(changes.employeeSkill)) {
+    if (hasChanged(changes.employeeSkill)) {
       const value = this.employeeSkill ? this.employeeSkill : {} as IEmployeeSkill
       this.formGroup.patchValue(value, {onlySelf: false});
     }
-    if (this.hasChanged(changes.index)) {
+    if (hasChanged(changes.index)) {
       this.emitFormReady()
     }
-  }
-
-  private hasChanged(change: SimpleChange): boolean {
-    return change && change.previousValue !== change.currentValue
   }
 
   ngOnDestroy() {

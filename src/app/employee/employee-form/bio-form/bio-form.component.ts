@@ -1,15 +1,18 @@
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ETHNICITY, IEmployeeBio } from '../../../models/employee.interface';
 
 import { BaseForm } from '../../abstracts/base-form.class';
-import { ETHNICITY } from '../../../models/employee.interface';
+import { hasChanged } from '../../../utils/functions';
 
 @Component({
   selector: 'tcp-bio-form',
   templateUrl: './bio-form.component.html',
   styleUrls: ['./bio-form.component.scss']
 })
-export class BioFormComponent extends BaseForm implements OnInit {
+export class BioFormComponent extends BaseForm implements OnInit, OnChanges {
+
+  @Input() bio: IEmployeeBio = {} as IEmployeeBio
 
   ethnicityOptions = Object.keys(ETHNICITY);
 
@@ -20,14 +23,20 @@ export class BioFormComponent extends BaseForm implements OnInit {
 
   ngOnInit() {
     this.emitFormReady();
-   }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (hasChanged(changes.bio)) {
+      this.formGroup.patchValue(this.bio)
+    }
+  }
 
   buildForm(): FormGroup {
     return this.fb.group({
       firstName: ['', [Validators.required]],
       middleInitial: ['', []],
       lastName: ['', [Validators.required]],
-      dateOfBirth: ['', [Validators.required]],
+      birthDate: ['', [Validators.required]],
       gender: [null, [Validators.required]],
       ethnicity: [null, [Validators.required]],
       usCitizen: [false, [Validators.required]]
@@ -47,7 +56,7 @@ export class BioFormComponent extends BaseForm implements OnInit {
   }
 
   get dateOfBirth(): AbstractControl {
-    return this.formGroup.get('dateOfBirth');
+    return this.formGroup.get('birthDate');
   }
 
   get gender(): AbstractControl {
