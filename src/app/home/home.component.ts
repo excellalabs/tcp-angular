@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { EmployeesService } from '../services/employees/employees.service';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { IEmployee } from '../models/employee.interface';
 
 @Component({
   selector: 'tcp-home',
@@ -7,9 +10,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  employees: IEmployee[] = [];
+  employeesSubject: BehaviorSubject<IEmployee[]>;
+
+  constructor(private employeesData: EmployeesService) { 
+    this.employeesData.fetch();
+    this.employeesSubject = employeesData.getList();
+    this.employeesSubject.subscribe(data => {
+     if (data) {
+       this.employees = data;
+       console.log(this.employees);
+     } else {
+       this.employees = [];
+     }
+   })
+  }
 
   ngOnInit() {
+  }
+
+  
+  ngOnDestroy() {
+    this.employeesSubject.unsubscribe;
   }
 
 }
