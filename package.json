@@ -5,22 +5,24 @@
   "config": {
     "imageRepo": "excellaco/tcp-angular",
     "imageName": "tcp-angular",
-    "imagePort": "8080"
+    "imagePort": "3000",
+    "internalContainerPort": "3000"
   },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod",
     "test": "ng test",
+    "test:prod": "ng test --prod --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "predocker:build": "npm run build && npm run test -- --watch=false && npm run e2e",
+    "predocker:build": "npm run build",
     "docker:build": "cross-conf-env docker image build . -t $npm_package_config_imageRepo:$npm_package_version",
     "postdocker:build": "npm run docker:tag",
     "docker:tag": "cross-conf-env docker image tag $npm_package_config_imageRepo:$npm_package_version $npm_package_config_imageRepo:latest",
     "docker:run": "run-s -c docker:clean docker:runHelper",
     "docker:clean": "cross-conf-env docker rm -f $npm_package_config_imageName",
-    "docker:runHelper": "cross-conf-env docker run -e NODE_ENV=local --name $npm_package_config_imageName -d -p $npm_package_config_imagePort:3000 $npm_package_config_imageRepo",
+    "docker:runHelper": "cross-conf-env docker run -e NODE_ENV=local --name $npm_package_config_imageName -d -p $npm_package_config_imagePort:$npm_package_config_internalContainerPort $npm_package_config_imageRepo",
     "docker:taillogs": "cross-conf-env docker logs -f $npm_package_config_imageName",
     "docker:open:win": "echo Trying to launch on Windows && timeout 2 && start http://localhost:%npm_package_config_imagePort%",
     "docker:open:mac": "echo Trying to launch on MacOS && sleep 2 && URL=http://localhost:$npm_package_config_imagePort && open $URL",
