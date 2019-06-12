@@ -1,1 +1,69 @@
-<pre>{{ employee | json }}</pre>
+<div *ngIf="employee" class="form-content" fxLayout="column" fxLayoutGap="20px">
+  <div fxLayout="column" fxLayoutGap="20px">
+    <h2>Biographical Information</h2>
+    <div>
+      <div fxFlex="33%">
+        <div class="label">First Name</div>
+        <span class="content">{{ employee.bio.firstName }}</span>
+      </div>
+      <div fxFlex="33%">
+        <div class="label">Middle Initial</div>
+        <span class="content">{{ employee.bio.middleInitial }}</span>
+      </div>
+      <div fxFlex="33%">
+        <div class="label">Last Name</div>
+        <span class="content">{{ employee.bio.lastName }}</span>
+      </div>
+    </div>
+    <div>
+      <div fxFlex="66%">
+        <div class="label">Date of Birth</div>
+        <span class="content">{{ employee.bio.birthDate | date }}</span>
+      </div>
+      <div fxFlex="33%">
+          <div class="label">Gender</div>
+          <span class="content">{{ employee.bio.gender }}</span>
+        </div>
+    </div>
+    <div>
+      <div fxFlex="66%">
+        <div class="label">Ethnicity</div>
+        <span class="content">{{ employee.bio.ethnicity | titlecase }}</span>
+      </div>
+      <div fxFlex="33%">
+          <div class="label">Us Citizen</div>
+          <span class="content">{{ employee.bio.usCitizen ? 'Yes' : 'No' }}</span>
+        </div>
+    </div>
+  </div>
+  <div fxLayout="column" fxLayoutGap="20px" *ngIf="employee.contact">
+    <h2>Contact Information</h2>
+    <div fxFlex>
+      <div class="label">Email</div>
+      <span class="content">{{ employee.contact.email }}</span>
+    </div>
+    <div fxFlex>
+      <div class="label">Phone Number</div>
+      <span class="content">{{ employee.contact.phoneNumber }}</span>
+    </div>
+    <div fxFlex *ngIf="employee.contact.address">
+      <div class="label">Address</div>
+      <div><span class="content">{{ employee.contact.address.line1 }}</span></div>
+      <div *ngIf="employee.contact.address.line2"><span class="content">{{ employee.contact.address.line2 }}</span></div>
+      <div><span class="content">{{ employee.contact.address.city }}, {{ employee.contact.address.stateCode }} {{ employee.contact.address.zipCode }}</span></div>
+    </div>
+  </div>
+  <div fxLayout="column" fxLayoutGap="20px" *ngIf="employee.skills">
+    <h2>Skills</h2>
+    <div fxFlex>
+      <div class="label" fxFlex="50%">Skill Name (Skill Category)</div>
+      <div class="label" fxFlex="30%">Proficiency</div>
+      <div class="label" fxFlex="20%">Primary Skill</div>
+    </div>
+    <div fxFlex *ngFor="let skill of employee.skills">
+      <div fxFlex="50%">{{ skill.skill.name }} ({{ skill.skill.category.name }})</div>
+      <div fxFlex="30%">{{ skill.proficiency | titlecase }}</div>
+      <div fxFlex="20%">{{ skill.primary ? 'Yes' : 'No' }}</div>
+    </div>
+  </div>
+</div>

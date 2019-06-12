@@ -10,6 +10,7 @@ const dummyEmployees: IEmployee[] = [
     id: 1,
     bio: {
       firstName: 'John',
+      middleInitial: 'T',
       lastName: 'Winchester',
       birthDate: new Date(),
       gender: GENDER.MALE,
