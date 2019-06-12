@@ -11,9 +11,11 @@ import { MainNavComponent } from './main-nav/main-nav.component'
 import { MaterialModule } from './material.module'
 import { NgModule } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { AuthService } from './services/auth/auth.service'
 import { PipeModule } from './pipes/pipe.module'
+import { JwtModule } from '@auth0/angular-jwt'
+import { HttpMockRequestInterceptor } from './auth/http-mock-request.interceptor'
 
 @NgModule({
   declarations: [
@@ -32,9 +34,25 @@ import { PipeModule } from './pipes/pipe.module'
     AdminModule,
     PipeModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => {
+          return localStorage.getItem('tcp-angular')
+        },
+        whitelistedDomains: ['localhost:4200'],
+        blacklistedRoutes: []
+      }
+    })
   ],
-  providers: [AuthService],
+  providers: [
+    AuthService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpMockRequestInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
