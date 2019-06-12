@@ -46,13 +46,17 @@ export class AuthService {
 
   getToken() {
     const token = localStorage.getItem(this.key)
-    if (token) {
-      const decodedToken = this.jwtHelper.decodeToken(token)
-      if (decodedToken.exp - new Date().getTime() < 0) {
-        this.logout()
-        return
+    try {
+      if (token) {
+        const decodedToken = this.jwtHelper.decodeToken(token)
+        if (decodedToken.exp - new Date().getTime() < 0) {
+          this.logout()
+          return
+        }
       }
+      return token
+    } catch (err) {
+      this.logout()
     }
-    return token
   }
 }
