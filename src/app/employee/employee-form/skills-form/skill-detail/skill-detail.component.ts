@@ -1,8 +1,8 @@
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
-import { ISkill, PROFICIENCY } from '../../../../models/skill.interface';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange, SimpleChanges } from '@angular/core';
+import { IEmployeeSkill, ISkill, PROFICIENCY } from '../../../../models/skill.interface';
 import { Observable, combineLatest } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { map, startWith, tap } from 'rxjs/operators';
 
 import { BaseForm } from '../../../abstracts/base-form.class';
 import { SkillsService } from '../../../../services/skills/skills.service';
@@ -12,7 +12,10 @@ import { SkillsService } from '../../../../services/skills/skills.service';
   templateUrl: './skill-detail.component.html',
   styleUrls: ['./skill-detail.component.scss']
 })
-export class SkillDetailComponent extends BaseForm implements OnInit {
+export class SkillDetailComponent extends BaseForm implements OnInit, OnChanges, OnDestroy {
+
+  @Input() employeeSkill: IEmployeeSkill
+  @Output() destroyForm = new EventEmitter<void>();
 
   proficiencies: string[] = Object.keys(PROFICIENCY);
   filteredSkills$: Observable<ISkill[]>
@@ -28,12 +31,31 @@ export class SkillDetailComponent extends BaseForm implements OnInit {
       this.skillService.list
     ]).pipe(
       map(([name, skillList]: [string, ISkill[]]) =>
-        skillList.filter(s => s.name.toLowerCase().includes(name.toLowerCase()))))
+        skillList.filter(s => s.name.toLowerCase().includes(name.toLowerCase())))
+    )
   }
 
   ngOnInit() {
     this.emitFormReady();
     this.skillService.fetch();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.hasChanged(changes.employeeSkill)) {
+      const value = this.employeeSkill ? this.employeeSkill : {} as IEmployeeSkill
+      this.formGroup.patchValue(value, {onlySelf: false});
+    }
+    if (this.hasChanged(changes.index)) {
+      this.emitFormReady()
+    }
+  }
+
+  private hasChanged(change: SimpleChange): boolean {
+    return change && change.previousValue !== change.currentValue
+  }
+
+  ngOnDestroy() {
+    this.destroyForm.emit();
   }
 
   buildForm(): FormGroup {

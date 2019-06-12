@@ -1,10 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { IEmployeeSkill, PROFICIENCY } from '../../../models/skill.interface';
 
 import { BaseForm } from '../../abstracts/base-form.class';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { IEmployeeSkill } from '../../../models/skill.interface';
 
 @Component({
   selector: 'tcp-skills-form',
@@ -27,22 +25,29 @@ export class SkillsFormComponent extends BaseForm implements OnInit {
     }
   }
 
-  registerSkillDetail(index: number, formGroup: FormGroup): void {
-    this.skillListFormArray.insert(index ? index : 0, formGroup);
-  }
-
-  deregisterSkillDetail(index: number): void {
-    this.skillListFormArray.removeAt(index);
-  }
-
   buildForm(): FormGroup {
     return this.fb.group({
       skillList: this.fb.array([])
     });
   }
 
+  registerSkillDetail(index: number, formGroup: FormGroup): void {
+    this.skillListFormArray.setControl(index, formGroup)
+  }
+
+  deleteSkillAt(index: number): void {
+    this.skillList.splice(index, 1)
+  }
+
+  deregisterSkillDetail(index: number): void {
+    this.skillListFormArray.removeAt(Math.min(index, this.skillListFormArray.length - 1))
+  }
+
   addSkill(): void {
-    this.skillList.push(null);
+    if (this.formGroup.valid) {
+      this.skillList = this.skillListFormArray.value as IEmployeeSkill[]
+      this.skillList.push({} as IEmployeeSkill)
+    }
   }
 
   get skillListFormArray(): FormArray {
