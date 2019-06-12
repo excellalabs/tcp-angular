@@ -20,7 +20,6 @@ export class HomeComponent implements OnInit {
     this.employeesSubject.subscribe(data => {
      if (data) {
        this.employees = data;
-       console.log(this.employees);
      } else {
        this.employees = [];
      }
