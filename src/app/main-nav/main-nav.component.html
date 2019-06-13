@@ -7,13 +7,14 @@
     <mat-nav-list>
       <ng-container *ngIf="isLoggedIn(); else notLoggedIn">
         <a mat-list-item routerLink="/home">Home</a>
-        <a mat-list-item *ngIf="currentUserIsAdmin()" routerLink="/admin"
-          >Admin</a
-        >
-        <a mat-list-item *ngIf="currentUserIsAdmin()" routerLink="/employee/add"
-          >Add Employee</a
-        >
         <a mat-list-item routerLink="/employee/list">Employee List</a>
+        <ng-container *ngIf="currentUserIsAdmin()">
+          <mat-divider></mat-divider>
+          <h3 mat-subheader>Admin Actions</h3>
+          <a mat-list-item routerLink="/employee/add">Add Employee</a>
+          <a mat-list-item routerLink="/admin/skills">Manage Skills</a>
+          <a mat-list-item routerLink="/admin/categories">Manage Categories</a>
+        </ng-container>
       </ng-container>
       <ng-template #notLoggedIn>
         <a mat-list-item routerLink="/login">Log In</a>
