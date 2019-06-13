@@ -11,8 +11,12 @@
     <mat-nav-list>
       <ng-container *ngIf="isLoggedIn(); else notLoggedIn">
         <a mat-list-item routerLink="/home">Home</a>
-        <a mat-list-item routerLink="/admin">Admin</a>
-        <a mat-list-item routerLink="/employee/add">Add Employee</a>
+        <a mat-list-item *ngIf="currentUserIsAdmin()" routerLink="/admin"
+          >Admin</a
+        >
+        <a mat-list-item *ngIf="currentUserIsAdmin()" routerLink="/employee/add"
+          >Add Employee</a
+        >
         <a mat-list-item routerLink="/employee/list">Employee List</a>
       </ng-container>
       <ng-template #notLoggedIn>

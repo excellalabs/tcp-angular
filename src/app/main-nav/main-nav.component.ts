@@ -27,4 +27,8 @@ export class MainNavComponent {
   logout() {
     this.authService.logout()
   }
+
+  currentUserIsAdmin() {
+    return this.authService.isAdmin()
+  }
 }

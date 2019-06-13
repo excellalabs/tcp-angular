@@ -6,6 +6,7 @@ import { HomeComponent } from './home/home.component'
 import { LoginComponent } from './login/login.component'
 import { NgModule } from '@angular/core'
 import { AuthGuard } from './auth/auth.guard'
+import { Role } from './models/role'
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -20,7 +21,8 @@ const routes: Routes = [
     path: 'admin',
     loadChildren: () =>
       import('./admin/admin.module').then(mod => mod.AdminModule),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: { roles: [Role.admin] }
   },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', component: ErrorComponent }

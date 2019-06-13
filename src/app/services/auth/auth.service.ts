@@ -6,6 +6,7 @@ import {
 } from '@angular/common/http'
 import { Router } from '@angular/router'
 import { JwtHelperService } from '@auth0/angular-jwt'
+import { Role } from '../../models/role'
 
 @Injectable({
   providedIn: 'root'
@@ -37,14 +38,7 @@ export class AuthService {
     this.router.navigateByUrl('login')
   }
 
-  isLoggedIn() {
-    if (this.getToken()) {
-      return true
-    }
-    return false
-  }
-
-  getToken() {
+  getToken(decoded: boolean = false) {
     const token = localStorage.getItem(this.key)
     try {
       if (token) {
@@ -54,9 +48,29 @@ export class AuthService {
           return
         }
       }
-      return token
+      if (decoded) {
+        return this.jwtHelper.decodeToken(token)
+      } else {
+        return token
+      }
     } catch (err) {
       this.logout()
     }
+  }
+
+  getRole() {
+    const token = this.getToken(true)
+    return token.role
+  }
+
+  isLoggedIn() {
+    if (this.getToken()) {
+      return true
+    }
+    return false
+  }
+
+  isAdmin() {
+    return this.getRole() === Role.admin
   }
 }
