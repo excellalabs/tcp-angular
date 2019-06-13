@@ -59,4 +59,21 @@ export class SkillsService {
   fetch(): void {
     this.list.next(dummySkills)
   }
+
+  addSkill(skill: ISkill) {
+    let newList: ISkill[]
+    if (skill.id) {
+      this.deleteSkill(skill.id)
+      newList = this.list.value
+    } else {
+      newList = this.list.value
+      skill.id = newList.length
+    }
+    newList.push(skill)
+    this.list.next(newList)
+  }
+
+  deleteSkill(id: number) {
+    this.list.next(this.list.value.filter(s => s.id !== id))
+  }
 }

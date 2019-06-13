@@ -13,7 +13,21 @@ import { SkillFormComponent } from './manage-skills/skill-form/skill-form.compon
 import { SkillListComponent } from './manage-skills/skill-list/skill-list.component'
 
 @NgModule({
-  declarations: [AdminPanelComponent, ManageSkillsComponent, ManageCategoriesComponent, SkillFormComponent, SkillListComponent],
-  imports: [CommonModule, AdminRoutingModule, FormsModule, ReactiveFormsModule, FlexLayoutModule, MaterialModule, PipeModule],
+  declarations: [
+    AdminPanelComponent,
+    ManageSkillsComponent,
+    ManageCategoriesComponent,
+    SkillFormComponent,
+    SkillListComponent,
+  ],
+  imports: [
+    CommonModule,
+    AdminRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FlexLayoutModule,
+    MaterialModule,
+    PipeModule,
+  ],
 })
 export class AdminModule {}

@@ -1,16 +1,16 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
-import { Observable } from 'rxjs';
-import { ISkill } from 'src/app/models/skill.interface';
-import { SkillsService } from 'src/app/services/skills/skills.service';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core'
+import { MatTableDataSource } from '@angular/material'
+import { Observable } from 'rxjs'
+import { ISkill } from 'src/app/models/skill.interface'
+import { SkillsService } from 'src/app/services/skills/skills.service'
+import { stringCompare } from 'src/app/utils/functions';
 
 @Component({
   selector: 'tcp-skill-list',
   templateUrl: './skill-list.component.html',
-  styleUrls: ['./skill-list.component.scss']
+  styleUrls: ['./skill-list.component.scss'],
 })
 export class SkillListComponent implements OnInit {
-
   @Output() editSkill = new EventEmitter<number>()
   @Output() deleteSkill = new EventEmitter<number>()
 
@@ -20,7 +20,7 @@ export class SkillListComponent implements OnInit {
   constructor(public skillService: SkillsService) {
     this.dataSource = new MatTableDataSource<ISkill>([])
     this.skillService.list.subscribe(skills => {
-      this.dataSource.data = skills
+      this.dataSource.data = skills.sort((a, b) => stringCompare(a.name, b.name))
     })
   }
 
@@ -31,5 +31,4 @@ export class SkillListComponent implements OnInit {
   applyTableFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase()
   }
-
 }

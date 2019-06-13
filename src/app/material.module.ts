@@ -35,7 +35,7 @@ const materialModules = [
   MatSidenavModule,
   MatStepperModule,
   MatTableModule,
-  MatToolbarModule
+  MatToolbarModule,
 ]
 
 @NgModule({

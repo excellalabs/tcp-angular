@@ -3,12 +3,12 @@
   <input matInput (keyup)="applyTableFilter($event.target.value)" placeHolder="Name">
 </mat-form-field>
 <table mat-table [dataSource]="dataSource" class="mt-elevation-z8">
-  <ng-container matColumnDef="edit" >
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let element">
-        <button mat-button color="accent" (click)="editSkill.emit(element.id)">Edit</button>
-      </td>
-    </ng-container>
+  <ng-container matColumnDef="edit">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-button color="accent" (click)="editSkill.emit(element.id)">Edit</button>
+    </td>
+  </ng-container>
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef>Name</th>
     <td mat-cell *matCellDef="let element">{{ element.name }}</td>
@@ -21,7 +21,8 @@
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let element">
       <div style="width: 100%" fxLayout="column">
-        <button fxFlexAlign="end" mat-raised-button color="warn" (click)="deleteSkill.emit(element.id)">Delete</button>
+        <button fxFlexAlign="end" mat-raised-button color="warn"
+          (click)="deleteSkill.emit(element.id)">Delete</button>
       </div>
     </td>
   </ng-container>

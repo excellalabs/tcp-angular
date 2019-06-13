@@ -19,7 +19,7 @@ export class SkillCategoriesService {
   constructor() {}
 
   fetch(): void {
-    if ( this.list.value.length === 0) {
+    if (this.list.value.length === 0) {
       this.list.next(dummySkillCategories)
     }
   }
