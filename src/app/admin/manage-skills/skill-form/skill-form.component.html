@@ -1,0 +1,15 @@
+<form [formGroup]="formGroup" fxLayoutAlign="space-around center" fxLayoutGap="5px">
+  <mat-form-field fxFlex="66%">
+    <mat-label>Skill Name</mat-label>
+    <input type="text" placeholder="Skill Name" matInput [formControl]="formGroup.get('name')">
+    <mat-error *ngIf="formGroup.get('name').hasError('required')">{{ 'Skill Name' | requiredMessage }}</mat-error>
+    <mat-error *ngIf="formGroup.get('name').hasError('minlength')">Skill Name must be at least 3 characters</mat-error>
+  </mat-form-field>
+  <mat-form-field fxFlex="33%">
+    <mat-label>Category</mat-label>
+    <mat-select [formControl]="formGroup.get('category')">
+      <mat-option *ngFor="let category of categories$ | async" [value]="category">
+        {{ category.name | titlecase }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</form>
