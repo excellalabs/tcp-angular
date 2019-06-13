@@ -1,5 +1,5 @@
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChange, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { IEmployeeSkill, ISkill, PROFICIENCY } from '../../../../models/skill.interface';
 import { Observable, combineLatest } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';

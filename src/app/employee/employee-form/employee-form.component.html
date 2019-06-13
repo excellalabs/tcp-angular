@@ -14,6 +14,6 @@
   <mat-step>
       <ng-template matStepLabel>Review</ng-template>
       <tcp-review [employee]="formGroup.valueChanges | async"></tcp-review>
-      <button mat-raised-button class="submit-button" color="primary">Submit</button>
+      <button mat-raised-button class="submit-button" color="primary" (click)="onSubmit()">Submit</button>
   </mat-step>
 </mat-vertical-stepper>

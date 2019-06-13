@@ -42,4 +42,8 @@ export class EmployeeFormComponent extends BaseForm implements OnInit, OnDestroy
     this.subs.forEach(s => s.unsubscribe())
   }
 
+  onSubmit() {
+    console.log(this.formGroup.value)
+  }
+
 }
