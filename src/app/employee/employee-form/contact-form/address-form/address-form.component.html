@@ -1,0 +1,50 @@
+<form [formGroup]="formGroup" novalidate (ngSubmit)="onSubmit()">
+  <div class="row">
+    <div class="col">
+      <mat-form-field class="full-width">
+        <textarea matInput placeholder="Address" formControlName="line1"></textarea>
+        <mat-error *ngIf="formGroup.controls['line1'].hasError('required')">{{ 'Address' | requiredMessage }}</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row" *ngIf="!hasUnitNumber">
+    <div class="col">
+      <button mat-button type="button" (click)="hasUnitNumber = !hasUnitNumber">
+        + Add C/O, Apt, Suite, Unit
+      </button>
+    </div>
+  </div>
+  <div class="row" *ngIf="hasUnitNumber">
+    <div class="col">
+      <mat-form-field class="full-width">
+        <textarea matInput placeholder="Address 2" formControlName="line2"></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="City" formControlName="city">
+        <mat-error *ngIf="formGroup.controls['city'].hasError('required')">{{ 'City' | requiredMessage }}</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col">
+      <mat-form-field class="full-width">
+        <mat-select placeholder="State" formControlName="stateCode">
+          <mat-option *ngFor="let state of states$ | async" [value]="state.code">
+            {{ state.code}}  - {{ state.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.controls['stateCode'].hasError('required')">{{ 'State' | requiredMessage }}</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <mat-form-field class="full-width">
+        <input matInput #zipCode maxlength="5" placeholder="Zip Code" type="number" formControlName="zipCode">
+        <mat-hint align="end">{{zipCode.value.length}} / 5</mat-hint>
+      </mat-form-field>
+    </div>
+  </div>
+</form>

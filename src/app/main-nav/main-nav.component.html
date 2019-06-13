@@ -1,15 +1,23 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport
-      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      [opened]="(isHandset$ | async) === false">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
+  >
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item routerLink="/home">Home</a>
-      <a mat-list-item routerLink="/login">Log In</a>
-      <a mat-list-item routerLink="/admin">Admin</a>
-      <a mat-list-item routerLink="/employee/add">Add Employee</a>
-      <a mat-list-item routerLink="/employee/list">Employee List</a>
+      <ng-container *ngIf="isLoggedIn(); else notLoggedIn">
+        <a mat-list-item routerLink="/home">Home</a>
+        <a mat-list-item routerLink="/admin">Admin</a>
+        <a mat-list-item routerLink="/employee/add">Add Employee</a>
+        <a mat-list-item routerLink="/employee/list">Employee List</a>
+      </ng-container>
+      <ng-template #notLoggedIn>
+        <a mat-list-item routerLink="/login">Log In</a>
+      </ng-template>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -19,10 +27,13 @@
         aria-label="Toggle sidenav"
         mat-icon-button
         (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
+        *ngIf="isHandset$ | async"
+      >
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span>Tech Challenge Platform (Angular)</span>
+      <span class="spacer"></span>
+      <span (click)="logout()">Logout</span>
     </mat-toolbar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>

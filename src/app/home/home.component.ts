@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
+import { HttpClient } from '@angular/common/http'
 
 @Component({
   selector: 'tcp-home',
@@ -6,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  constructor(private httpClient: HttpClient) {}
 
-  constructor() { }
+  ngOnInit() {}
 
-  ngOnInit() {
+  testRequest() {
+    this.httpClient.get('tests').subscribe()
   }
-
 }
