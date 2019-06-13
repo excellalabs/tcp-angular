@@ -10,7 +10,7 @@ export interface IEmployee extends IBaseItem {
 
 export interface IEmployeeBio {
   firstName: string;
-  middleName?: string; // optional
+  middleInitial?: string; // optional
   lastName: string;
   birthDate: Date; // date mask, should be over 18?
   gender: GENDER; // radio buttons

@@ -1,6 +1,6 @@
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ETHNICITY, GENDER, IEmployee } from '../../models/employee.interface';
 
-import { BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { PROFICIENCY } from '../../models/skill.interface';
 import { dummySkills } from '../skills/skills.service';
@@ -10,6 +10,7 @@ const dummyEmployees: IEmployee[] = [
     id: 1,
     bio: {
       firstName: 'John',
+      middleInitial: 'T',
       lastName: 'Winchester',
       birthDate: new Date(),
       gender: GENDER.MALE,
@@ -47,5 +48,9 @@ export class EmployeesService {
 
   fetch(): void {
     this.list.next(dummyEmployees);
+  }
+
+  getById(id: number): Observable<IEmployee> {
+    return of(dummyEmployees.find(e => e.id === id))
   }
 }
