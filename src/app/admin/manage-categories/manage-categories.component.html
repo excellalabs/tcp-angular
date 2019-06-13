@@ -1,5 +1,11 @@
-<h3>Add/Edit Category</h3>
-<tcp-category-form [category]="categoryToEdit" (addCategory)="onAddCategory($event)"></tcp-category-form>
-<h3>Categories</h3>
-<tcp-category-list (editCategory)="onEditCategory($event)" (deleteCategory)="onDeleteCategory($event)">
-</tcp-category-list>
+<div fxLayout="column" fxLayoutGap="20px">
+  <mat-card>
+    <mat-card-title>Add/Edit Category</mat-card-title>
+    <tcp-category-form [category]="categoryToEdit" (addCategory)="onAddCategory($event)"></tcp-category-form>
+  </mat-card>
+  <mat-card>
+    <mat-card-title>Categories</mat-card-title>
+    <tcp-category-list (editCategory)="onEditCategory($event)" (deleteCategory)="onDeleteCategory($event)">
+    </tcp-category-list>
+  </mat-card>
+</div>
