@@ -1,6 +1,6 @@
-<h3 mat-subheader>Manage My Skills</h3>
 <div fxLayout="column" fxLayoutGap="20px">
   <mat-card fxFlex="100%">
+    <mat-card-title>Manage My Skills</mat-card-title>
     <tcp-skills-form [skillList]="(user$ | async)?.skills" (formReady)="registerForm('skills', $event)"></tcp-skills-form>
   </mat-card>
   <div fxFlex="100%" fxFlexAlign="end">
