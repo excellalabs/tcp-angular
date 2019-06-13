@@ -18,7 +18,7 @@ const dummyEmployees: IEmployee[] = [
       usCitizen: true,
     },
     contact: {
-      email: 'john@winchester.com',
+      email: 'jon.doe@gmail.com',
       phoneNumber: '(123)456-7890',
       address: {
         line1: '2300 Wilson Blvd',
@@ -71,5 +71,28 @@ export class EmployeesService {
 
   getById(id: number): Observable<IEmployee> {
     return of(dummyEmployees.find(e => e.id === id))
+  }
+
+  getByEmail(email: string): Observable<IEmployee> {
+    if (this.list.value.length === 0) {this.fetch()}
+    return of(this.list.value.find(e => e.contact.email === email))
+  }
+
+  addEmployee(employee: IEmployee) {
+    const newList = this.list.value
+    employee.id = this.list.value.length
+    newList.push(employee)
+    this.list.next(newList)
+  }
+
+  updateEmployee(employee: IEmployee) {
+    this.deleteEmployee(employee.id)
+    const newList = this.list.value
+    newList.push(employee)
+    this.list.next(newList)
+  }
+
+  deleteEmployee(id: number) {
+    this.list.next(this.list.value.filter(e => e.id !== id))
   }
 }

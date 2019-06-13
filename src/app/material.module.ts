@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core'
 import {
   MatAutocompleteModule,
   MatButtonModule,
+  MatCardModule,
   MatCheckboxModule,
   MatDatepickerModule,
   MatFormFieldModule,
@@ -22,6 +23,7 @@ const materialModules = [
   LayoutModule,
   MatAutocompleteModule,
   MatButtonModule,
+  MatCardModule,
   MatCheckboxModule,
   MatDatepickerModule,
   MatFormFieldModule,
