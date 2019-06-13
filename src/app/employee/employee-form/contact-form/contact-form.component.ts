@@ -24,7 +24,7 @@ export class ContactFormComponent extends BaseForm implements OnInit, OnChanges 
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (hasChanged(changes.contact)) {
+    if (hasChanged(changes.contact) && !!this.contact) {
       this.formGroup.patchValue(this.contact)
     }
   }

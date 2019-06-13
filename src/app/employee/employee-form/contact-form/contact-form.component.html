@@ -13,5 +13,5 @@
       <mat-error *ngIf="formGroup.controls['phoneNumber'].hasError('pattern')">Phone Number formatted like: (xxx)xxx-xxxx</mat-error>
     </mat-form-field>
   </div>
-  <tcp-address-form [address]="contact.address" (formReady)="registerForm('address', $event)"></tcp-address-form>
+  <tcp-address-form [address]="contact?.address" (formReady)="registerForm('address', $event)"></tcp-address-form>
 </form>

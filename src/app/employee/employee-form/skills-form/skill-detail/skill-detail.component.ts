@@ -44,6 +44,9 @@ export class SkillDetailComponent extends BaseForm implements OnInit, OnChanges,
   ngOnChanges(changes: SimpleChanges) {
     if (hasChanged(changes.employeeSkill)) {
       const value = this.employeeSkill ? this.employeeSkill : {} as IEmployeeSkill
+      if (value === {} as IEmployeeSkill) {
+        this.formGroup.reset()
+      }
       this.formGroup.patchValue(value, {onlySelf: false});
     }
     if (hasChanged(changes.index)) {

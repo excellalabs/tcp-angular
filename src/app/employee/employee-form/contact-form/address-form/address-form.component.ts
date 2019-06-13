@@ -33,7 +33,7 @@ export class AddressFormComponent extends BaseForm implements OnInit, OnChanges,
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (hasChanged(changes.address)) {
+    if (hasChanged(changes.address) && !!this.address) {
       this.formGroup.patchValue(this.address)
     }
   }

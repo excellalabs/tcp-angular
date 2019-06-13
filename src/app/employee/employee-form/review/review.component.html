@@ -61,7 +61,7 @@
       <div class="label" fxFlex="20%">Primary Skill</div>
     </div>
     <div fxFlex *ngFor="let skill of employee.skills">
-      <div fxFlex="50%">{{ skill.skill.name }} ({{ skill.skill.category.name }})</div>
+      <div fxFlex="50%">{{ skill.skill?.name }} ({{ skill.skill?.category?.name }})</div>
       <div fxFlex="30%">{{ skill.proficiency | titlecase }}</div>
       <div fxFlex="20%">{{ skill.primary ? 'Yes' : 'No' }}</div>
     </div>
