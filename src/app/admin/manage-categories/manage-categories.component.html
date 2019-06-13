@@ -1,3 +1,5 @@
-<p>
-  manage-categories works!
-</p>
+<h3>Add/Edit Category</h3>
+<tcp-category-form [category]="categoryToEdit" (addCategory)="onAddCategory($event)"></tcp-category-form>
+<h3>Categories</h3>
+<tcp-category-list (editCategory)="onEditCategory($event)" (deleteCategory)="onDeleteCategory($event)">
+</tcp-category-list>

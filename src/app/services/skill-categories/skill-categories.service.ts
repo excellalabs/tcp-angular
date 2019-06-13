@@ -23,4 +23,21 @@ export class SkillCategoriesService {
       this.list.next(dummySkillCategories)
     }
   }
+
+  addCategory(category: ICategory) {
+    let newList: ICategory[]
+    if (category.id) {
+      this.deleteCategory(category.id)
+      newList = this.list.value
+    } else {
+      newList = this.list.value
+      category.id = newList.length
+    }
+    newList.push(category)
+    this.list.next(newList)
+  }
+
+  deleteCategory(id: number) {
+    this.list.next(this.list.value.filter(s => s.id !== id))
+  }
 }
