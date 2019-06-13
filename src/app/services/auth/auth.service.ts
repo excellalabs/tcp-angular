@@ -55,6 +55,11 @@ export class AuthService {
     }
   }
 
+  getEmail() {
+    const token = this.getToken(true)
+    return token.email
+  }
+
   getRole() {
     const token = this.getToken(true)
     return token.role
