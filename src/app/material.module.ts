@@ -1,3 +1,5 @@
+import { LayoutModule } from '@angular/cdk/layout'
+import { NgModule } from '@angular/core'
 import {
   MatAutocompleteModule,
   MatButtonModule,
@@ -12,11 +14,8 @@ import {
   MatSelectModule,
   MatSidenavModule,
   MatStepperModule,
-  MatToolbarModule
+  MatToolbarModule,
 } from '@angular/material'
-
-import { LayoutModule } from '@angular/cdk/layout'
-import { NgModule } from '@angular/core'
 
 const materialModules = [
   LayoutModule,
@@ -34,11 +33,11 @@ const materialModules = [
   MatSelectModule,
   MatSidenavModule,
   MatStepperModule,
-  MatButtonModule
+  MatButtonModule,
 ]
 
 @NgModule({
   imports: [materialModules],
-  exports: [materialModules]
+  exports: [materialModules],
 })
 export class MaterialModule {}

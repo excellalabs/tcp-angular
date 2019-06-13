@@ -12,13 +12,13 @@
     "directive-selector": [
       true,
       "attribute",
-      "app",
+      "tcp",
       "camelCase"
     ],
-    "component-selector": [
+   "component-selector": [
       true,
       "element",
-      "app",
+      "tcp",
       "kebab-case"
     ],
     "import-blacklist": [
@@ -72,6 +72,39 @@
       true,
       "single"
     ],
+    "radix": true,
+   "semicolon": [
+     false,
+     "always"
+   ],
+   "triple-equals": [
+     true,
+     "allow-null-check"
+   ],
+   "typedef-whitespace": [
+     true,
+     {
+       "call-signature": "nospace",
+       "index-signature": "nospace",
+       "parameter": "nospace",
+       "property-declaration": "nospace",
+       "variable-declaration": "nospace"
+     }
+   ],
+   "typeof-compare": true,
+   "unified-signatures": true,
+   "variable-name": false,
+   "whitespace": [
+     true,
+     "check-branch",
+     "check-decl",
+     "check-operator",
+     "check-separator",
+     "check-type"
+   ],
+   "use-input-property-decorator": true,
+   "use-output-property-decorator": true,
+   "use-host-property-decorator": true,
     "trailing-comma": false,
     "no-conflicting-lifecycle": true,
     "no-host-metadata-property": true,

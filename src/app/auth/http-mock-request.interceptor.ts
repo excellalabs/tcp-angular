@@ -1,14 +1,14 @@
-import { Injectable, Injector } from '@angular/core'
 import {
+  HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
   HttpResponse,
-  HttpErrorResponse
 } from '@angular/common/http'
-import { Observable, of } from 'rxjs'
+import { Injectable, Injector } from '@angular/core'
 import { JwtHelperService } from '@auth0/angular-jwt'
+import { Observable, of } from 'rxjs'
 
 @Injectable()
 export class HttpMockRequestInterceptor implements HttpInterceptor {
@@ -16,16 +16,13 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
 
   constructor(private injector: Injector) {}
 
-  intercept(
-    request: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (request.url === 'test') {
       console.log('Loaded from json : ' + request.url)
       return of(
         new HttpResponse({
           status: 200,
-          body: ({} as any).default
+          body: ({} as any).default,
         })
       )
     } else if (request.url === 'login') {
@@ -38,7 +35,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
           new HttpResponse({
             status: 200,
             body:
-              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1NjAzNTQ4MTk5MjEsImV4cCI6MTU5MTk4NDMyOTA4OSwiZW1haWwiOiJqb24uZG9lQGdtYWlsLmNvbSIsImtleSI6ImFzZGYyNHNkIiwicm9sZSI6ImFkbWluIn0.1dxln22U-jkWVN0WDLH0ltpkW47YrI550OXn90v6ahI'
+              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1NjAzNTQ4MTk5MjEsImV4cCI6MTU5MTk4NDMyOTA4OSwiZW1haWwiOiJqb24uZG9lQGdtYWlsLmNvbSIsImtleSI6ImFzZGYyNHNkIiwicm9sZSI6ImFkbWluIn0.1dxln22U-jkWVN0WDLH0ltpkW47YrI550OXn90v6ahI',
           })
         )
       } else if (
@@ -49,7 +46,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
           new HttpResponse({
             status: 200,
             body:
-              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1NjAzNTQ4MTk5MjEsImV4cCI6MTU5MTk4NDMyOTA4OSwiZW1haWwiOiJqb24uZG9lQGdtYWlsLmNvbSIsImtleSI6ImFzZGYyNHNkIiwicm9sZSI6InVzZXIifQ.vnbR72yHX00WxfuffPtvJHshw8_ovRaDoCiMX9O0zVU'
+              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1NjAzNTQ4MTk5MjEsImV4cCI6MTU5MTk4NDMyOTA4OSwiZW1haWwiOiJqb24uZG9lQGdtYWlsLmNvbSIsImtleSI6ImFzZGYyNHNkIiwicm9sZSI6InVzZXIifQ.vnbR72yHX00WxfuffPtvJHshw8_ovRaDoCiMX9O0zVU',
           })
         )
       } else {

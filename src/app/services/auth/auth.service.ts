@@ -1,15 +1,11 @@
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import {
-  HttpClient,
-  HttpHeaders,
-  HttpErrorResponse
-} from '@angular/common/http'
 import { Router } from '@angular/router'
 import { JwtHelperService } from '@auth0/angular-jwt'
 import { Role } from '../../models/role'
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   key = 'tcp-angular'
@@ -20,7 +16,7 @@ export class AuthService {
   login(username: string, password: string) {
     this.http
       .get('login', {
-        headers: new HttpHeaders({ u: username, p: password })
+        headers: new HttpHeaders({ u: username, p: password }),
       })
       .subscribe(
         (data: string) => {

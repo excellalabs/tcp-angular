@@ -1,3 +1,3 @@
 export interface IBaseItem {
-  id: number;
+  id: number
 }

@@ -1,17 +1,24 @@
 <form [formGroup]="formGroup" fxLayout="column" class="form-content">
   <div fxFlex="100%">
     <mat-form-field fxFill>
-      <input matInput placeholder="Email Address" required [formControl]="formGroup.controls['email']">
-      <mat-error *ngIf="formGroup.controls['email'].hasError('required')"> {{ 'Email' | requiredMessage }}</mat-error>
-      <mat-error *ngIf="formGroup.controls['email'].hasError('email')">Invalid Email</mat-error>
+      <input matInput placeholder="Email Address" required
+        [formControl]="formGroup.controls['email']">
+      <mat-error *ngIf="formGroup.controls['email'].hasError('required')">
+        {{ 'Email' | requiredMessage }}</mat-error>
+      <mat-error *ngIf="formGroup.controls['email'].hasError('email')">Invalid Email
+      </mat-error>
     </mat-form-field>
   </div>
   <div fxFlex="100%">
     <mat-form-field fxFill>
-      <input matInput placeholder="Phone Number" required [formControl]="formGroup.controls['phoneNumber']">
-      <mat-error *ngIf="formGroup.controls['phoneNumber'].hasError('required')"> {{ 'Phone Number' | requiredMessage }}</mat-error>
-      <mat-error *ngIf="formGroup.controls['phoneNumber'].hasError('pattern')">Phone Number formatted like: (xxx)xxx-xxxx</mat-error>
+      <input matInput placeholder="Phone Number" required
+        [formControl]="formGroup.controls['phoneNumber']">
+      <mat-error *ngIf="formGroup.controls['phoneNumber'].hasError('required')">
+        {{ 'Phone Number' | requiredMessage }}</mat-error>
+      <mat-error *ngIf="formGroup.controls['phoneNumber'].hasError('pattern')">Phone
+        Number formatted like: (xxx)xxx-xxxx</mat-error>
     </mat-form-field>
   </div>
-  <tcp-address-form (formReady)="registerForm('address', $event)"></tcp-address-form>
+  <tcp-address-form [address]="contact?.address"
+    (formReady)="registerForm('address', $event)"></tcp-address-form>
 </form>
