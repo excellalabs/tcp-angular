@@ -1,0 +1,5 @@
+<h3>Add/Edit Skill</h3>
+<tcp-skill-form [skill]="skillToEdit" (addSkill)="onAddSkill($event)"></tcp-skill-form>
+<h3>Skills</h3>
+<tcp-skill-list (editSkill)="onEditSkill($event)" (deleteSkill)="onDeleteSkill($event)">
+</tcp-skill-list>

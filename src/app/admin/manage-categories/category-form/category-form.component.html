@@ -1,0 +1,17 @@
+<form [formGroup]="formGroup" fxLayout="column" class="form-content">
+  <mat-form-field fxFlex="100%">
+    <mat-label>Category Name</mat-label>
+    <input type="text" placeholder="Category Name" matInput
+      [formControl]="formGroup.get('name')">
+    <mat-error *ngIf="formGroup.get('name').hasError('required')">
+      {{ 'Category Name' | requiredMessage }}</mat-error>
+    <mat-error *ngIf="formGroup.get('name').hasError('minlength')">Category Name must be at
+      least 3 characters</mat-error>
+  </mat-form-field>
+  <div>
+    <button mat-raised-button color="primary" [disabled]="formGroup.invalid"
+      (click)="onSubmit()">
+      {{ category ? 'Update' : 'Add' }} Category
+    </button>
+  </div>
+</form>
