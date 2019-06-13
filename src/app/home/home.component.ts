@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EmployeesService } from '../services/employees/employees.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { IEmployee } from '../models/employee.interface';
 import { HttpClient } from '@angular/common/http';
 
@@ -12,18 +12,16 @@ import { HttpClient } from '@angular/common/http';
 export class HomeComponent implements OnInit {
 
   employees: IEmployee[] = [];
-  employeesSubject: BehaviorSubject<IEmployee[]>;
-
+  employeesSubscription: Subscription;
   constructor(private httpClient: HttpClient, private employeesData: EmployeesService) { 
     this.employeesData.fetch();
-    this.employeesSubject = employeesData.getList();
-    this.employeesSubject.subscribe(data => {
-     if (data) {
-       this.employees = data;
-     } else {
-       this.employees = [];
-     }
-   })
+    this.employeesSubscription = this.employeesData.list.subscribe(data => {
+      if (data) {
+        this.employees = data;
+      } else {
+        this.employees = [];
+      }
+    })
   }
   ngOnInit() {}
 
@@ -32,7 +30,7 @@ export class HomeComponent implements OnInit {
   }
   
   ngOnDestroy() {
-    this.employeesSubject.unsubscribe;
+    this.employeesSubscription.unsubscribe;
   }
 
 }

@@ -45,10 +45,6 @@ export class EmployeesService {
 
   constructor() { }
 
-  getList(): BehaviorSubject<IEmployee[]> {
-    return this.list;
-  }
-
   fetch(): void {
     this.list.next(dummyEmployees);
   }
