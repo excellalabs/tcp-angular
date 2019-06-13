@@ -4,7 +4,8 @@
     {{employee.bio.firstName}} {{employee.bio.lastName}}
     <ol>
       <li *ngFor="let skill of employee.skills">
-        Skill: {{skill.skill.name}} Category: {{skill.skill.category.name}} Proficiency: {{skill.proficiency}}
+        Skill: {{skill.skill.name}} Category: {{skill.skill.category.name}} Proficiency:
+        {{skill.proficiency}}
       </li>
     </ol>
   </li>

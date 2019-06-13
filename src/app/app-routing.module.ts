@@ -1,11 +1,11 @@
+import { CommonModule } from '@angular/common'
+import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 
-import { CommonModule } from '@angular/common'
+import { AuthGuard } from './auth/auth.guard'
 import { ErrorComponent } from './error/error.component'
 import { HomeComponent } from './home/home.component'
 import { LoginComponent } from './login/login.component'
-import { NgModule } from '@angular/core'
-import { AuthGuard } from './auth/auth.guard'
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -14,20 +14,19 @@ const routes: Routes = [
     path: 'employee',
     loadChildren: () =>
       import('./employee/employee.module').then(mod => mod.EmployeeModule),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'admin',
-    loadChildren: () =>
-      import('./admin/admin.module').then(mod => mod.AdminModule),
-    canActivate: [AuthGuard]
+    loadChildren: () => import('./admin/admin.module').then(mod => mod.AdminModule),
+    canActivate: [AuthGuard],
   },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: '**', component: ErrorComponent }
+  { path: '**', component: ErrorComponent },
 ]
 
 @NgModule({
   imports: [CommonModule, RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

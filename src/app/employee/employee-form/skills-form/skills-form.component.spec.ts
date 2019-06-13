@@ -1,25 +1,24 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing'
 
-import { SkillsFormComponent } from './skills-form.component';
+import { SkillsFormComponent } from './skills-form.component'
 
 describe('SkillsFormComponent', () => {
-  let component: SkillsFormComponent;
-  let fixture: ComponentFixture<SkillsFormComponent>;
+  let component: SkillsFormComponent
+  let fixture: ComponentFixture<SkillsFormComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SkillsFormComponent ]
-    })
-    .compileComponents();
-  }));
+      declarations: [SkillsFormComponent],
+    }).compileComponents()
+  }))
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SkillsFormComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(SkillsFormComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

@@ -1,26 +1,25 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 
-import { BaseForm } from '../../abstracts/base-form.class';
-import { IEmployeeContact } from '../../../models/employee.interface';
-import { hasChanged } from '../../../utils/functions';
+import { IEmployeeContact } from '../../../models/employee.interface'
+import { hasChanged } from '../../../utils/functions'
+import { BaseForm } from '../../abstracts/base-form.class'
 
 @Component({
   selector: 'tcp-contact-form',
   templateUrl: './contact-form.component.html',
-  styleUrls: ['./contact-form.component.scss']
+  styleUrls: ['./contact-form.component.scss'],
 })
 export class ContactFormComponent extends BaseForm implements OnInit, OnChanges {
-
-  @Input() contact: IEmployeeContact = {} as IEmployeeContact;
+  @Input() contact: IEmployeeContact = {} as IEmployeeContact
 
   constructor(private fb: FormBuilder) {
-    super();
-    this.formGroup = this.buildForm();
+    super()
+    this.formGroup = this.buildForm()
   }
 
   ngOnInit() {
-    this.emitFormReady();
+    this.emitFormReady()
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -32,8 +31,10 @@ export class ContactFormComponent extends BaseForm implements OnInit, OnChanges 
   buildForm(): FormGroup {
     return this.fb.group({
       email: ['', [Validators.email, Validators.required]],
-      phoneNumber: ['', [Validators.required, Validators.pattern(/\(\d{3}\)\d{3}-\d{4}/)]],
-    });
+      phoneNumber: [
+        '',
+        [Validators.required, Validators.pattern(/\(\d{3}\)\d{3}-\d{4}/)],
+      ],
+    })
   }
-
 }
