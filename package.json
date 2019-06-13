@@ -10,13 +10,16 @@
   },
   "scripts": {
     "ng": "ng",
+    "prestart": "npm run standardize",
     "start": "ng serve",
     "start:docker": "ng serve --host 0.0.0.0 --port 4200",
+    "prebuild": "npm run standardize",
     "build": "ng build --prod",
     "test": "ng test",
     "test:prod": "ng test --prod --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "standardize": "import-sort --write \"**/*.ts\" && prettier --write \"**/*.ts\" && js-beautify \"src/**/*.html\"",
     "predocker:build": "npm run build",
     "docker:build": "cross-conf-env docker image build -f prod.Dockerfile . -t $npm_package_config_imageRepo:$npm_package_version",
     "postdocker:build": "npm run docker:tag",
@@ -79,5 +82,18 @@
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
     "typescript": "~3.4.3"
+  },
+  "importSort": {
+    ".ts, .tsx": {
+      "parser": "typescript",
+      "style": "module",
+      "options": {}
+    }
+  },
+  "prettier": {
+    "printWidth": 90,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5"
   }
 }
