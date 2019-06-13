@@ -1,14 +1,12 @@
-import { NgModule } from '@angular/core';
-import { RequiredMessagePipe } from './required-message/required-message.pipe';
+import { NgModule } from '@angular/core'
 
-const pipes = [
-  RequiredMessagePipe
-];
+import { RequiredMessagePipe } from './required-message/required-message.pipe'
 
+const pipes = [RequiredMessagePipe]
 
 @NgModule({
   declarations: [pipes],
   providers: [pipes],
-  exports: [pipes]
+  exports: [pipes],
 })
 export class PipeModule {}

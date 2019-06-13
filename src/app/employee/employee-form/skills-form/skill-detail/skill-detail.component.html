@@ -1,15 +1,19 @@
 <form [formGroup]="formGroup" fxLayoutAlign="space-around center" fxLayoutGap="5px">
   <mat-form-field fxFlex="45%">
-    <input type="text" placeholder="Skill" matInput [formControl]="formGroup.get('skill')" [matAutocomplete]="auto">
+    <input type="text" placeholder="Skill" matInput [formControl]="formGroup.get('skill')"
+      [matAutocomplete]="auto">
     <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-      <mat-option *ngFor="let skill of filteredSkills$ | async" [value]="skill">{{ displayFn(skill) }}</mat-option>
+      <mat-option *ngFor="let skill of filteredSkills$ | async" [value]="skill">
+        {{ displayFn(skill) }}</mat-option>
     </mat-autocomplete>
   </mat-form-field>
   <mat-form-field fxFlex="30%">
     <mat-label>Proficiency</mat-label>
     <mat-select [formControl]="formGroup.get('proficiency')">
-      <mat-option *ngFor="let proficiency of proficiencies" [value]="proficiency">{{ proficiency | titlecase }}</mat-option>
+      <mat-option *ngFor="let proficiency of proficiencies" [value]="proficiency">
+        {{ proficiency | titlecase }}</mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-checkbox fxFlex="25%" [formControl]="formGroup.get('primary')">Primary Skill</mat-checkbox>
+  <mat-checkbox fxFlex="25%" [formControl]="formGroup.get('primary')">Primary Skill
+  </mat-checkbox>
 </form>

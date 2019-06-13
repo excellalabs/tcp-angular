@@ -1,19 +1,23 @@
 <mat-vertical-stepper [linear]="true">
   <mat-step [stepControl]="formGroup.get('bio')">
-      <ng-template matStepLabel>Biographical Info</ng-template>
-      <tcp-bio-form [bio]="(employee$ | async).bio" (formReady)="registerForm('bio', $event)"></tcp-bio-form>
+    <ng-template matStepLabel>Biographical Info</ng-template>
+    <tcp-bio-form [bio]="(employee$ | async).bio"
+      (formReady)="registerForm('bio', $event)"></tcp-bio-form>
   </mat-step>
   <mat-step [stepControl]="formGroup.get('contact')">
-      <ng-template matStepLabel>Contact Info</ng-template>
-      <tcp-contact-form [contact]="(employee$ | async).contact" (formReady)="registerForm('contact', $event)"></tcp-contact-form>
+    <ng-template matStepLabel>Contact Info</ng-template>
+    <tcp-contact-form [contact]="(employee$ | async).contact"
+      (formReady)="registerForm('contact', $event)"></tcp-contact-form>
   </mat-step>
   <mat-step [stepControl]="formGroup.get('skills')">
-      <ng-template matStepLabel>Skills</ng-template>
-      <tcp-skills-form [skillList]="(employee$ | async).skills" (formReady)="registerForm('skills', $event)"></tcp-skills-form>
+    <ng-template matStepLabel>Skills</ng-template>
+    <tcp-skills-form [skillList]="(employee$ | async).skills"
+      (formReady)="registerForm('skills', $event)"></tcp-skills-form>
   </mat-step>
   <mat-step>
-      <ng-template matStepLabel>Review</ng-template>
-      <tcp-review [employee]="formGroup.valueChanges | async"></tcp-review>
-      <button mat-raised-button class="submit-button" color="primary" (click)="onSubmit()">Submit</button>
+    <ng-template matStepLabel>Review</ng-template>
+    <tcp-review [employee]="formGroup.valueChanges | async"></tcp-review>
+    <button mat-raised-button class="submit-button" color="primary"
+      (click)="onSubmit()">Submit</button>
   </mat-step>
 </mat-vertical-stepper>
