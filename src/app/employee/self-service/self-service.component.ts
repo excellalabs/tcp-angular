@@ -30,7 +30,6 @@ export class SelfServiceComponent extends BaseForm implements OnInit {
   ngOnInit() {
     const userEmail = this.authService.getEmail()
     this.employeeService.getByEmail(userEmail).subscribe(user => this.user$.next(user))
-    this.user$.subscribe(u => console.log('init', u))
   }
 
   buildForm(): FormGroup {
@@ -38,7 +37,6 @@ export class SelfServiceComponent extends BaseForm implements OnInit {
   }
 
   onSave() {
-    console.log('save')
     const newEmployee: IEmployee = {
       ...this.user$.value,
       skills: this.formGroup.value.skills as IEmployeeSkill[]
