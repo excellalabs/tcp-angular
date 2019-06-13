@@ -1,5 +1,11 @@
-<h3>Add/Edit Skill</h3>
-<tcp-skill-form [skill]="skillToEdit" (addSkill)="onAddSkill($event)"></tcp-skill-form>
-<h3>Skills</h3>
-<tcp-skill-list (editSkill)="onEditSkill($event)" (deleteSkill)="onDeleteSkill($event)">
-</tcp-skill-list>
+<div fxLayout="column" fxLayoutGap="20px">
+  <mat-card>
+    <mat-card-title>Add/Edit Skill</mat-card-title>
+    <tcp-skill-form [skill]="skillToEdit" (addSkill)="onAddSkill($event)"></tcp-skill-form>
+  </mat-card>
+  <mat-card>
+    <mat-card-title>Skills</mat-card-title>
+    <tcp-skill-list (editSkill)="onEditSkill($event)" (deleteSkill)="onDeleteSkill($event)">
+    </tcp-skill-list>
+  </mat-card>
+</div>
