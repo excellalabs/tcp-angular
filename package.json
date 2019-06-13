@@ -65,6 +65,7 @@
     "codelyzer": "^5.0.0",
     "cross-conf-env": "^1.1.2",
     "import-sort": "^6.0.0",
+    "import-sort-cli": "^6.0.0",
     "import-sort-config": "^6.0.0",
     "import-sort-parser-babylon": "^6.0.0",
     "import-sort-parser-typescript": "^6.0.0",
