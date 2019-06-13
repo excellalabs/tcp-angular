@@ -1,0 +1,35 @@
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { MatTableDataSource } from '@angular/material';
+import { Observable } from 'rxjs';
+import { ISkill } from 'src/app/models/skill.interface';
+import { SkillsService } from 'src/app/services/skills/skills.service';
+
+@Component({
+  selector: 'tcp-skill-list',
+  templateUrl: './skill-list.component.html',
+  styleUrls: ['./skill-list.component.scss']
+})
+export class SkillListComponent implements OnInit {
+
+  @Output() editSkill = new EventEmitter<number>()
+  @Output() deleteSkill = new EventEmitter<number>()
+
+  displayedColumns: string[] = ['edit', 'name', 'category', 'delete']
+  dataSource: MatTableDataSource<ISkill>
+
+  constructor(public skillService: SkillsService) {
+    this.dataSource = new MatTableDataSource<ISkill>([])
+    this.skillService.list.subscribe(skills => {
+      this.dataSource.data = skills
+    })
+  }
+
+  ngOnInit() {
+    this.skillService.fetch()
+  }
+
+  applyTableFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase()
+  }
+
+}

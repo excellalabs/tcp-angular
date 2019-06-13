@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -15,6 +15,7 @@ import { hasChanged, stringCompare } from 'src/app/utils/functions';
 export class SkillFormComponent extends BaseForm implements OnInit, OnChanges {
 
   @Input() skill: ISkill = {} as ISkill
+  @Output() addSkill = new EventEmitter<ISkill>()
   categories$: Observable<ICategory[]>
 
   constructor(private fb: FormBuilder, private categoryService: SkillCategoriesService) {
@@ -28,9 +29,14 @@ export class SkillFormComponent extends BaseForm implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (hasChanged(changes.skill) && this.skill) {
-      this.formGroup.patchValue(this.skill)
+    if (hasChanged(changes.skill)) {
+      if (this.skill) {
+        this.formGroup.patchValue(this.skill)
+      } else {
+        this.formGroup.reset()
+      }
     }
+
   }
 
   buildForm(): FormGroup {
@@ -38,6 +44,15 @@ export class SkillFormComponent extends BaseForm implements OnInit, OnChanges {
       name: ['', [Validators.required, Validators.minLength(3)]],
       category: [null, [Validators.required]]
     })
+  }
+
+  onSubmit() {
+    const newSkill: ISkill = this.formGroup.value
+    if (this.skill) {
+      newSkill.id = this.skill.id
+    }
+
+    this.addSkill.emit(newSkill)
   }
 
 }

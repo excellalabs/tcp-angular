@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { ISkill } from 'src/app/models/skill.interface';
+import { SkillsService } from 'src/app/services/skills/skills.service';
 
 @Component({
   selector: 'tcp-manage-skills',
@@ -7,9 +10,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ManageSkillsComponent implements OnInit {
 
-  constructor() { }
+  skillToEdit: ISkill = null
+
+  constructor(private skillService: SkillsService) { }
 
   ngOnInit() {
+  }
+
+  onEditSkill(id: number) {
+    this.skillToEdit = this.skillService.list.value.find(skill => skill.id === id)
+  }
+
+  onDeleteSkill(id: number) {
+    console.log('delete skill', id)
+  }
+
+  onAddSkill(skill: ISkill) {
+    this.skillToEdit = null
+    console.log('add/update skill', skill)
   }
 
 }
