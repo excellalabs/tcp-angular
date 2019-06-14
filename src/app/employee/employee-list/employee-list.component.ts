@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core'
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material'
 import { Subscription } from 'rxjs'
+
 import { IEmployee } from '../../models/employee.interface'
 import { EmployeesService } from '../../services/employees/employees.service'
 @Component({
@@ -32,9 +33,8 @@ export class EmployeeListComponent implements OnInit {
   }
   ngOnInit() {
     this.dataSource.filterPredicate = (employee: IEmployee, filter: string) => {
-      console.log(employee)
-      console.log(filter)
-      return employee.bio.firstName.toLowerCase() == filter
+      return employee.bio.firstName.toLowerCase().includes(filter.toLowerCase()) ||
+        employee.bio.lastName.toLowerCase().includes(filter.toLowerCase())
     }
   }
 
@@ -64,6 +64,6 @@ export class EmployeeListComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.employeesSubscription.unsubscribe
+    this.employeesSubscription.unsubscribe()
   }
 }
