@@ -1,7 +1,9 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing'
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { EmployeesService } from '../services/employees/employees.service';
-import { MockEmployeesService } from '../services/employees/employees.service.fake';
+import { MaterialModule } from '../material.module';
+import { EmployeesService } from '../services/employees/employees.service'
+import { MockEmployeesService } from '../services/employees/employees.service.fake'
 import { HomeComponent } from './home.component'
 
 describe('HomeComponent', () => {
@@ -11,7 +13,8 @@ describe('HomeComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [HomeComponent],
-      providers: [{ provide: EmployeesService, useClass: MockEmployeesService }]
+      imports: [MaterialModule, NoopAnimationsModule],
+      providers: [{ provide: EmployeesService, useClass: MockEmployeesService }],
     }).compileComponents()
   }))
 

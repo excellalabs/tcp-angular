@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { Subscription } from 'rxjs'
+import { Observable, Subscription } from 'rxjs'
 
 import { IEmployee } from '../models/employee.interface'
+import { AuthService } from '../services/auth/auth.service'
 import { EmployeesService } from '../services/employees/employees.service'
 
 @Component({
@@ -10,26 +11,23 @@ import { EmployeesService } from '../services/employees/employees.service'
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  employees: IEmployee[] = []
-  employeesSubscription: Subscription
+  employee$: Observable<IEmployee>
+  subscriptions: Subscription[] = []
 
-  constructor(private employeesData: EmployeesService) {
-    this.employeesData.fetch()
-    this.employeesSubscription = this.employeesData.list.subscribe(data => {
-      if (data) {
-        this.employees = data
-      } else {
-        this.employees = []
-      }
-    })
+  constructor(
+    private employeeService: EmployeesService,
+    private authService: AuthService
+  ) {}
+
+  ngOnInit() {
+    this.employee$ = this.getCurrentUser()
   }
-  ngOnInit() {}
 
-  testRequest() {
-    console.log('tests')
+  getCurrentUser(): Observable<IEmployee> {
+    return this.employeeService.getByEmail(this.authService.getEmail())
   }
 
   ngOnDestroy() {
-    this.employeesSubscription.unsubscribe()
+    this.subscriptions.forEach(s => s.unsubscribe())
   }
 }
