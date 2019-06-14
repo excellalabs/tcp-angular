@@ -55,6 +55,55 @@ const dummyEmployees: IEmployee[] = [
       },
     ],
   },
+  {
+    id: 2,
+    bio: {
+      firstName: 'Pete',
+      middleInitial: '',
+      lastName: 'Sampras',
+      birthDate: new Date('1967-12-25'),
+      gender: GENDER.MALE,
+      ethnicity: ETHNICITY.CAUCASIAN,
+      usCitizen: true,
+    },
+    contact: {
+      email: 'pete.sampras@gmail.com',
+      phoneNumber: '(321)456-7890',
+      address: {
+        line1: '2300 Wilson Blvd',
+        line2: null,
+        city: 'Arlington',
+        stateCode: 'VA',
+        zipCode: '22201',
+      },
+    },
+    skills: [
+      {
+        id: 1,
+        skill: dummySkills.find(s => s.name === 'Java'),
+        proficiency: PROFICIENCY.HIGH,
+        primary: true,
+      },
+      {
+        id: 2,
+        skill: dummySkills.find(s => s.name === 'JavaScript'),
+        proficiency: PROFICIENCY.MID,
+        primary: false,
+      },
+      {
+        id: 3,
+        skill: dummySkills.find(s => s.name === 'Jenkins'),
+        proficiency: PROFICIENCY.MID,
+        primary: false,
+      },
+      {
+        id: 4,
+        skill: dummySkills.find(s => s.name === 'Business Analysis'),
+        proficiency: PROFICIENCY.LOW,
+        primary: false,
+      },
+    ],
+  },
 ]
 
 @Injectable({
@@ -74,7 +123,9 @@ export class EmployeesService {
   }
 
   getByEmail(email: string): Observable<IEmployee> {
-    if (this.list.value.length === 0) {this.fetch()}
+    if (this.list.value.length === 0) {
+      this.fetch()
+    }
     return of(this.list.value.find(e => e.contact.email === email))
   }
 

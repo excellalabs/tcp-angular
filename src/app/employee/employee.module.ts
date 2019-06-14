@@ -15,7 +15,7 @@ import { SkillsFormComponent } from './employee-form/skills-form/skills-form.com
 import { EmployeeListComponent } from './employee-list/employee-list.component'
 import { EmployeeRoutingModule } from './employee-routing.module'
 import { SelfServiceComponent } from './self-service/self-service.component'
-import { StateService } from './services/state/state.service';
+import { StateService } from './services/state/state.service'
 
 @NgModule({
   declarations: [

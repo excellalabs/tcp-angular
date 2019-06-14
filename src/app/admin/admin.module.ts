@@ -8,11 +8,11 @@ import { PipeModule } from '../pipes/pipe.module'
 import { AdminPanelComponent } from './admin-panel/admin-panel.component'
 import { AdminRoutingModule } from './admin-routing.module'
 import { CategoryFormComponent } from './manage-categories/category-form/category-form.component'
-import { CategoryListComponent } from './manage-categories/category-list/category-list.component';
+import { CategoryListComponent } from './manage-categories/category-list/category-list.component'
 import { ManageCategoriesComponent } from './manage-categories/manage-categories.component'
 import { ManageSkillsComponent } from './manage-skills/manage-skills.component'
 import { SkillFormComponent } from './manage-skills/skill-form/skill-form.component'
-import { SkillListComponent } from './manage-skills/skill-list/skill-list.component';
+import { SkillListComponent } from './manage-skills/skill-list/skill-list.component'
 
 @NgModule({
   declarations: [
