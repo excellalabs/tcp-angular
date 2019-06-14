@@ -42,6 +42,8 @@ This runs the built Docker image, automatically opens the URL, and adds addition
 
 ## Architecture
 
+The architecture is standard Angular componentized architecture. The structure of the repo is that base components and shared files are located on the base level of app folder. files that are only used by one component (services and other components) are located within that components folder.
+
 ## Auth
 
 ### Login
@@ -68,6 +70,8 @@ An authGuard is used to prevent users from navigating to screens that they are n
 
 ## Routing
 
+Base routing is handled through the app-routing.module.ts file. Sub routes such as the employee module will have their own .module.ts file for further routing. The admin module and employees module are both lazy loaded. The routing file is where the authGuards are added into the application.
+
 ## Testing
 
 'npm run test' is the console command to run the tests
@@ -75,3 +79,7 @@ An authGuard is used to prevent users from navigating to screens that they are n
 85% is the agreed upon tcp minimal test coverage ammount
 
 more information to be put here as the test framework is ironed out
+
+## Style
+
+[Angular Material](https://material.angular.io/) (@angular/material) is the library used for style and component library that we are using. This brings in googles material design, a color theme as defined in theme.scss, and a rich component library. To add more angular material components to the application, import them in the material.module.ts file. Material components come with built in 508 compliance. [Angular Flex Layout](https://github.com/angular/flex-layout/wiki) (@angular/flex-layout) is the library us used for positioning components in the application.
