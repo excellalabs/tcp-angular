@@ -41,7 +41,11 @@ export class SkillDetailComponent extends BaseForm
 
     this.filteredSkills$ = this.skill.valueChanges.pipe(
       map(s => (typeof s === 'string' ? s : s.name)),
-      map(name => this.skillService.list.value.filter(op => op.name.toLowerCase().includes(name.toLowerCase())))
+      map(name =>
+        this.skillService.list.value.filter(op =>
+          op.name.toLowerCase().includes(name.toLowerCase())
+        )
+      )
     )
   }
 

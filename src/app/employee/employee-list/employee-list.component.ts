@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core'
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core'
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material'
-import { Subscription } from 'rxjs'
+import { Observable, Subscription } from 'rxjs'
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 import { IEmployee } from '../../models/employee.interface'
 import { EmployeesService } from '../../services/employees/employees.service'
@@ -10,8 +11,7 @@ import { EmployeesService } from '../../services/employees/employees.service'
   templateUrl: './employee-list.component.html',
   styleUrls: ['./employee-list.component.scss'],
 })
-export class EmployeeListComponent implements OnInit {
-  employees: IEmployee[] = []
+export class EmployeeListComponent implements OnInit, AfterViewInit {
   employeesSubscription: Subscription
   tableColumns: string[] = ['name', 'birthDate', 'email', 'phoneNumber']
 
@@ -20,19 +20,17 @@ export class EmployeeListComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator
   @ViewChild(MatSort, { static: false }) sort: MatSort
 
-  constructor(private employeesData: EmployeesService) {
-    this.employeesData.fetch()
-    this.employeesSubscription = this.employeesData.list.subscribe(data => {
-      if (data) {
-        console.log(data)
-        this.employees = data
-      } else {
-        this.employees = []
-      }
-    })
-    this.dataSource = new MatTableDataSource(this.employees)
+  constructor(private authService: AuthService, private employeeService: EmployeesService) {
+    this.employeeService.fetch()
+    this.dataSource = new MatTableDataSource(this.employeeService.list.value)
   }
+
   ngOnInit() {
+    // show edit buttons if admin
+    if (this.authService.isAdmin()) {
+      this.tableColumns.unshift('edit')
+    }
+
     this.dataSource.filterPredicate = (employee: IEmployee, filter: string) => {
       return (
         employee.bio.firstName.toLowerCase().includes(filter.toLowerCase()) ||
@@ -64,9 +62,5 @@ export class EmployeeListComponent implements OnInit {
     filterValue = filterValue.trim()
     filterValue = filterValue.toLowerCase()
     this.dataSource.filter = filterValue
-  }
-
-  ngOnDestroy() {
-    this.employeesSubscription.unsubscribe()
   }
 }
