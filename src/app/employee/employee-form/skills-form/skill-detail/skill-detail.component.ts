@@ -9,8 +9,8 @@ import {
   SimpleChanges,
 } from '@angular/core'
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { Observable, combineLatest } from 'rxjs'
-import { map, startWith, tap } from 'rxjs/operators'
+import { Observable } from 'rxjs'
+import { map } from 'rxjs/operators'
 
 import { IEmployeeSkill, ISkill, PROFICIENCY } from '../../../../models/skill.interface'
 import { SkillsService } from '../../../../services/skills/skills.service'
@@ -33,22 +33,16 @@ export class SkillDetailComponent extends BaseForm
   constructor(private fb: FormBuilder, public skillService: SkillsService) {
     super()
     this.formGroup = this.buildForm()
-    this.filteredSkills$ = combineLatest([
-      this.skill.valueChanges.pipe(
-        startWith(''),
-        map(s => (typeof s === 'string' ? s : s.name))
-      ),
-      this.skillService.list,
-    ]).pipe(
-      map(([name, skillList]: [string, ISkill[]]) =>
-        skillList.filter(s => s.name.toLowerCase().includes(name.toLowerCase()))
-      )
-    )
   }
 
   ngOnInit() {
     this.emitFormReady()
     this.skillService.fetch()
+
+    this.filteredSkills$ = this.skill.valueChanges.pipe(
+      map(s => (typeof s === 'string' ? s : s.name)),
+      map(name => this.skillService.list.value.filter(op => op.name.toLowerCase().includes(name.toLowerCase())))
+    )
   }
 
   ngOnChanges(changes: SimpleChanges) {
