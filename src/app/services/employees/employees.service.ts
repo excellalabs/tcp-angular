@@ -1,9 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, Observable, of } from 'rxjs'
 
 import { IEmployee } from '../../models/employee.interface'
-import { dummyEmployees } from './employees.service.fake';
+import { dummyEmployees } from './employees.service.fake'
 
 export interface IEmployeesService {
   readonly list: BehaviorSubject<IEmployee[]>

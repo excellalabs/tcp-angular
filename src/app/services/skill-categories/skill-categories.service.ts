@@ -1,9 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { BehaviorSubject } from 'rxjs'
 
 import { ICategory } from '../../models/skill.interface'
-import { dummySkillCategories } from './skill-categories.service.fake';
+import { dummySkillCategories } from './skill-categories.service.fake'
 
 export interface ISkillCategoryService {
   readonly list: BehaviorSubject<ICategory[]>

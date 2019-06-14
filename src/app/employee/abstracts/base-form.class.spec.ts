@@ -1,10 +1,9 @@
-import { EventEmitter } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { EventEmitter } from '@angular/core'
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms'
 
 import { BaseForm } from './base-form.class'
 
 class BasicBaseForm extends BaseForm {
-
   constructor() {
     super()
     this.formGroup = this.buildForm()
@@ -16,7 +15,7 @@ class BasicBaseForm extends BaseForm {
 }
 
 describe('BaseForm', () => {
-  let baseForm: BaseForm;
+  let baseForm: BaseForm
   beforeEach(() => {
     baseForm = new BasicBaseForm()
   })

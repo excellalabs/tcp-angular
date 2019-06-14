@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { Observable, of } from 'rxjs'
 
-import { states } from './state.service.fake';
+import { states } from './state.service.fake'
 
 export interface IState {
   name: string
@@ -14,7 +14,7 @@ export interface IStateService {
 }
 
 @Injectable()
-export class StateService implements IStateService{
+export class StateService implements IStateService {
   constructor(private http: HttpClient) {}
 
   getStates(): Observable<IState[]> {

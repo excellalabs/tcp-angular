@@ -22,7 +22,7 @@ export class MockAuthService implements IAuthService {
 
   constructor(private router: Router) {}
 
-  login(username: string, password: string) {  }
+  login(username: string, password: string) {}
 
   logout() {
     this.router.navigateByUrl('login')

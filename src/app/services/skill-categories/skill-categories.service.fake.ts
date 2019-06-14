@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { BehaviorSubject } from 'rxjs'
 
 import { ICategory } from '../../models/skill.interface'
-import { ISkillCategoryService } from './skill-categories.service';
+import { ISkillCategoryService } from './skill-categories.service'
 
 export const dummySkillCategories: ICategory[] = [
   { id: 1, name: 'Agile' },

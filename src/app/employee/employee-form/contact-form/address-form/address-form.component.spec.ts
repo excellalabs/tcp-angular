@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing'
-import { FlexLayoutModule } from '@angular/flex-layout';
+import { FlexLayoutModule } from '@angular/flex-layout'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'
-import { StateService } from 'src/app/employee/services/state/state.service';
-import { MockStateService } from 'src/app/employee/services/state/state.service.fake';
-import { MaterialModule } from 'src/app/material.module';
-import { PipeModule } from 'src/app/pipes/pipe.module';
+import { StateService } from 'src/app/employee/services/state/state.service'
+import { MockStateService } from 'src/app/employee/services/state/state.service.fake'
+import { MaterialModule } from 'src/app/material.module'
+import { PipeModule } from 'src/app/pipes/pipe.module'
 
 import { AddressFormComponent } from './address-form.component'
 
@@ -22,9 +22,9 @@ describe('AddressFormComponent', () => {
         FormsModule,
         FlexLayoutModule,
         MaterialModule,
-        PipeModule
+        PipeModule,
       ],
-      providers: [{provide: StateService, useClass: MockStateService}]
+      providers: [{ provide: StateService, useClass: MockStateService }],
     }).compileComponents()
   }))
 

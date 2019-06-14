@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { BehaviorSubject } from 'rxjs'
 
@@ -14,7 +14,7 @@ export interface ISkillsService {
 }
 
 @Injectable()
-export class SkillsService implements ISkillsService{
+export class SkillsService implements ISkillsService {
   readonly list = new BehaviorSubject<ISkill[]>([])
 
   constructor(private http: HttpClient) {}

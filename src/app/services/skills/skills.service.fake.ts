@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs'
 
 import { ISkill } from '../../models/skill.interface'
 import { dummySkillCategories } from '../skill-categories/skill-categories.service.fake'
-import { ISkillsService } from './skills.service';
+import { ISkillsService } from './skills.service'
 
 export const dummySkills: ISkill[] = [
   {

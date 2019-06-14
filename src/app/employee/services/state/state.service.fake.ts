@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { Observable, of } from 'rxjs'
 
-import { IState, IStateService } from './state.service';
+import { IState, IStateService } from './state.service'
 
 export const states: IState[] = [
   { name: 'Alabama', code: 'AL' },

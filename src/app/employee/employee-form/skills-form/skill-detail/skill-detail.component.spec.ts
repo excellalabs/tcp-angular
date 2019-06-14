@@ -17,11 +17,17 @@ describe('SkillDetailComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [SkillDetailComponent],
-      imports: [FormsModule, ReactiveFormsModule, FlexLayoutModule, MaterialModule, NoopAnimationsModule],
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        FlexLayoutModule,
+        MaterialModule,
+        NoopAnimationsModule,
+      ],
       providers: [
         { provide: SkillsService, useClass: MockSkillsService },
         { provide: SkillCategoriesService, useClass: MockSkillCategoriesService },
-      ]
+      ],
     }).compileComponents()
   }))
 
