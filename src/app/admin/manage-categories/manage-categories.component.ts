@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
-import { ICategory } from 'src/app/models/skill.interface';
-import { SkillCategoriesService } from 'src/app/services/skill-categories/skill-categories.service';
+import { ICategory } from 'src/app/models/skill.interface'
+import { SkillCategoriesService } from 'src/app/services/skill-categories/skill-categories.service'
 
 @Component({
   selector: 'tcp-manage-categories',

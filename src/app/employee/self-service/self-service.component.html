@@ -1,10 +1,10 @@
 <div fxLayout="column" fxLayoutGap="20px">
   <mat-card fxFlex="100%">
     <mat-card-title>Manage My Skills</mat-card-title>
-    <tcp-skills-form [skillList]="(user$ | async)?.skills" (formReady)="registerForm('skills', $event)"></tcp-skills-form>
+    <tcp-skills-form [skillList]="(user$ | async)?.skills"
+      (formReady)="registerForm('skills', $event)"></tcp-skills-form>
   </mat-card>
   <div fxFlex="100%" fxFlexAlign="end">
     <button mat-raised-button color="primary" (click)="onSave()">Save</button>
   </div>
 </div>
-

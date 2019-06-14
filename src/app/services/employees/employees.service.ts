@@ -74,7 +74,9 @@ export class EmployeesService {
   }
 
   getByEmail(email: string): Observable<IEmployee> {
-    if (this.list.value.length === 0) {this.fetch()}
+    if (this.list.value.length === 0) {
+      this.fetch()
+    }
     return of(this.list.value.find(e => e.contact.email === email))
   }
 

@@ -1,25 +1,24 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing'
 
-import { SelfServiceComponent } from './self-service.component';
+import { SelfServiceComponent } from './self-service.component'
 
 describe('SelfServiceComponent', () => {
-  let component: SelfServiceComponent;
-  let fixture: ComponentFixture<SelfServiceComponent>;
+  let component: SelfServiceComponent
+  let fixture: ComponentFixture<SelfServiceComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SelfServiceComponent ]
-    })
-    .compileComponents();
-  }));
+      declarations: [SelfServiceComponent],
+    }).compileComponents()
+  }))
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SelfServiceComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(SelfServiceComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

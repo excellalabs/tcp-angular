@@ -3,7 +3,7 @@
     <ng-template matStepLabel>Biographical Info</ng-template>
     <mat-card>
       <tcp-bio-form [bio]="(employee$ | async)?.bio"
-      (formReady)="registerForm('bio', $event)"></tcp-bio-form>
+        (formReady)="registerForm('bio', $event)"></tcp-bio-form>
     </mat-card>
   </mat-step>
   <mat-step [stepControl]="formGroup.get('contact')">
@@ -11,14 +11,14 @@
     <mat-card>
       <tcp-contact-form [contact]="(employee$ | async)?.contact"
         (formReady)="registerForm('contact', $event)"></tcp-contact-form>
-      </mat-card>
+    </mat-card>
   </mat-step>
   <mat-step [stepControl]="formGroup.get('skills')">
     <ng-template matStepLabel>Skills</ng-template>
     <mat-card>
       <tcp-skills-form [skillList]="(employee$ | async)?.skills"
         (formReady)="registerForm('skills', $event)"></tcp-skills-form>
-      </mat-card>
+    </mat-card>
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>Review</ng-template>
