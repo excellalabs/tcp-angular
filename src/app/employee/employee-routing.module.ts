@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router'
 
 import { EmployeeFormComponent } from './employee-form/employee-form.component'
 import { EmployeeListComponent } from './employee-list/employee-list.component'
-import { SelfServiceComponent } from './self-service/self-service.component';
+import { SelfServiceComponent } from './self-service/self-service.component'
 
 const routes: Routes = [
   { path: 'add', component: EmployeeFormComponent },

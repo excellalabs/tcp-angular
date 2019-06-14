@@ -5,11 +5,11 @@ import { PipeModule } from 'src/app/pipes/pipe.module';
 import { SkillCategoriesService } from 'src/app/services/skill-categories/skill-categories.service';
 import { MockSkillCategoriesService } from 'src/app/services/skill-categories/skill-categories.service.fake';
 
-import { CategoryListComponent } from './category-list.component';
+import { CategoryListComponent } from './category-list.component'
 
 describe('CategoryListComponent', () => {
-  let component: CategoryListComponent;
-  let fixture: ComponentFixture<CategoryListComponent>;
+  let component: CategoryListComponent
+  let fixture: ComponentFixture<CategoryListComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -23,12 +23,12 @@ describe('CategoryListComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CategoryListComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(CategoryListComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

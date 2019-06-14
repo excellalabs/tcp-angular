@@ -18,8 +18,8 @@ import { SkillsFormComponent } from '../employee-form/skills-form/skills-form.co
 import { SelfServiceComponent } from './self-service.component';
 
 describe('SelfServiceComponent', () => {
-  let component: SelfServiceComponent;
-  let fixture: ComponentFixture<SelfServiceComponent>;
+  let component: SelfServiceComponent
+  let fixture: ComponentFixture<SelfServiceComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -36,12 +36,12 @@ describe('SelfServiceComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SelfServiceComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(SelfServiceComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})
