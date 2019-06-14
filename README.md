@@ -36,6 +36,42 @@ This builds the production Docker image (using `prod.Dockerfile`)
 
 This runs the built Docker image (can be accessed via `localhost:3000`)
 
-#### `npm run docker:debug` 
+#### `npm run docker:debug`
 
 This runs the built Docker image, automatically opens the URL, and adds additional logging
+
+## Architecture
+
+## Auth
+
+### Login
+
+The login page allows the user to provide a username and password. The application then sends down that information in an HTTP request. If the api returns a successful response, it will come in the form of a Java Web Token (JWT). The JWT will then be stored locally (currently in localStorage)
+
+### Java Web Token
+
+A Java Web Token is an json object that has been encoded as a string. The JWT for our application takes the following form:
+{
+"iat": 1560354819921,
+"exp": 1591984329089,
+"email": "jon.doe@gmail.com",
+"role": "admin"
+}
+
+In addition to the shown fields there is also another filed that stores a string that is used by the backend to authenticate that the user. This information is sent in the header of each api request using the auth0/angular-jwt library. The auth0/angular-jwt library is also used to decode the JWT and allow the frontend to access the properties included such as "role".
+
+### authGuard
+
+An authGuard is used to prevent users from navigating to screens that they are not allowed to see. This gaurd will check to see if the user is logged in, and if not it will always redirect them to the login page. Additionally, the authGuard can be given a roles property which will in turn check the role from the JWT object and only allow users to proceed if they are one of the accepted roles. Otherwise it will redirect them to the home page.
+
+## Forms
+
+## Routing
+
+## Testing
+
+'npm run test' is the console command to run the tests
+
+85% is the agreed upon tcp minimal test coverage ammount
+
+more information to be put here as the test framework is ironed out
