@@ -53,6 +53,7 @@ The login page allows the user to provide a username and password. The applicati
 ### Java Web Token
 
 A Java Web Token is an json object that has been encoded as a string. The JWT for our application takes the following form:
+
 ```
 {
 "iat": 1560354819921,
@@ -90,7 +91,7 @@ Lastly, an abstract method must be implemented by any implementing class:
 - `formGroup` should be created/assigned (by calling `buildForm`) in the constructor so the form controls are available when Angular binds the template to the class (which happens before `OnInit`)
 - If the form should support editing, respond to a change in an `@Input` property in `ngOnChanges` using the `hasChanged()` helper function, and use `patchValue` to update the form with the new value
 - Use [Angular Material Form Components](https://material.angular.io/components/categories/forms) whenever possible
-- Utilize the `RequiredMessagePipe` for required messages when form fields are required.  This supports a universal required message that's easy to update everywhere at once.
+- Utilize the `RequiredMessagePipe` for required messages when form fields are required. This supports a universal required message that's easy to update everywhere at once.
 
 ## Routing
 
@@ -98,11 +99,11 @@ Base routing is handled through the app-routing.module.ts file. Sub routes such 
 
 ## Testing
 
-`npm run test` is the console command to run the tests
+- `npm run test` is the console command to run the tests
 
-85% is the agreed upon tcp minimal test coverage ammount
+- 85% is the agreed upon tcp minimal test coverage ammount
 
-more information to be put here as the test framework is ironed out
+- More information to be put here as the test framework is ironed out
 
 ## Style
 
