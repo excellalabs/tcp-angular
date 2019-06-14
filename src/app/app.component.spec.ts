@@ -1,27 +1,24 @@
 import { TestBed, async } from '@angular/core/testing'
+import { NoopAnimationsModule } from '@angular/platform-browser/animations'
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { AppComponent } from './app.component'
+import { MainNavComponent } from './main-nav/main-nav.component'
+import { MaterialModule } from './material.module'
+import { AuthService } from './services/auth/auth.service';
+import { MockAuthService } from './services/auth/auth.service.fake';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AppComponent],
+      declarations: [AppComponent, MainNavComponent],
+      imports: [MaterialModule, NoopAnimationsModule, RouterTestingModule],
+      providers: [{provide: AuthService, useClass: MockAuthService}]
     }).compileComponents()
   }))
   it('should create the app', async(() => {
     const fixture = TestBed.createComponent(AppComponent)
     const app = fixture.debugElement.componentInstance
     expect(app).toBeTruthy()
-  }))
-  it(`should have as title 'app'`, async(() => {
-    const fixture = TestBed.createComponent(AppComponent)
-    const app = fixture.debugElement.componentInstance
-    expect(app.title).toEqual('app')
-  }))
-  it('should render title in a h1 tag', async(() => {
-    const fixture = TestBed.createComponent(AppComponent)
-    fixture.detectChanges()
-    const compiled = fixture.debugElement.nativeElement
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to app!')
   }))
 })
