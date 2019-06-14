@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs'
 
 import { IEmployee } from '../../models/employee.interface'
 import { EmployeesService } from '../../services/employees/employees.service'
+
 @Component({
   selector: 'tcp-employee-list',
   templateUrl: './employee-list.component.html',
@@ -33,8 +34,10 @@ export class EmployeeListComponent implements OnInit {
   }
   ngOnInit() {
     this.dataSource.filterPredicate = (employee: IEmployee, filter: string) => {
-      return employee.bio.firstName.toLowerCase().includes(filter.toLowerCase()) ||
+      return (
+        employee.bio.firstName.toLowerCase().includes(filter.toLowerCase()) ||
         employee.bio.lastName.toLowerCase().includes(filter.toLowerCase())
+      )
     }
   }
 

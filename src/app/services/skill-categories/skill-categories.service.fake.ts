@@ -1,23 +1,21 @@
-import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { BehaviorSubject } from 'rxjs'
 
 import { ICategory } from '../../models/skill.interface'
-import { dummySkillCategories } from './skill-categories.service.fake'
+import { ISkillCategoryService } from './skill-categories.service'
 
-export interface ISkillCategoryService {
-  readonly list: BehaviorSubject<ICategory[]>
-  fetch(): void
-  addCategory(category: ICategory): void
-  updateCategory(category: ICategory): void
-  deleteCategory(id: number): void
-}
+export const dummySkillCategories: ICategory[] = [
+  { id: 1, name: 'Agile' },
+  { id: 2, name: 'Software' },
+  { id: 3, name: 'Business' },
+  { id: 4, name: 'Dev Ops' },
+] as ICategory[]
 
 @Injectable()
-export class SkillCategoriesService implements ISkillCategoryService {
+export class MockSkillCategoriesService implements ISkillCategoryService {
   readonly list = new BehaviorSubject<ICategory[]>([])
 
-  constructor(private http: HttpClient) {}
+  constructor() {}
 
   fetch(): void {
     if (this.list.value.length === 0) {
