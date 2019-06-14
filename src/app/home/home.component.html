@@ -32,7 +32,8 @@
     <ng-container matColumnDef="birthDate">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Date of Birth
       </th>
-      <td mat-cell *matCellDef="let employee">{{employee.bio.birthDate | date: 'shortDate'}}
+      <td mat-cell *matCellDef="let employee">
+        {{employee.bio.birthDate | date: 'shortDate'}}
       </td>
     </ng-container>
     <ng-container matColumnDef="email">

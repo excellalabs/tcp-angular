@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http'
 import { Component, OnInit, ViewChild } from '@angular/core'
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material'
-import { BehaviorSubject, Subscription } from 'rxjs'
+import { Subscription } from 'rxjs'
 
 import { IEmployee } from '../models/employee.interface'
 import { EmployeesService } from '../services/employees/employees.service'
