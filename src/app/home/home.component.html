@@ -15,7 +15,8 @@
 
 <div class="example-header">
   <mat-form-field>
-    <input matInput type="text" (keyup)="filterEmployee($event.target.value)" placeholder="Filter">
+    <input matInput type="text" (keyup)="filterEmployee($event.target.value)"
+      placeholder="Filter">
   </mat-form-field>
 </div>
 
@@ -30,8 +31,8 @@
     </ng-container>
     <ng-container matColumnDef="birthDate">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Date of Birth
-      </th>      
-      <td mat-cell *matCellDef="let employee">{{employee.bio.birthDate}}
+      </th>
+      <td mat-cell *matCellDef="let employee">{{employee.bio.birthDate | date: 'shortDate'}}
       </td>
     </ng-container>
     <ng-container matColumnDef="email">

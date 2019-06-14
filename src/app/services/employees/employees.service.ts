@@ -61,7 +61,7 @@ const dummyEmployees: IEmployee[] = [
       firstName: 'Pete',
       middleInitial: '',
       lastName: 'Sampras',
-      birthDate: new Date(),
+      birthDate: new Date('1967-12-25'),
       gender: GENDER.MALE,
       ethnicity: ETHNICITY.CAUCASIAN,
       usCitizen: true,
@@ -103,7 +103,7 @@ const dummyEmployees: IEmployee[] = [
         primary: false,
       },
     ],
-  }
+  },
 ]
 
 @Injectable({
