@@ -24,6 +24,9 @@ import { MainNavComponent } from './main-nav/main-nav.component'
 import { MaterialModule } from './material.module'
 import { PipeModule } from './pipes/pipe.module'
 import { AuthService } from './services/auth/auth.service'
+import { EmployeesService } from './services/employees/employees.service';
+import { SkillCategoriesService } from './services/skill-categories/skill-categories.service';
+import { SkillsService } from './services/skills/skills.service';
 
 @NgModule({
   declarations: [
@@ -60,6 +63,9 @@ import { AuthService } from './services/auth/auth.service'
       useClass: HttpMockRequestInterceptor,
       multi: true,
     },
+    EmployeesService,
+    SkillsService,
+    SkillCategoriesService
   ],
   bootstrap: [AppComponent],
 })
