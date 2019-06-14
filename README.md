@@ -51,12 +51,14 @@ The login page allows the user to provide a username and password. The applicati
 ### Java Web Token
 
 A Java Web Token is an json object that has been encoded as a string. The JWT for our application takes the following form:
+```
 {
 "iat": 1560354819921,
 "exp": 1591984329089,
 "email": "jon.doe@gmail.com",
 "role": "admin"
 }
+```
 
 In addition to the shown fields there is also another filed that stores a string that is used by the backend to authenticate that the user. This information is sent in the header of each api request using the auth0/angular-jwt library. The auth0/angular-jwt library is also used to decode the JWT and allow the frontend to access the properties included such as "role".
 
@@ -66,11 +68,33 @@ An authGuard is used to prevent users from navigating to screens that they are n
 
 ## Forms
 
+Form Components extend the BaseForm class, which provides a basic pattern for consuming refs to child component forms, and for child forms to broadcast their form references to parents.
+
+- `formGroup` is a ref to the core, top-level `FormGroup` in the component.
+- `formReady` is an `Output` property that emits the `formGroup` (or some other `AbstractControl`) to be caught by the parent component.
+- `destroyForm` is an `Output` property that should emit when the componet is destroyed.
+
+Several functions exist to help parents catch and dispose of child `FormGroup`s as those components are spawned/despawned:
+
+- `registerForm()` is the default function for catching a child's `FormGroup` when it is emitted
+- `deregisterForm()` clears the reference when a child component is destroyed (the child should emit on `destroyForm` in `ngOnDestroy`)
+
+Lastly, an abstract method must be implemented by any implementing class:
+
+- `buildForm` is responsible for building the baseline, empty `FormGroup` that will be used by the form.
+
+### Best Practices
+
+- `formGroup` should be created/assigned (by calling `buildForm`) in the constructor so the form controls are available when Angular binds the template to the class (which happens before `OnInit`)
+- If the form should support editing, respond to a change in an `@Input` property in `ngOnChanges` using the `hasChanged()` helper function, and use `patchValue` to update the form with the new value
+- Use [Angular Material Form Components](https://material.angular.io/components/categories/forms) whenever possible
+- Utilize the `RequiredMessagePipe` for required messages when form fields are required.  This supports a universal required message that's easy to update everywhere at once.
+
 ## Routing
 
 ## Testing
 
-'npm run test' is the console command to run the tests
+`npm run test` is the console command to run the tests
 
 85% is the agreed upon tcp minimal test coverage ammount
 
