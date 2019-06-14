@@ -1,6 +1,13 @@
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'
 import { NgModule } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
+import {
+  MatInputModule,
+  MatPaginatorModule,
+  MatProgressSpinnerModule,
+  MatSortModule,
+  MatTableModule,
+} from '@angular/material'
 import { BrowserModule } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { JwtModule } from '@auth0/angular-jwt'
@@ -31,6 +38,11 @@ import { AuthService } from './services/auth/auth.service'
     BrowserModule,
     AppRoutingModule,
     MaterialModule,
+    MatInputModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatProgressSpinnerModule,
     EmployeeModule,
     AdminModule,
     PipeModule,
