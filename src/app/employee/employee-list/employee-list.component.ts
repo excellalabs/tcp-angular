@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core'
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material'
 import { Observable, Subscription } from 'rxjs'
-import { AuthService } from 'src/app/services/auth/auth.service';
+import { AuthService } from 'src/app/services/auth/auth.service'
 
 import { IEmployee } from '../../models/employee.interface'
 import { EmployeesService } from '../../services/employees/employees.service'
@@ -20,7 +20,10 @@ export class EmployeeListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator
   @ViewChild(MatSort, { static: false }) sort: MatSort
 
-  constructor(private authService: AuthService, private employeeService: EmployeesService) {
+  constructor(
+    private authService: AuthService,
+    private employeeService: EmployeesService
+  ) {
     this.employeeService.fetch()
     this.dataSource = new MatTableDataSource(this.employeeService.list.value)
   }

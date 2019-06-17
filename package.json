@@ -16,6 +16,7 @@
     "prebuild": "npm run standardize",
     "build": "ng build --prod",
     "test": "ng test",
+    "test:coverage": "ng test --code-coverage",
     "test:prod": "ng test --prod --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e",
