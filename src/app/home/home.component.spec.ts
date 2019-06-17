@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing'
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'
-import { RouterTestingModule } from '@angular/router/testing';
+import { RouterTestingModule } from '@angular/router/testing'
 
 import { MaterialModule } from '../material.module'
 import { AuthService } from '../services/auth/auth.service'
@@ -19,7 +19,7 @@ describe('HomeComponent', () => {
       imports: [MaterialModule, NoopAnimationsModule, RouterTestingModule],
       providers: [
         { provide: EmployeesService, useClass: MockEmployeesService },
-        { provide: AuthService, useClass: MockAuthService }
+        { provide: AuthService, useClass: MockAuthService },
       ],
     }).compileComponents()
   }))

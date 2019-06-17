@@ -3,10 +3,10 @@
   <mat-card>
     <mat-card-title>Your Skills</mat-card-title>
     <div fxLayout="row">
-        <div fxFlex="40%"><strong>Skill</strong></div>
-        <div fxFlex="30%"><strong>Category</strong></div>
-        <div fxFlex="30%"><strong>Proficiency</strong></div>
-      </div>
+      <div fxFlex="40%"><strong>Skill</strong></div>
+      <div fxFlex="30%"><strong>Category</strong></div>
+      <div fxFlex="30%"><strong>Proficiency</strong></div>
+    </div>
     <div fxLayout="row" *ngFor="let skill of employee.skills">
       <div fxFlex="40%">{{skill.skill.name}}</div>
       <div fxFlex="30%">{{skill.skill.category.name}}</div>

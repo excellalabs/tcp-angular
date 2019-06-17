@@ -1,13 +1,13 @@
-import { EventEmitter, SimpleChange, SimpleChanges } from '@angular/core';
+import { EventEmitter, SimpleChange, SimpleChanges } from '@angular/core'
 import { AbstractControl, FormBuilder } from '@angular/forms'
-import { ICategory } from 'src/app/models/skill.interface';
+import { ICategory } from 'src/app/models/skill.interface'
 
 import { CategoryFormComponent } from './category-form.component'
 
 describe('CategoryFormComponent (Unit)', () => {
   let component: CategoryFormComponent
   beforeEach(() => {
-    component = new CategoryFormComponent(new FormBuilder());
+    component = new CategoryFormComponent(new FormBuilder())
   })
 
   describe('constructor', () => {
@@ -24,19 +24,21 @@ describe('CategoryFormComponent (Unit)', () => {
     it('should reset the formGroup when category is set to null', () => {
       spyOn(component.formGroup, 'reset').and.callThrough()
       component.category = null
-      component.ngOnChanges({ category: new SimpleChange({} as ICategory, null, false)})
+      component.ngOnChanges({ category: new SimpleChange({} as ICategory, null, false) })
       expect(component.formGroup.reset).toHaveBeenCalled()
     })
     it('should patch the formGroup when category is set to an object', () => {
       spyOn(component.formGroup, 'patchValue').and.callThrough()
-      component.category = {id: 3, name: 'New Category'}
-      component.ngOnChanges({ category: new SimpleChange(null, component.category, false)})
+      component.category = { id: 3, name: 'New Category' }
+      component.ngOnChanges({
+        category: new SimpleChange(null, component.category, false),
+      })
       expect(component.formGroup.patchValue).toHaveBeenCalledWith(component.category)
     })
-    it('should do nothing if there isn\'t a real change', () => {
+    it("should do nothing if there isn't a real change", () => {
       spyOn(component.formGroup, 'reset').and.callThrough()
       spyOn(component.formGroup, 'patchValue').and.callThrough()
-      component.ngOnChanges({ category: new SimpleChange(null, null, false)})
+      component.ngOnChanges({ category: new SimpleChange(null, null, false) })
       expect(component.formGroup.reset).not.toHaveBeenCalled()
       expect(component.formGroup.patchValue).not.toHaveBeenCalled()
     })
@@ -68,14 +70,18 @@ describe('CategoryFormComponent (Unit)', () => {
       component.category = null
       component.formGroup.get('name').setValue('New Category')
       component.onSubmit()
-      expect(component.addCategory.emit).toHaveBeenCalledWith(jasmine.objectContaining({name: 'New Category'}))
+      expect(component.addCategory.emit).toHaveBeenCalledWith(
+        jasmine.objectContaining({ name: 'New Category' })
+      )
     })
     it('should emit the updated category value via addCategory when editing', () => {
       spyOn(component.addCategory, 'emit').and.callThrough()
-      component.category = {id: 15, name: 'Old Category'}
+      component.category = { id: 15, name: 'Old Category' }
       component.formGroup.get('name').setValue('New Category')
       component.onSubmit()
-      expect(component.addCategory.emit).toHaveBeenCalledWith(jasmine.objectContaining({id: 15, name: 'New Category'}))
+      expect(component.addCategory.emit).toHaveBeenCalledWith(
+        jasmine.objectContaining({ id: 15, name: 'New Category' })
+      )
     })
   })
 })
