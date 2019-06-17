@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component } from '@angular/core'
 import { ICategory } from 'src/app/models/skill.interface'
 import { SkillCategoriesService } from 'src/app/services/skill-categories/skill-categories.service'
 
@@ -7,12 +7,10 @@ import { SkillCategoriesService } from 'src/app/services/skill-categories/skill-
   templateUrl: './manage-categories.component.html',
   styleUrls: ['./manage-categories.component.scss'],
 })
-export class ManageCategoriesComponent implements OnInit {
+export class ManageCategoriesComponent {
   categoryToEdit: ICategory = null
 
   constructor(private categoryService: SkillCategoriesService) {}
-
-  ngOnInit() {}
 
   onEditCategory(id: number) {
     this.categoryToEdit = this.categoryService.list.value.find(cat => cat.id === id)
@@ -22,8 +20,8 @@ export class ManageCategoriesComponent implements OnInit {
     this.categoryService.deleteCategory(id)
   }
 
-  onAddCategory(skill: ICategory) {
+  onAddCategory(category: ICategory) {
     this.categoryToEdit = null
-    this.categoryService.addCategory(skill)
+    this.categoryService.addCategory(category)
   }
 }

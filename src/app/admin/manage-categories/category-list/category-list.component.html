@@ -6,7 +6,7 @@
   <ng-container matColumnDef="edit">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let element">
-      <button mat-button color="accent"
+      <button mat-button color="accent" id="edit-category-{{ element.id }}"
         (click)="editCategory.emit(element.id)">Edit</button>
     </td>
   </ng-container>
@@ -19,6 +19,7 @@
     <td mat-cell *matCellDef="let element">
       <div style="width: 100%" fxLayout="column">
         <button fxFlexAlign="end" mat-raised-button color="warn"
+          [id]="'delete-category-' + element.id"
           (click)="deleteCategory.emit(element.id)">Delete</button>
       </div>
     </td>
