@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing'
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms'
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'
 import { RouterTestingModule } from '@angular/router/testing'
 
@@ -10,29 +10,23 @@ import { LoginComponent } from './login.component'
 
 describe('LoginComponent', () => {
   let component: LoginComponent
-  let fixture: ComponentFixture<LoginComponent>
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [LoginComponent],
-      imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        MaterialModule,
-        NoopAnimationsModule,
-        RouterTestingModule,
-      ],
-      providers: [{ provide: AuthService, useClass: MockAuthService }],
-    }).compileComponents()
-  }))
+  let authService: AuthService
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LoginComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
+    authService = new AuthService(null, null)
+    component = new LoginComponent(new FormBuilder(), authService)
+    component.ngOnInit()
   })
 
   it('should create', () => {
     expect(component).toBeTruthy()
+  })
+
+  it('should call authservice login with correct info', () => {
+    spyOn(authService, 'login').and.callFake(() => {})
+    component.formGroup.patchValue({ username: 'testUserName', password: 'testPassword' })
+    component.submit()
+    expect(authService.login).toHaveBeenCalledTimes(1)
+    expect(authService.login).toHaveBeenCalledWith('testUserName', 'testPassword')
   })
 })
