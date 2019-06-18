@@ -1,12 +1,14 @@
 import { Pipe, PipeTransform } from '@angular/core'
 
+export const requiredPostfix = ' is a required field'
+
 @Pipe({
   name: 'requiredMessage',
 })
 export class RequiredMessagePipe implements PipeTransform {
-  static postfix: ' is a required field'
+  postfix: string = requiredPostfix
 
   transform(value: any, args?: any): any {
-    return value + RequiredMessagePipe.postfix
+    return value + this.postfix
   }
 }

@@ -1,4 +1,4 @@
-import { RequiredMessagePipe } from './required-message.pipe'
+import { RequiredMessagePipe, requiredPostfix } from './required-message.pipe'
 
 describe('RequiredMessagePipe', () => {
   let pipe: RequiredMessagePipe
@@ -13,7 +13,7 @@ describe('RequiredMessagePipe', () => {
   describe('#transform()', () => {
     it('should produce a formatted message', () => {
       expect(pipe.transform('Form Name')).toEqual(
-        'Form Name' + RequiredMessagePipe.postfix
+        'Form Name' + requiredPostfix
       )
     })
   })

@@ -36,7 +36,7 @@ export class EmployeeFormComponent extends BaseForm implements OnInit, OnDestroy
         this.activatedRoute.paramMap
           .pipe(
             switchMap((params: ParamMap) =>
-              this.employeesService.getById(Number.parseInt(params.get('id')))
+              this.employeesService.getById(Number.parseInt(params.get('id'), 10))
             )
           )
           .subscribe((employee: IEmployee) => this.employee$.next(employee))
