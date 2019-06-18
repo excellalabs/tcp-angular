@@ -1,0 +1,33 @@
+<div fxlayoutAlign="space-between center">
+  <mat-form-field fxFlex="20%">
+    <mat-label>Filter by Name</mat-label>
+    <input matInput type="text" [formControl]="nameFilter" placeholder="First or Last Name">
+  </mat-form-field>
+  <mat-form-field fxFlex="50%" fxFlexAlign="end">
+    <mat-chip-list #chipList aria-label="Fruit selection">
+      <mat-chip
+        *ngFor="let skill of skills"
+        [selectable]="false"
+        [removable]="true"
+        (removed)="remove(skill)">
+        {{ skill }}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+      <input
+        placeholder="Filter by Skill"
+        #skillInput
+        [formControl]="skillControl"
+        [matAutocomplete]="auto"
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeyCodes"
+        [matChipInputAddOnBlur]="true"
+        (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)" [displayWith]="displayFn">
+      <mat-option *ngFor="let skill of filteredSkills$ | async" [value]="skill">
+        {{ skill.name }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+</div>
