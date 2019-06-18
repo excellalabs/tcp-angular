@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core'
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material'
 import { Observable, Subscription } from 'rxjs'
+import { IEmployeeSkill, PROFICIENCY } from 'src/app/models/skill.interface';
 import { AuthService } from 'src/app/services/auth/auth.service'
 
 import { IEmployee } from '../../models/employee.interface'
@@ -63,5 +64,13 @@ export class EmployeeListComponent implements OnInit, AfterViewInit {
     filterValue = filterValue.trim()
     filterValue = filterValue.toLowerCase()
     this.dataSource.filter = filterValue
+  }
+
+  isHighProficiency(skill: IEmployeeSkill): boolean {
+    return skill.proficiency === PROFICIENCY.HIGH
+  }
+
+  skillAriaLabel(skill: IEmployeeSkill): string {
+    return `${skill.skill.name} - ${skill.proficiency} proficiency`
   }
 }
