@@ -1,1 +1,22 @@
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~@angular/material/theming";
+
+@include mat-core();
+
+$primary: mat-palette($mat-indigo);
+$accent: mat-palette($mat-pink, A200, A100, A400);
+
+$warn: mat-palette($mat-red);
+
+$theme: mat-light-theme($primary, $accent, $warn);
+$light-foreground-palette: map-get($theme, foreground);
+$light-background-palette: map-get($theme, background);
+
+@include angular-material-theme($theme);
+
+
+// Work around for bug where coloration doesn't apply to chips correctly
+// https://github.com/angular/components/issues/9851
+.mat-chip-primary {
+  color: mat-color($primary, default-contrast) !important;
+  background-color: mat-color($primary, default) !important;
+}
