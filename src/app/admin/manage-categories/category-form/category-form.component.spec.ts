@@ -4,7 +4,10 @@ import { FlexLayoutModule } from '@angular/flex-layout'
 import { AbstractControl, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { By } from '@angular/platform-browser'
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'
-import { RequiredMessagePipe, requiredPostfix } from 'src/app/pipes/required-message/required-message.pipe'
+import {
+  RequiredMessagePipe,
+  requiredPostfix,
+} from 'src/app/pipes/required-message/required-message.pipe'
 
 import { MaterialModule } from '../../../material.module'
 import { ICategory } from '../../../models/skill.interface'

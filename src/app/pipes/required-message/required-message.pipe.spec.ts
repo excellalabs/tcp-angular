@@ -12,9 +12,7 @@ describe('RequiredMessagePipe', () => {
 
   describe('#transform()', () => {
     it('should produce a formatted message', () => {
-      expect(pipe.transform('Form Name')).toEqual(
-        'Form Name' + requiredPostfix
-      )
+      expect(pipe.transform('Form Name')).toEqual('Form Name' + requiredPostfix)
     })
   })
 })
