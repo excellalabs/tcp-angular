@@ -6,8 +6,8 @@ import {
   MatAutocompleteSelectedEvent,
   MatChipInputEvent,
 } from '@angular/material'
-import { BehaviorSubject, Observable } from 'rxjs'
-import { debounceTime, map, startWith } from 'rxjs/operators'
+import { BehaviorSubject, Observable, combineLatest } from 'rxjs'
+import { debounceTime, map, startWith, tap } from 'rxjs/operators'
 import { ISkill, displaySkillFn } from 'src/app/models/skill.interface';
 import { SkillsService } from 'src/app/services/skills/skills.service';
 
@@ -37,12 +37,14 @@ export class ListControlsComponent extends BaseForm {
     this.allSkills = this.skillService.list.value
     this.nameFilter$ = this.nameFilter.valueChanges.pipe(debounceTime(1))
 
-    this.filteredSkills$ = this.skillFilterInput.valueChanges.pipe(
+    const possibleChoices$ = this.skillFilterInput.valueChanges.pipe(
       startWith(null),
       map((skill: string | ISkill | null) =>
-        skill ? this._filter(skill, this.allSkills) : this.allSkills.slice()
+      skill ? this._filter(skill) : this.allSkills.slice()
       )
     )
+    this.filteredSkills$ = combineLatest([possibleChoices$, this.skillFilters$])
+      .pipe(map(([possibleChoices, alreadyChosen]) => possibleChoices.filter(match => !alreadyChosen.includes(match))))
   }
 
   buildForm(): FormGroup {
@@ -91,16 +93,15 @@ export class ListControlsComponent extends BaseForm {
     this.skillFilterInput.setValue(null)
   }
 
-  private _filter(value: string | ISkill, availableSkills: ISkill[]): ISkill[] {
+  private _filter(value: string | ISkill): ISkill[] {
     let filterValue: string
-    if (value instanceof String) {
+    if (typeof value === 'string') {
       filterValue = value.toLowerCase()
     }
-    if (value instanceof Object) {
+    if (typeof value === 'object') {
       filterValue = value.name.toLowerCase()
     }
-
-    return availableSkills.filter(s => s.name.toLowerCase().indexOf(filterValue) === 0)
+    return this.allSkills.filter(s => s.name.toLowerCase().indexOf(filterValue) === 0)
   }
 
   private findSkillByName(name: string): ISkill {
