@@ -3,7 +3,7 @@
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [opened]="(isHandset$ | async) === false">
-    <mat-toolbar>Menu</mat-toolbar>
+    <mat-toolbar></mat-toolbar>
     <mat-nav-list>
       <ng-container *ngIf="isLoggedIn(); else notLoggedIn">
         <a mat-list-item routerLink="/home">Home</a>
@@ -15,6 +15,10 @@
           <a mat-list-item routerLink="/employee/add">Add Employee</a>
           <a mat-list-item routerLink="/admin/skills">Manage Skills</a>
           <a mat-list-item routerLink="/admin/categories">Manage Categories</a>
+        </ng-container>
+        <ng-container>
+          <mat-divider></mat-divider>
+          <a mat-list-item (click)="logout()">Logout</a>
         </ng-container>
       </ng-container>
       <ng-template #notLoggedIn>
@@ -28,9 +32,9 @@
         (click)="drawer.toggle()" *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>Tech Challenge Platform (Angular)</span>
+      <span>Employee Listing</span>
       <span class="spacer"></span>
-      <span (click)="logout()">Logout</span>
+      <span>Welcome!</span>
     </mat-toolbar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>

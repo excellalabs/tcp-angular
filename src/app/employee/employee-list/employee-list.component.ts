@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core'
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material'
 import { Observable, Subscription } from 'rxjs'
+import { IEmployeeSkill, PROFICIENCY } from 'src/app/models/skill.interface'
 import { AuthService } from 'src/app/services/auth/auth.service'
 
 import { IEmployee } from '../../models/employee.interface'
@@ -13,7 +14,7 @@ import { EmployeesService } from '../../services/employees/employees.service'
 })
 export class EmployeeListComponent implements OnInit, AfterViewInit {
   employeesSubscription: Subscription
-  tableColumns: string[] = ['name', 'birthDate', 'email', 'phoneNumber']
+  tableColumns: string[] = ['name', 'email', 'skills']
 
   dataSource: MatTableDataSource<IEmployee>
 
@@ -48,12 +49,10 @@ export class EmployeeListComponent implements OnInit, AfterViewInit {
       switch (property) {
         case 'name':
           return employee.bio.firstName
-        case 'birthDate':
-          return employee.bio.birthDate
         case 'email':
           return employee.contact.email
-        case 'phoneNumber':
-          return employee.contact.phoneNumber
+        case 'skills':
+          return employee.skills.find(s => s.primary === true).skill.name
         default:
           return employee[property]
       }
@@ -65,5 +64,13 @@ export class EmployeeListComponent implements OnInit, AfterViewInit {
     filterValue = filterValue.trim()
     filterValue = filterValue.toLowerCase()
     this.dataSource.filter = filterValue
+  }
+
+  isHighProficiency(skill: IEmployeeSkill): boolean {
+    return skill.proficiency === PROFICIENCY.HIGH
+  }
+
+  skillAriaLabel(skill: IEmployeeSkill): string {
+    return `${skill.skill.name} - ${skill.proficiency} proficiency`
   }
 }
