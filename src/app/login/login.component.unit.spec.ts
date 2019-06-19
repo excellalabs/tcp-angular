@@ -22,6 +22,11 @@ describe('LoginComponent', () => {
     expect(component).toBeTruthy()
   })
 
+  it('should build the formGroup via #buildForm()', () => {
+    expect(component.formGroup).toBeTruthy()
+    expect(component.formGroup.contains('username'))
+  })
+
   it('should call authservice login with correct info', () => {
     spyOn(authService, 'login').and.callFake(() => {})
     component.formGroup.patchValue({ username: 'testUserName', password: 'testPassword' })
