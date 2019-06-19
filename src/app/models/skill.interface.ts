@@ -13,6 +13,10 @@ export interface ISkill extends IBaseItem {
   category: ICategory
 }
 
+export function displaySkillFn(skill: ISkill): string {
+  return skill ? `${skill.name} (${skill.category.name})` : undefined
+}
+
 export interface ICategory extends IBaseItem {
   // Managed by Admin
   name: string
