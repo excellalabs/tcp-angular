@@ -21,6 +21,8 @@ import {
   MatStepperModule,
   MatTableModule,
   MatToolbarModule,
+  MatSnackBar,
+  MatSnackBarModule,
 } from '@angular/material'
 
 const materialModules = [
@@ -46,6 +48,7 @@ const materialModules = [
   MatTableModule,
   MatToolbarModule,
   MatProgressSpinnerModule,
+  MatSnackBarModule,
 ]
 
 @NgModule({

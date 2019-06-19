@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs'
 
 import { ICategory } from '../../models/skill.interface'
 import { dummySkillCategories } from './skill-categories.service.fake'
+import { MatSnackBar } from '@angular/material'
 
 export interface ISkillCategoryService {
   readonly list: BehaviorSubject<ICategory[]>
@@ -17,7 +18,7 @@ export interface ISkillCategoryService {
 export class SkillCategoriesService implements ISkillCategoryService {
   readonly list = new BehaviorSubject<ICategory[]>([])
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) {}
 
   fetch(): void {
     if (this.list.value.length === 0) {
@@ -30,6 +31,7 @@ export class SkillCategoriesService implements ISkillCategoryService {
     category.id = newList.length
     newList.push(category)
     this.list.next(newList)
+    this.openSnackBar('Category Added')
   }
 
   updateCategory(category: ICategory) {
@@ -37,9 +39,17 @@ export class SkillCategoriesService implements ISkillCategoryService {
     const newList = this.list.value
     newList.push(category)
     this.list.next(newList)
+    this.openSnackBar('Category Updated')
   }
 
   deleteCategory(id: number) {
     this.list.next(this.list.value.filter(s => s.id !== id))
+    this.openSnackBar('Category Deleted')
+  }
+
+  openSnackBar(message: string, action: string = null) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    })
   }
 }
