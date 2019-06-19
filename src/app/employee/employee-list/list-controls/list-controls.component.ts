@@ -6,7 +6,7 @@ import {
   MatAutocompleteSelectedEvent,
   MatChipInputEvent,
 } from '@angular/material'
-import { Observable } from 'rxjs'
+import { BehaviorSubject, Observable } from 'rxjs'
 import { debounceTime, map, startWith } from 'rxjs/operators'
 import { ISkill, displaySkillFn } from 'src/app/models/skill.interface';
 import { SkillsService } from 'src/app/services/skills/skills.service';
@@ -20,11 +20,10 @@ import { BaseForm } from '../../abstracts/base-form.class'
 })
 export class ListControlsComponent extends BaseForm {
   @Output() nameFilter$: Observable<string>
+  @Output() skillFilters$ = new BehaviorSubject<ISkill[]>([])
 
   separatorKeysCodes: number[] = [ENTER, COMMA]
-  skillFilterControl = new FormControl()
   filteredSkills$: Observable<ISkill[]>
-  skills: ISkill[] = []
   allSkills: ISkill[]
   displayFn = displaySkillFn
 
@@ -38,10 +37,10 @@ export class ListControlsComponent extends BaseForm {
     this.allSkills = this.skillService.list.value
     this.nameFilter$ = this.nameFilter.valueChanges.pipe(debounceTime(1))
 
-    this.filteredSkills$ = this.skillFilterControl.valueChanges.pipe(
+    this.filteredSkills$ = this.skillFilterInput.valueChanges.pipe(
       startWith(null),
       map((skill: string | ISkill | null) =>
-        skill ? this._filter(skill) : this.allSkills.slice()
+        skill ? this._filter(skill, this.allSkills) : this.allSkills.slice()
       )
     )
   }
@@ -49,12 +48,11 @@ export class ListControlsComponent extends BaseForm {
   buildForm(): FormGroup {
     return this.fb.group({
       nameFilter: [''],
+      skillFilter: ['']
     })
   }
 
   add(event: MatChipInputEvent): void {
-    // Add skill only when MatAutocomplete is not open
-    // To make sure this does not conflict with OptionSelected Event
     if (!this.matAutocomplete.isOpen) {
       const input = event.input
       const skillName = event.value
@@ -62,23 +60,24 @@ export class ListControlsComponent extends BaseForm {
 
       // Add our skill
       if (skill) {
-        this.skills.push(skill)
+        this.addSkillFilter(skill)
       }
 
       // Reset the input value
       if (input) {
         input.value = ''
       }
-
-      this.skillFilterControl.setValue(null)
+      this.skillFilterInput.setValue(null)
     }
   }
 
   remove(skill: ISkill): void {
-    const index = this.skills.indexOf(skill)
+    const list = [ ...this.skillFilters$.value]
+    const index = this.skillFilters$.value.indexOf(skill)
 
     if (index >= 0) {
-      this.skills.splice(index, 1)
+      list.splice(index, 1)
+      this.skillFilters$.next(list)
     }
   }
 
@@ -86,13 +85,13 @@ export class ListControlsComponent extends BaseForm {
     const skillName = event.option.viewValue.split('(')[0].trim()
     const skill = skillName ? this.findSkillByName(skillName) : null
     if (skill) {
-      this.skills.push(skill)
+      this.addSkillFilter(skill)
     }
     this.fruitInput.nativeElement.value = null
-    this.skillFilterControl.setValue(null)
+    this.skillFilterInput.setValue(null)
   }
 
-  private _filter(value: string | ISkill): ISkill[] {
+  private _filter(value: string | ISkill, availableSkills: ISkill[]): ISkill[] {
     let filterValue: string
     if (value instanceof String) {
       filterValue = value.toLowerCase()
@@ -101,14 +100,24 @@ export class ListControlsComponent extends BaseForm {
       filterValue = value.name.toLowerCase()
     }
 
-    return this.allSkills.filter(s => s.name.toLowerCase().indexOf(filterValue) === 0)
+    return availableSkills.filter(s => s.name.toLowerCase().indexOf(filterValue) === 0)
   }
 
   private findSkillByName(name: string): ISkill {
     return this.allSkills.find(s => s.name.toLowerCase().indexOf(name.trim().toLowerCase()) === 0)
   }
 
+  private addSkillFilter(skill: ISkill) {
+    const list = this.skillFilters$.value
+    list.push(skill)
+    this.skillFilters$.next(list)
+  }
+
   get nameFilter(): AbstractControl {
     return this.formGroup.get('nameFilter')
+  }
+
+  get skillFilterInput(): AbstractControl {
+    return this.formGroup.get('skillFilter')
   }
 }
