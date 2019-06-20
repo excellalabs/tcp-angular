@@ -1,11 +1,14 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing'
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatChipInputEvent, MatOption } from '@angular/material';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from 'src/app/material.module';
-import { SkillsService } from 'src/app/services/skills/skills.service';
-import { MockSkillsService, dummySkills } from 'src/app/services/skills/skills.service.fake';
+import { FlexLayoutModule } from '@angular/flex-layout'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { MatChipInputEvent, MatOption } from '@angular/material'
+import { NoopAnimationsModule } from '@angular/platform-browser/animations'
+import { MaterialModule } from 'src/app/material.module'
+import { SkillsService } from 'src/app/services/skills/skills.service'
+import {
+  MockSkillsService,
+  dummySkills,
+} from 'src/app/services/skills/skills.service.fake'
 
 import { ListControlsComponent } from './list-controls.component'
 
@@ -16,10 +19,14 @@ describe('ListControlsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ListControlsComponent],
-      imports: [FormsModule, ReactiveFormsModule, FlexLayoutModule, MaterialModule, NoopAnimationsModule],
-      providers: [
-        { provide: SkillsService, useClass: MockSkillsService }
-      ]
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        FlexLayoutModule,
+        MaterialModule,
+        NoopAnimationsModule,
+      ],
+      providers: [{ provide: SkillsService, useClass: MockSkillsService }],
     }).compileComponents()
   }))
 
@@ -50,6 +57,6 @@ describe('ListControlsComponent', () => {
         done()
       }
     })
-    component.add({ input: null, value: skillInput.name} as MatChipInputEvent)
+    component.add({ input: null, value: skillInput.name } as MatChipInputEvent)
   })
 })
