@@ -33,7 +33,6 @@ import { StateService } from './services/state/state.service'
     ListControlsComponent,
   ],
   imports: [
-    BrowserAnimationsModule,
     CommonModule,
     EmployeeRoutingModule,
     FlexLayoutModule,
