@@ -29,7 +29,8 @@ export class ManageCategoriesComponent {
       this.skillService.list.value.filter(s => s.id === id).length > 0
     if (hasSkills) {
       const dialogRef = this.dialog.open(ConfirmCategoryDeleteComponent)
-      dialogRef.afterClosed().subscribe((okToDelete: boolean) => { // auto closes
+      dialogRef.afterClosed().subscribe((okToDelete: boolean) => {
+        // auto closes
         if (okToDelete) {
           this.deleteHelper(id)
         }
