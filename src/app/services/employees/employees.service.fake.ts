@@ -47,6 +47,12 @@ export const dummyEmployees: IEmployee[] = [
         proficiency: PROFICIENCY.MID,
         primary: false,
       },
+      {
+        id: 4,
+        skill: dummySkills.find(s => s.name === 'Scrum Master'),
+        proficiency: PROFICIENCY.HIGH,
+        primary: false,
+      },
     ],
   },
   {
@@ -85,7 +91,7 @@ export const dummyEmployees: IEmployee[] = [
         primary: false,
       },
       {
-        id: 1,
+        id: 3,
         skill: dummySkills.find(s => s.name === 'Scrum Master'),
         proficiency: PROFICIENCY.HIGH,
         primary: false,

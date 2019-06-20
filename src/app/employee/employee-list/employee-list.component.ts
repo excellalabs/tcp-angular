@@ -1,11 +1,16 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core'
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material'
-import { Observable, Subscription } from 'rxjs'
-import { IEmployeeSkill, PROFICIENCY } from 'src/app/models/skill.interface'
+import { BehaviorSubject, Subscription } from 'rxjs'
+import { IEmployeeSkill, ISkill, PROFICIENCY } from 'src/app/models/skill.interface'
 import { AuthService } from 'src/app/services/auth/auth.service'
 
 import { IEmployee } from '../../models/employee.interface'
 import { EmployeesService } from '../../services/employees/employees.service'
+
+interface IEmployeeFilters {
+  name: string
+  skills: ISkill[]
+}
 
 @Component({
   selector: 'tcp-employee-list',
@@ -17,6 +22,7 @@ export class EmployeeListComponent implements OnInit, AfterViewInit {
   tableColumns: string[] = ['name', 'email', 'skills']
 
   dataSource: MatTableDataSource<IEmployee>
+  dataFilter$ = new BehaviorSubject<IEmployeeFilters>({} as IEmployeeFilters)
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator
   @ViewChild(MatSort, { static: false }) sort: MatSort
@@ -27,20 +33,16 @@ export class EmployeeListComponent implements OnInit, AfterViewInit {
   ) {
     this.employeeService.fetch()
     this.dataSource = new MatTableDataSource(this.employeeService.list.value)
-  }
+    this.dataFilter$.subscribe(f => (this.dataSource.filter = JSON.stringify(f)))
 
-  ngOnInit() {
     // show edit buttons if admin
     if (this.authService.isAdmin()) {
       this.tableColumns.unshift('edit')
     }
+    this.dataSource.filterPredicate = this.customFilterPredicate
+  }
 
-    this.dataSource.filterPredicate = (employee: IEmployee, filter: string) => {
-      return (
-        employee.bio.firstName.toLowerCase().includes(filter.toLowerCase()) ||
-        employee.bio.lastName.toLowerCase().includes(filter.toLowerCase())
-      )
-    }
+  ngOnInit() {
   }
 
   ngAfterViewInit() {
@@ -60,10 +62,33 @@ export class EmployeeListComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort
   }
 
-  filterEmployee(filterValue: string) {
+  filterEmployeeByName(filterValue: string) {
     filterValue = filterValue.trim()
     filterValue = filterValue.toLowerCase()
-    this.dataSource.filter = filterValue
+    this.dataFilter$.next({ ...this.dataFilter$.value, name: filterValue })
+  }
+
+  filterEmployeeBySkills(filterValue: ISkill[]) {
+    this.dataFilter$.next({ ...this.dataFilter$.value, skills: filterValue })
+  }
+
+  customFilterPredicate(employee: IEmployee, filter: string): boolean {
+    const filterObj = JSON.parse(filter) as IEmployeeFilters
+    let nameMatches = true
+    let skillsMatch = true
+
+    if (filterObj.name) {
+      nameMatches =
+        employee.bio.firstName.toLowerCase().includes(filterObj.name.toLowerCase()) ||
+        employee.bio.lastName.toLowerCase().includes(filterObj.name.toLowerCase())
+    }
+
+    if (filterObj.skills && filterObj.skills.length > 0) {
+      const employeeSkills = employee.skills.map(employeeSkill => employeeSkill.skill.id)
+      skillsMatch = filterObj.skills.every(s => employeeSkills.includes(s.id))
+    }
+
+    return nameMatches && skillsMatch
   }
 
   isHighProficiency(skill: IEmployeeSkill): boolean {

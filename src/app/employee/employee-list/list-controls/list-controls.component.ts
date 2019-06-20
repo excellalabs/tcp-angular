@@ -8,8 +8,8 @@ import {
 } from '@angular/material'
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs'
 import { debounceTime, map, startWith, tap } from 'rxjs/operators'
-import { ISkill, displaySkillFn } from 'src/app/models/skill.interface';
-import { SkillsService } from 'src/app/services/skills/skills.service';
+import { ISkill, displaySkillFn } from 'src/app/models/skill.interface'
+import { SkillsService } from 'src/app/services/skills/skills.service'
 
 import { BaseForm } from '../../abstracts/base-form.class'
 
@@ -40,17 +40,20 @@ export class ListControlsComponent extends BaseForm {
     const possibleChoices$ = this.skillFilterInput.valueChanges.pipe(
       startWith(null),
       map((skill: string | ISkill | null) =>
-      skill ? this._filter(skill) : this.allSkills.slice()
+        skill ? this._filter(skill) : this.allSkills.slice()
       )
     )
-    this.filteredSkills$ = combineLatest([possibleChoices$, this.skillFilters$])
-      .pipe(map(([possibleChoices, alreadyChosen]) => possibleChoices.filter(match => !alreadyChosen.includes(match))))
+    this.filteredSkills$ = combineLatest([possibleChoices$, this.skillFilters$]).pipe(
+      map(([possibleChoices, alreadyChosen]) =>
+        possibleChoices.filter(match => !alreadyChosen.includes(match))
+      )
+    )
   }
 
   buildForm(): FormGroup {
     return this.fb.group({
       nameFilter: [''],
-      skillFilter: ['']
+      skillFilter: [''],
     })
   }
 
@@ -74,7 +77,7 @@ export class ListControlsComponent extends BaseForm {
   }
 
   remove(skill: ISkill): void {
-    const list = [ ...this.skillFilters$.value]
+    const list = [...this.skillFilters$.value]
     const index = this.skillFilters$.value.indexOf(skill)
 
     if (index >= 0) {
@@ -105,7 +108,9 @@ export class ListControlsComponent extends BaseForm {
   }
 
   private findSkillByName(name: string): ISkill {
-    return this.allSkills.find(s => s.name.toLowerCase().indexOf(name.trim().toLowerCase()) === 0)
+    return this.allSkills.find(
+      s => s.name.toLowerCase().indexOf(name.trim().toLowerCase()) === 0
+    )
   }
 
   private addSkillFilter(skill: ISkill) {

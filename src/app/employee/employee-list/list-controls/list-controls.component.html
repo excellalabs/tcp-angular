@@ -12,15 +12,17 @@
         {{ skill.name }}
         <mat-icon matChipRemove>cancel</mat-icon>
       </mat-chip>
-      <input placeholder="Filter by Skill" #fruitInput [formControl]="skillFilterInput"
+      <input placeholder="Filter by Required Skills" #fruitInput [formControl]="skillFilterInput"
         [matAutocomplete]="auto" [matChipInputFor]="chipList"
         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
         [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="add($event)">
-    </mat-chip-list>
-    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)" [displayWith]="displayFn">
+      </mat-chip-list>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)"
+      [displayWith]="displayFn">
       <mat-option *ngFor="let skill of filteredSkills$ | async" [value]="skill">
         {{ skill.name }} ({{ skill.category.name }})
       </mat-option>
     </mat-autocomplete>
+    <mat-hint>Only employees with ALL skills designated will be shown</mat-hint>
   </mat-form-field>
 </div>
