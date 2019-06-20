@@ -19,9 +19,22 @@ describe('EmployeeListComponent (Unit)', () => {
     component = new EmployeeListComponent(authService as AuthService, employeeService as EmployeesService)
   })
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
+  describe('#constructor()', () => {
+    it('should create', () => {
+      expect(component).toBeTruthy()
+    })
+    it('should not display the edit column user is not an admin', () => {
+      spyOn(authService, 'isAdmin').and.returnValue(false)
+      component = new EmployeeListComponent(authService as AuthService, employeeService as EmployeesService)
+      expect(component.tableColumns).not.toContain('edit')
+    })
+    it('should add the edit column if user is admin', () => {
+      spyOn(authService, 'isAdmin').and.returnValue(true)
+      component = new EmployeeListComponent(authService as AuthService, employeeService as EmployeesService)
+      expect(component.tableColumns).toContain('edit')
+    })
   })
+
 
   describe('#filterEmployeeByName()', () => {
     it('should set the name value on dataFilter$', done => {
