@@ -31,13 +31,13 @@ export const dummyEmployees: IEmployee[] = [
     skills: [
       {
         id: 1,
-        skill: dummySkills.find(s => s.name === 'Java'),
+        skill: dummySkills.find(s => s.name === 'JavaScript'),
         proficiency: PROFICIENCY.HIGH,
         primary: true,
       },
       {
         id: 2,
-        skill: dummySkills.find(s => s.name === 'JavaScript'),
+        skill: dummySkills.find(s => s.name === 'Java'),
         proficiency: PROFICIENCY.MID,
         primary: false,
       },
@@ -50,9 +50,33 @@ export const dummyEmployees: IEmployee[] = [
       {
         id: 4,
         skill: dummySkills.find(s => s.name === 'Scrum Master'),
-        proficiency: PROFICIENCY.HIGH,
+        proficiency: PROFICIENCY.LOW,
         primary: false,
       },
+      {
+        id: 5,
+        skill: dummySkills.find(s => s.name === 'Python'),
+        proficiency: PROFICIENCY.LOW,
+        primary: false,
+      },
+      {
+        id: 6,
+        skill: dummySkills.find(s => s.name === 'Business Analysis'),
+        proficiency: PROFICIENCY.MID,
+        primary: false,
+      },
+      {
+        id: 7,
+        skill: dummySkills.find(s => s.name === 'SQL Databases'),
+        proficiency: PROFICIENCY.MID,
+        primary: false,
+      },
+      {
+        id: 8,
+        skill: dummySkills.find(s => s.name === 'NoSQL Databases'),
+        proficiency: PROFICIENCY.MID,
+        primary: false,
+      }
     ],
   },
   {
@@ -94,6 +118,12 @@ export const dummyEmployees: IEmployee[] = [
         id: 3,
         skill: dummySkills.find(s => s.name === 'Scrum Master'),
         proficiency: PROFICIENCY.HIGH,
+        primary: false,
+      },
+      {
+        id: 4,
+        skill: dummySkills.find(s => s.name === 'Project Management'),
+        proficiency: PROFICIENCY.MID,
         primary: false,
       },
     ],
