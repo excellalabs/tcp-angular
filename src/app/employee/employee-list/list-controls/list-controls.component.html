@@ -12,7 +12,7 @@
         {{ skill.name }}
         <mat-icon matChipRemove>cancel</mat-icon>
       </mat-chip>
-      <input placeholder="Filter by Required Skills" #fruitInput [formControl]="skillFilterInput"
+      <input placeholder="Filter by Required Skills" #skillInput [formControl]="skillFilterInput"
         [matAutocomplete]="auto" [matChipInputFor]="chipList"
         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
         [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="add($event)">

@@ -1,6 +1,6 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes'
 import { Component, ElementRef, Output, ViewChild } from '@angular/core'
-import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms'
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms'
 import {
   MatAutocomplete,
   MatAutocompleteSelectedEvent,
@@ -27,7 +27,7 @@ export class ListControlsComponent extends BaseForm {
   allSkills: ISkill[]
   displayFn = displaySkillFn
 
-  @ViewChild('fruitInput', { static: false }) fruitInput: ElementRef<HTMLInputElement>
+  @ViewChild('skillInput', { static: false }) skillInput: ElementRef<HTMLInputElement>
   @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete
 
   constructor(private fb: FormBuilder, private skillService: SkillsService) {
@@ -58,7 +58,7 @@ export class ListControlsComponent extends BaseForm {
   }
 
   add(event: MatChipInputEvent): void {
-    if (!this.matAutocomplete.isOpen) {
+    if (!this.matAutocomplete || !this.matAutocomplete.isOpen) {
       const input = event.input
       const skillName = event.value
       const skill = skillName ? this.findSkillByName(skillName) : null
@@ -92,7 +92,9 @@ export class ListControlsComponent extends BaseForm {
     if (skill) {
       this.addSkillFilter(skill)
     }
-    this.fruitInput.nativeElement.value = null
+    if (this.skillInput) {
+      this.skillInput.nativeElement.value = null
+    }
     this.skillFilterInput.setValue(null)
   }
 
