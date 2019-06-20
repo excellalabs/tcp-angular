@@ -7,6 +7,8 @@ import { ICategory } from 'src/app/models/skill.interface'
 import { PipeModule } from 'src/app/pipes/pipe.module'
 import { SkillCategoriesService } from 'src/app/services/skill-categories/skill-categories.service'
 import { MockSkillCategoriesService } from 'src/app/services/skill-categories/skill-categories.service.fake'
+import { SkillsService } from 'src/app/services/skills/skills.service';
+import { MockSkillsService } from 'src/app/services/skills/skills.service.fake';
 
 import { CategoryFormComponent } from './category-form/category-form.component'
 import { CategoryListComponent } from './category-list/category-list.component'
@@ -33,6 +35,7 @@ describe('ManageCategoriesComponent', () => {
       ],
       providers: [
         { provide: SkillCategoriesService, useClass: MockSkillCategoriesService },
+        { provide: SkillsService, useClass: MockSkillsService },
       ],
     }).compileComponents()
   }))
