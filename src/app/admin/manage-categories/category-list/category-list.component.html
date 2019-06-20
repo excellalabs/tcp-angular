@@ -1,6 +1,7 @@
 <mat-form-field>
   <mat-label>Filter by Category Name</mat-label>
-  <input matInput (keyup)="applyTableFilter($event.target.value)" placeHolder="Category Name">
+  <input matInput (keyup)="applyTableFilter($event.target.value)"
+    placeHolder="Category Name">
   <mat-hint>Category Name starts with...</mat-hint>
 </mat-form-field>
 <table mat-table [dataSource]="dataSource" class="mt-elevation-z8">
