@@ -20,13 +20,11 @@ export class MockAuthService implements IAuthService {
   key = 'tcp-angular'
   jwtHelper = new JwtHelperService()
 
-  constructor(private router: Router) {}
+  constructor() {}
 
   login(username: string, password: string) {}
 
-  logout() {
-    this.router.navigateByUrl('login')
-  }
+  logout() {}
 
   getToken(decoded: boolean = false) {
     if (decoded) {

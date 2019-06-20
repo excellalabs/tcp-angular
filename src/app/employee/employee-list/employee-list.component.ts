@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core'
+import { AfterViewInit, Component, ViewChild } from '@angular/core'
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material'
 import { BehaviorSubject, Subscription } from 'rxjs'
 import { IEmployeeSkill, ISkill, PROFICIENCY } from 'src/app/models/skill.interface'
@@ -7,7 +7,7 @@ import { AuthService } from 'src/app/services/auth/auth.service'
 import { IEmployee } from '../../models/employee.interface'
 import { EmployeesService } from '../../services/employees/employees.service'
 
-interface IEmployeeFilters {
+export interface IEmployeeFilters {
   name: string
   skills: ISkill[]
 }
@@ -17,7 +17,7 @@ interface IEmployeeFilters {
   templateUrl: './employee-list.component.html',
   styleUrls: ['./employee-list.component.scss'],
 })
-export class EmployeeListComponent implements OnInit, AfterViewInit {
+export class EmployeeListComponent implements AfterViewInit {
   employeesSubscription: Subscription
   tableColumns: string[] = ['name', 'email', 'skills']
 
@@ -39,10 +39,7 @@ export class EmployeeListComponent implements OnInit, AfterViewInit {
     if (this.authService.isAdmin()) {
       this.tableColumns.unshift('edit')
     }
-    this.dataSource.filterPredicate = this.customFilterPredicate
-  }
-
-  ngOnInit() {
+    this.dataSource.filterPredicate = this.employeeFilterPredicate
   }
 
   ngAfterViewInit() {
@@ -63,16 +60,14 @@ export class EmployeeListComponent implements OnInit, AfterViewInit {
   }
 
   filterEmployeeByName(filterValue: string) {
-    filterValue = filterValue.trim()
-    filterValue = filterValue.toLowerCase()
-    this.dataFilter$.next({ ...this.dataFilter$.value, name: filterValue })
+    this.dataFilter$.next({ ...this.dataFilter$.value, name: filterValue.trim().toLowerCase() })
   }
 
   filterEmployeeBySkills(filterValue: ISkill[]) {
     this.dataFilter$.next({ ...this.dataFilter$.value, skills: filterValue })
   }
 
-  customFilterPredicate(employee: IEmployee, filter: string): boolean {
+  employeeFilterPredicate(employee: IEmployee, filter: string): boolean {
     const filterObj = JSON.parse(filter) as IEmployeeFilters
     let nameMatches = true
     let skillsMatch = true
