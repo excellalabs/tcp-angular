@@ -28,6 +28,6 @@ export class ChartComponent implements OnInit {
   }
 
   chartClick(e: any) {
-    console.log('click', e)
+    // console.log('click', e)
   }
 }
