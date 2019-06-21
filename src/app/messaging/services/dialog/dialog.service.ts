@@ -10,8 +10,12 @@ export interface IConfirmation {
   cancel: () => any
 }
 
+export interface IDialogService {
+  confirm(confirmation: IConfirmation): void
+}
+
 @Injectable()
-export class DialogService {
+export class DialogService implements IDialogService {
   constructor(private matDialog: MatDialog) {}
 
   confirm(confirmation: IConfirmation): void {
