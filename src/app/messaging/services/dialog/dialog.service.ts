@@ -21,9 +21,9 @@ export class DialogService implements IDialogService {
   confirm(confirmation: IConfirmation): void {
     const metadata = {
       title: confirmation.title ? confirmation.title : 'Confirm',
-      message: confirmation.message
+      message: confirmation.message,
     }
-    const dialogRef = this.matDialog.open(ConfirmationDialogComponent, {data: metadata})
+    const dialogRef = this.matDialog.open(ConfirmationDialogComponent, { data: metadata })
     dialogRef.afterClosed().subscribe((accepted: boolean) => {
       if (accepted) {
         confirmation.accept()

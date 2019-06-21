@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'
 
 import { MaterialModule } from '../../material.module'
-import { MessagingModule } from '../../messaging/messaging.module';
+import { MessagingModule } from '../../messaging/messaging.module'
 import { ICategory } from '../../models/skill.interface'
 import { PipeModule } from '../../pipes/pipe.module'
 import { SkillCategoriesService } from '../../services/skill-categories/skill-categories.service'
@@ -33,7 +33,7 @@ describe('ManageCategoriesComponent', () => {
         MaterialModule,
         NoopAnimationsModule,
         PipeModule,
-        MessagingModule
+        MessagingModule,
       ],
       providers: [
         { provide: SkillCategoriesService, useClass: MockSkillCategoriesService },

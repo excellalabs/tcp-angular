@@ -1,9 +1,12 @@
-import { IEmployeeSkill, PROFICIENCY } from '../models/skill.interface';
-import { AuthService } from '../services/auth/auth.service';
-import { MockAuthService } from '../services/auth/auth.service.fake';
-import { EmployeesService } from '../services/employees/employees.service';
-import { MockEmployeesService, dummyEmployees } from '../services/employees/employees.service.fake';
-import { stringCompare } from '../utils/functions';
+import { IEmployeeSkill, PROFICIENCY } from '../models/skill.interface'
+import { AuthService } from '../services/auth/auth.service'
+import { MockAuthService } from '../services/auth/auth.service.fake'
+import { EmployeesService } from '../services/employees/employees.service'
+import {
+  MockEmployeesService,
+  dummyEmployees,
+} from '../services/employees/employees.service.fake'
+import { stringCompare } from '../utils/functions'
 import { HomeComponent } from './home.component'
 
 describe('HomeComponent (Unit)', () => {
@@ -14,7 +17,10 @@ describe('HomeComponent (Unit)', () => {
   beforeEach(() => {
     employeeService = new MockEmployeesService()
     authService = new MockAuthService()
-    component = new HomeComponent(employeeService as EmployeesService, authService as AuthService)
+    component = new HomeComponent(
+      employeeService as EmployeesService,
+      authService as AuthService
+    )
   })
 
   describe('#getCurrentUser()', () => {
@@ -45,7 +51,9 @@ describe('HomeComponent (Unit)', () => {
 
     it('should properly count skills based on proficiency', () => {
       const data = component.skillCountByProficiency(skills)
-      expect(data[0].amount).toBe(skills.filter(s => s.proficiency === PROFICIENCY.HIGH).length)
+      expect(data[0].amount).toBe(
+        skills.filter(s => s.proficiency === PROFICIENCY.HIGH).length
+      )
     })
   })
 
@@ -62,7 +70,9 @@ describe('HomeComponent (Unit)', () => {
 
     it('should properly count skills based on category', () => {
       const data = component.skillCountByCategory(skills)
-      expect(data[0].amount).toBe(skills.filter(s => s.skill.category.name === data[0].label).length)
+      expect(data[0].amount).toBe(
+        skills.filter(s => s.skill.category.name === data[0].label).length
+      )
     })
   })
 })

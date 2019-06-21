@@ -1,14 +1,14 @@
-import { MatDialog } from '@angular/material';
-import { DialogService } from 'src/app/messaging/services/dialog/dialog.service';
-import { MockDialogService } from 'src/app/messaging/services/dialog/dialog.service.fake';
+import { MatDialog } from '@angular/material'
+import { DialogService } from 'src/app/messaging/services/dialog/dialog.service'
+import { MockDialogService } from 'src/app/messaging/services/dialog/dialog.service.fake'
 import { ICategory } from 'src/app/models/skill.interface'
 import { SkillCategoriesService } from 'src/app/services/skill-categories/skill-categories.service'
 import {
   MockSkillCategoriesService,
   dummySkillCategories,
 } from 'src/app/services/skill-categories/skill-categories.service.fake'
-import { SkillsService } from 'src/app/services/skills/skills.service';
-import { MockSkillsService } from 'src/app/services/skills/skills.service.fake';
+import { SkillsService } from 'src/app/services/skills/skills.service'
+import { MockSkillsService } from 'src/app/services/skills/skills.service.fake'
 
 import { ManageCategoriesComponent } from './manage-categories.component'
 
