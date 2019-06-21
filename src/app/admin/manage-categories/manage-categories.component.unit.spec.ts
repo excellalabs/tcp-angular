@@ -1,9 +1,12 @@
+import { MatDialog } from '@angular/material';
 import { ICategory } from 'src/app/models/skill.interface'
 import { SkillCategoriesService } from 'src/app/services/skill-categories/skill-categories.service'
 import {
   MockSkillCategoriesService,
   dummySkillCategories,
 } from 'src/app/services/skill-categories/skill-categories.service.fake'
+import { SkillsService } from 'src/app/services/skills/skills.service';
+import { MockSkillsService } from 'src/app/services/skills/skills.service.fake';
 
 import { ManageCategoriesComponent } from './manage-categories.component'
 
@@ -14,7 +17,11 @@ describe('ManageCategories (Unit)', () => {
   beforeEach(() => {
     categoryService = new MockSkillCategoriesService()
     categoryService.fetch()
-    component = new ManageCategoriesComponent(categoryService as SkillCategoriesService)
+    component = new ManageCategoriesComponent(
+      categoryService as SkillCategoriesService,
+      new MockSkillsService() as SkillsService,
+      new MatDialog(null, null, null, null, null, null, null)
+    )
   })
 
   describe('#onEditCategory()', () => {

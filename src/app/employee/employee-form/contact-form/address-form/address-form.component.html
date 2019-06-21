@@ -2,7 +2,8 @@
   <div class="row">
     <div class="col">
       <mat-form-field class="full-width">
-        <textarea matInput placeholder="Address" required formControlName="line1"></textarea>
+        <textarea matInput placeholder="Address" required
+          formControlName="line1"></textarea>
         <mat-error *ngIf="formGroup.controls['line1'].hasError('required')">
           {{ 'Address' | requiredMessage }}</mat-error>
       </mat-form-field>
@@ -45,8 +46,8 @@
   <div class="row">
     <div class="col">
       <mat-form-field class="full-width">
-        <input matInput #zipCode maxlength="5" required placeholder="Zip Code" type="number"
-          formControlName="zipCode">
+        <input matInput #zipCode maxlength="5" required placeholder="Zip Code"
+          type="number" formControlName="zipCode">
         <mat-hint align="end">{{zipCode.value.length}} / 5</mat-hint>
       </mat-form-field>
     </div>

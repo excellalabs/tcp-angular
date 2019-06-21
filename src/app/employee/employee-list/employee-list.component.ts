@@ -60,7 +60,10 @@ export class EmployeeListComponent implements AfterViewInit {
   }
 
   filterEmployeeByName(filterValue: string) {
-    this.dataFilter$.next({ ...this.dataFilter$.value, name: filterValue.trim().toLowerCase() })
+    this.dataFilter$.next({
+      ...this.dataFilter$.value,
+      name: filterValue.trim().toLowerCase(),
+    })
   }
 
   filterEmployeeBySkills(filterValue: ISkill[]) {

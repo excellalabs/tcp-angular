@@ -1,17 +1,20 @@
-import { ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { ElementRef } from '@angular/core'
+import { FormBuilder, FormGroup } from '@angular/forms'
 import {
   MatAutocomplete,
   MatAutocompleteDefaultOptions,
   MatAutocompleteSelectedEvent,
   MatChipInputEvent,
-  MatOption
-} from '@angular/material';
+  MatOption,
+} from '@angular/material'
 
-import { ISkill, displaySkillFn } from '../../../models/skill.interface';
-import { SkillsService } from '../../../services/skills/skills.service';
-import { MockSkillsService, dummySkills } from '../../../services/skills/skills.service.fake'
-import { ListControlsComponent } from './list-controls.component';
+import { ISkill, displaySkillFn } from '../../../models/skill.interface'
+import { SkillsService } from '../../../services/skills/skills.service'
+import {
+  MockSkillsService,
+  dummySkills,
+} from '../../../services/skills/skills.service.fake'
+import { ListControlsComponent } from './list-controls.component'
 
 describe('ListControlsComponent (Unit)', () => {
   let skillService: MockSkillsService
@@ -19,7 +22,10 @@ describe('ListControlsComponent (Unit)', () => {
 
   beforeEach(() => {
     skillService = new MockSkillsService()
-    component = new ListControlsComponent(new FormBuilder(), skillService as SkillsService)
+    component = new ListControlsComponent(
+      new FormBuilder(),
+      skillService as SkillsService
+    )
   })
 
   describe('#constructor()', () => {
@@ -81,9 +87,15 @@ describe('ListControlsComponent (Unit)', () => {
     let event: MatAutocompleteSelectedEvent
 
     function makeSelectedEvent(skill: ISkill) {
-      const autoComplete = new MatAutocomplete(null, null, {} as MatAutocompleteDefaultOptions)
+      const autoComplete = new MatAutocomplete(
+        null,
+        null,
+        {} as MatAutocompleteDefaultOptions
+      )
       const option = new MatOption(
-        new ElementRef<HTMLElement>({textContent: skill ? displaySkillFn(skill) : ''} as HTMLElement),
+        new ElementRef<HTMLElement>({
+          textContent: skill ? displaySkillFn(skill) : '',
+        } as HTMLElement),
         null,
         autoComplete,
         null
@@ -126,7 +138,9 @@ describe('ListControlsComponent (Unit)', () => {
       const skillName = 'java'
       component.filteredSkills$.subscribe(options => {
         if (options.length < skillService.list.value.length) {
-          expect(options.every(o => o.name.toLowerCase().startsWith(skillName))).toBe(true)
+          expect(options.every(o => o.name.toLowerCase().startsWith(skillName))).toBe(
+            true
+          )
           done()
         }
       })
