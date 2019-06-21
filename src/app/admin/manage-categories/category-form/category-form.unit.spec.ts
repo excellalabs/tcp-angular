@@ -35,7 +35,7 @@ describe('CategoryFormComponent (Unit)', () => {
       })
       expect(component.formGroup.patchValue).toHaveBeenCalledWith(component.category)
     })
-    it("should do nothing if there isn't a real change", () => {
+    it('should do nothing if there is not a real change', () => {
       spyOn(component.formGroup, 'reset').and.callThrough()
       spyOn(component.formGroup, 'patchValue').and.callThrough()
       component.ngOnChanges({ category: new SimpleChange(null, null, false) })

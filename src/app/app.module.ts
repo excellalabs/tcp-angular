@@ -1,17 +1,11 @@
+import { CommonModule } from '@angular/common'
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'
 import { NgModule } from '@angular/core'
 import { FlexLayoutModule } from '@angular/flex-layout'
 import { ReactiveFormsModule } from '@angular/forms'
-import {
-  MatInputModule,
-  MatPaginatorModule,
-  MatProgressSpinnerModule,
-  MatSortModule,
-  MatTableModule,
-} from '@angular/material'
-import { BrowserModule } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { JwtModule } from '@auth0/angular-jwt'
+import { ChartsModule } from 'ng2-charts'
 
 import { AdminModule } from './admin/admin.module'
 import { AppRoutingModule } from './app-routing.module'
@@ -19,6 +13,7 @@ import { AppComponent } from './app.component'
 import { HttpMockRequestInterceptor } from './auth/http-mock-request.interceptor'
 import { EmployeeModule } from './employee/employee.module'
 import { ErrorComponent } from './error/error.component'
+import { ChartComponent } from './home/chart/chart.component'
 import { HomeComponent } from './home/home.component'
 import { LoginComponent } from './login/login.component'
 import { MainNavComponent } from './main-nav/main-nav.component'
@@ -36,11 +31,12 @@ import { SkillsService } from './services/skills/skills.service'
     HomeComponent,
     LoginComponent,
     MainNavComponent,
+    ChartComponent,
   ],
   imports: [
     AppRoutingModule,
     BrowserAnimationsModule,
-    BrowserModule,
+    CommonModule,
     MaterialModule,
     EmployeeModule,
     AdminModule,
@@ -48,6 +44,7 @@ import { SkillsService } from './services/skills/skills.service'
     ReactiveFormsModule,
     HttpClientModule,
     FlexLayoutModule,
+    ChartsModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {

@@ -18,35 +18,65 @@ export const dummySkills: ISkill[] = [
   },
   {
     id: 3,
+    name: 'Python',
+    category: dummySkillCategories.find(c => c.name === 'Software'),
+  },
+  {
+    id: 4,
+    name: 'Ruby',
+    category: dummySkillCategories.find(c => c.name === 'Software'),
+  },
+  {
+    id: 5,
+    name: 'SQL Databases',
+    category: dummySkillCategories.find(c => c.name === 'Software'),
+  },
+  {
+    id: 6,
+    name: 'NoSQL Databases',
+    category: dummySkillCategories.find(c => c.name === 'Software'),
+  },
+  {
+    id: 10,
     name: 'Business Analysis',
     category: dummySkillCategories.find(c => c.name === 'Business'),
   },
   {
-    id: 4,
+    id: 11,
     name: 'Business Development',
     category: dummySkillCategories.find(c => c.name === 'Business'),
   },
   {
-    id: 5,
+    id: 12,
     name: 'Recruiting',
     category: dummySkillCategories.find(c => c.name === 'Business'),
   },
   {
-    id: 6,
+    id: 13,
+    name: 'Project Management',
+    category: dummySkillCategories.find(c => c.name === 'Business'),
+  },
+  {
+    id: 20,
     name: 'Scrum Master',
     category: dummySkillCategories.find(c => c.name === 'Agile'),
   },
   {
-    id: 7,
+    id: 21,
+    name: 'Product Owner',
+    category: dummySkillCategories.find(c => c.name === 'Agile'),
+  },
+  {
+    id: 22,
     name: 'Agile Coach',
     category: dummySkillCategories.find(c => c.name === 'Agile'),
   },
   {
-    id: 8,
+    id: 30,
     name: 'Jenkins',
     category: dummySkillCategories.find(c => c.name === 'Dev Ops'),
   },
-  { id: 9, name: 'AWS', category: dummySkillCategories.find(c => c.name === 'Dev Ops') },
+  { id: 31, name: 'AWS / ECS', category: dummySkillCategories.find(c => c.name === 'Dev Ops') },
 ]
 
 @Injectable()

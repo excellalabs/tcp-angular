@@ -12,7 +12,12 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 
-import { IEmployeeSkill, ISkill, PROFICIENCY } from '../../../../models/skill.interface'
+import {
+  IEmployeeSkill,
+  ISkill,
+  PROFICIENCY,
+  displaySkillFn,
+} from '../../../../models/skill.interface'
 import { SkillsService } from '../../../../services/skills/skills.service'
 import { hasChanged } from '../../../../utils/functions'
 import { BaseForm } from '../../../abstracts/base-form.class'
@@ -29,6 +34,7 @@ export class SkillDetailComponent extends BaseForm
 
   proficiencies: string[] = Object.keys(PROFICIENCY)
   filteredSkills$: Observable<ISkill[]>
+  displayFn = displaySkillFn
 
   constructor(private fb: FormBuilder, public skillService: SkillsService) {
     super()
@@ -72,10 +78,6 @@ export class SkillDetailComponent extends BaseForm
       proficiency: ['', [Validators.required]],
       primary: [false, []],
     })
-  }
-
-  displayFn(skill: ISkill): string {
-    return skill ? `${skill.name} (${skill.category.name})` : undefined
   }
 
   get skill(): AbstractControl {
