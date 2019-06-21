@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs'
 
 import { IEmployee } from '../../models/employee.interface'
 import { dummyEmployees } from './employees.service.fake'
+import { SnackBarService } from '../snack-bar/snack-bar.service'
 
 export interface IEmployeesService {
   readonly list: BehaviorSubject<IEmployee[]>
@@ -19,7 +20,7 @@ export interface IEmployeesService {
 export class EmployeesService implements IEmployeesService {
   readonly list = new BehaviorSubject<IEmployee[]>([])
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private snackBarService: SnackBarService) {}
 
   fetch(): void {
     this.list.next(dummyEmployees)
@@ -41,6 +42,7 @@ export class EmployeesService implements IEmployeesService {
     employee.id = this.list.value.length
     newList.push(employee)
     this.list.next(newList)
+    this.snackBarService.openSnackBar('Employee Added')
   }
 
   updateEmployee(employee: IEmployee) {
@@ -48,9 +50,11 @@ export class EmployeesService implements IEmployeesService {
     const newList = this.list.value
     newList.push(employee)
     this.list.next(newList)
+    this.snackBarService.openSnackBar('Employee Updated')
   }
 
   deleteEmployee(id: number) {
     this.list.next(this.list.value.filter(e => e.id !== id))
+    this.snackBarService.openSnackBar('Employee Deleted')
   }
 }
