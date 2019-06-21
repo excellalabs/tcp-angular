@@ -11,7 +11,7 @@ export class DateValidators {
   }
 
   private static validDateHelper(value: string): ValidationErrors {
-    return value && moment(new Date(value)).isValid() ? null : {invalidDate: value}
+    return value && moment(new Date(value)).isValid() ? null : { invalidDate: value }
   }
 
   static ofAge(years: number = 18): ValidatorFn {
@@ -22,15 +22,17 @@ export class DateValidators {
         return validity
       }
 
-      const bornBefore = moment().startOf('day').subtract(years, 'years')
+      const bornBefore = moment()
+        .startOf('day')
+        .subtract(years, 'years')
       const birthDate = moment(new Date(value))
       return birthDate.isSame(bornBefore) || birthDate.isBefore(bornBefore)
         ? null
-        : { age:
-            {
+        : {
+            age: {
               requiredAge: years,
-              actualAge: moment().diff(birthDate, 'years')
-            }
+              actualAge: moment().diff(birthDate, 'years'),
+            },
           }
     }
   }

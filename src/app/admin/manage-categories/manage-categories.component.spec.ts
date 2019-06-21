@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing'
 import { FlexLayoutModule } from '@angular/flex-layout'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
+import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing'
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'
 import { MaterialModule } from 'src/app/material.module'
 import { ICategory } from 'src/app/models/skill.interface'
@@ -13,7 +13,7 @@ import { MockSkillsService } from 'src/app/services/skills/skills.service.fake'
 
 import { CategoryFormComponent } from './category-form/category-form.component'
 import { CategoryListComponent } from './category-list/category-list.component'
-import { ConfirmCategoryDeleteComponent } from './confirm-category-delete/confirm-category-delete.component';
+import { ConfirmCategoryDeleteComponent } from './confirm-category-delete/confirm-category-delete.component'
 import { ManageCategoriesComponent } from './manage-categories.component'
 
 describe('ManageCategoriesComponent', () => {
@@ -26,7 +26,7 @@ describe('ManageCategoriesComponent', () => {
         ManageCategoriesComponent,
         CategoryFormComponent,
         CategoryListComponent,
-        ConfirmCategoryDeleteComponent
+        ConfirmCategoryDeleteComponent,
       ],
       imports: [
         FormsModule,
@@ -40,7 +40,11 @@ describe('ManageCategoriesComponent', () => {
         { provide: SkillCategoriesService, useClass: MockSkillCategoriesService },
         { provide: SkillsService, useClass: MockSkillsService },
       ],
-    }).overrideModule(BrowserDynamicTestingModule, {set: {entryComponents: [ConfirmCategoryDeleteComponent]}}).compileComponents()
+    })
+      .overrideModule(BrowserDynamicTestingModule, {
+        set: { entryComponents: [ConfirmCategoryDeleteComponent] },
+      })
+      .compileComponents()
   }))
 
   beforeEach(async () => {
