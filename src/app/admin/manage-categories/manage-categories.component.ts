@@ -1,10 +1,10 @@
 import { Component } from '@angular/core'
 import { MatDialog } from '@angular/material'
+import { DialogService } from 'src/app/messaging/services/dialog/dialog.service'
 import { ICategory } from 'src/app/models/skill.interface'
 
 import { SkillCategoriesService } from '../../services/skill-categories/skill-categories.service'
 import { SkillsService } from '../../services/skills/skills.service'
-import { ConfirmCategoryDeleteComponent } from './confirm-category-delete/confirm-category-delete.component'
 
 @Component({
   selector: 'tcp-manage-categories',
@@ -17,7 +17,7 @@ export class ManageCategoriesComponent {
   constructor(
     private categoryService: SkillCategoriesService,
     private skillService: SkillsService,
-    private dialog: MatDialog
+    private dialogService: DialogService
   ) {}
 
   onEditCategory(id: number) {
@@ -28,12 +28,13 @@ export class ManageCategoriesComponent {
     const hasSkills: boolean =
       this.skillService.list.value.filter(s => s.id === id).length > 0
     if (hasSkills) {
-      const dialogRef = this.dialog.open(ConfirmCategoryDeleteComponent)
-      dialogRef.afterClosed().subscribe((okToDelete: boolean) => {
-        // auto closes
-        if (okToDelete) {
+      this.dialogService.confirm({
+        title: 'Confirm Category Delete',
+        message: '',
+        accept: () => {
           this.deleteHelper(id)
-        }
+        },
+        cancel: () => null,
       })
     }
   }

@@ -18,11 +18,11 @@ import {
   MatRadioModule,
   MatSelectModule,
   MatSidenavModule,
+  MatSnackBarModule,
   MatSortModule,
   MatStepperModule,
   MatTableModule,
   MatToolbarModule,
-  MatSnackBarModule,
 } from '@angular/material'
 
 const materialModules = [
