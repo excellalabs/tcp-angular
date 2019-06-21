@@ -6,7 +6,7 @@ import { MockEmployeesService, dummyEmployees } from '../services/employees/empl
 import { stringCompare } from '../utils/functions';
 import { HomeComponent } from './home.component'
 
-fdescribe('HomeComponent (Unit)', () => {
+describe('HomeComponent (Unit)', () => {
   let component: HomeComponent
   let employeeService: MockEmployeesService
   let authService: MockAuthService
