@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { DateValidators } from 'src/app/utils/date.validators'
 
 import { ETHNICITY, IEmployeeBio } from '../../../models/employee.interface'
 import { hasChanged } from '../../../utils/functions'
@@ -35,7 +36,7 @@ export class BioFormComponent extends BaseForm implements OnInit, OnChanges {
       firstName: ['', [Validators.required]],
       middleInitial: ['', []],
       lastName: ['', [Validators.required]],
-      birthDate: ['', [Validators.required]],
+      birthDate: ['', [Validators.required, DateValidators.ofAge()]],
       gender: [null, [Validators.required]],
       ethnicity: [null, [Validators.required]],
       usCitizen: [false, [Validators.required]],

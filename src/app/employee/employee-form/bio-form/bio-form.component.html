@@ -23,6 +23,11 @@
       <mat-datepicker #dateOfBirthPicker></mat-datepicker>
       <mat-error *ngIf="dateOfBirth.hasError('required')">
         {{ 'Date of Birth' | requiredMessage }}</mat-error>
+      <mat-error *ngIf="dateOfBirth.hasError('invalidDate')">
+        Invalid date. Must be formatted as MM/DD/YYYY</mat-error>
+      <mat-error *ngIf="dateOfBirth.hasError('age')">
+        Employees must be {{ dateOfBirth.getError('age').requiredAge }} years old,
+        actual age is {{dateOfBirth.getError('age').actualAge}}</mat-error>
     </mat-form-field>
     <div fxFlex="50%">
       <mat-radio-group fxLayoutAlign="space-between center" [formControl]="gender"
