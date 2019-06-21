@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { BehaviorSubject } from 'rxjs'
 
+import { SnackBarService } from '../../messaging/services/snack-bar/snack-bar.service'
 import { ISkill } from '../../models/skill.interface'
 import { dummySkills } from './skills.service.fake'
-import { SnackBarService } from '../snack-bar/snack-bar.service'
 
 export interface ISkillsService {
   readonly list: BehaviorSubject<ISkill[]>

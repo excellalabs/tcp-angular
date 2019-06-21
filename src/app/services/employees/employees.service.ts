@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, Observable, of } from 'rxjs'
 
+import { SnackBarService } from '../../messaging/services/snack-bar/snack-bar.service'
 import { IEmployee } from '../../models/employee.interface'
 import { dummyEmployees } from './employees.service.fake'
-import { SnackBarService } from '../snack-bar/snack-bar.service'
 
 export interface IEmployeesService {
   readonly list: BehaviorSubject<IEmployee[]>
