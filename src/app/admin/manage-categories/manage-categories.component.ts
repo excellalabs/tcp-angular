@@ -29,8 +29,8 @@ export class ManageCategoriesComponent {
       this.skillService.list.value.filter(s => s.id === id).length > 0
     if (hasSkills) {
       this.dialogService.confirm({
-        title: 'Confirm Category Delete',
-        message: '',
+        title: 'Confirm Deletion',
+        message: 'Deleting a Category with Skills will also delete those Skills.',
         accept: () => {
           this.deleteHelper(id)
         },
