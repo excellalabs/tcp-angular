@@ -21,7 +21,6 @@ import {
   MatStepperModule,
   MatTableModule,
   MatToolbarModule,
-  MatSnackBar,
   MatSnackBarModule,
 } from '@angular/material'
 
