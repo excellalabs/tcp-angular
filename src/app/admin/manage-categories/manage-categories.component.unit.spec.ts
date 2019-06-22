@@ -40,6 +40,7 @@ describe('ManageCategories (Unit)', () => {
   })
 
   describe('#onDeleteCategory()', () => {
+    // Needs to be re-worked now that dialog box is there.
     it('should require confirmation when Category has Skills', () => {
       spyOn(dialogService, 'confirm').and.callThrough()
       component.onDeleteCategory(1)
