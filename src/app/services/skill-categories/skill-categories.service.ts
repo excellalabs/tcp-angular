@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { BehaviorSubject } from 'rxjs'
 
+import { SnackBarService } from '../../messaging/services/snack-bar/snack-bar.service'
 import { ICategory } from '../../models/skill.interface'
 import { dummySkillCategories } from './skill-categories.service.fake'
-import { SnackBarService } from '../snack-bar/snack-bar.service'
 
 export interface ISkillCategoryService {
   readonly list: BehaviorSubject<ICategory[]>

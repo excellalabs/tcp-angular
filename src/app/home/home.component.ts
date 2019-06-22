@@ -6,7 +6,7 @@ import { IEmployee } from '../models/employee.interface'
 import { IEmployeeSkill, PROFICIENCY } from '../models/skill.interface'
 import { AuthService } from '../services/auth/auth.service'
 import { EmployeesService } from '../services/employees/employees.service'
-import { stringCompare } from '../utils/functions';
+import { stringCompare } from '../utils/functions'
 import { IDataPoint } from './chart/chart.component'
 
 @Component({
@@ -62,12 +62,14 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     })
 
-    return categories.sort((a, b) => stringCompare(a.name, b.name)).map(c => {
-      const count = skills.filter(s => s.skill.category.id === c.id).length
-      return {
-        label: c.name,
-        amount: count
-      } as IDataPoint
-    })
+    return categories
+      .sort((a, b) => stringCompare(a.name, b.name))
+      .map(c => {
+        const count = skills.filter(s => s.skill.category.id === c.id).length
+        return {
+          label: c.name,
+          amount: count,
+        } as IDataPoint
+      })
   }
 }

@@ -76,7 +76,11 @@ export const dummySkills: ISkill[] = [
     name: 'Jenkins',
     category: dummySkillCategories.find(c => c.name === 'Dev Ops'),
   },
-  { id: 31, name: 'AWS / ECS', category: dummySkillCategories.find(c => c.name === 'Dev Ops') },
+  {
+    id: 31,
+    name: 'AWS / ECS',
+    category: dummySkillCategories.find(c => c.name === 'Dev Ops'),
+  },
 ]
 
 @Injectable()

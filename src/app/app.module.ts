@@ -18,6 +18,7 @@ import { HomeComponent } from './home/home.component'
 import { LoginComponent } from './login/login.component'
 import { MainNavComponent } from './main-nav/main-nav.component'
 import { MaterialModule } from './material.module'
+import { MessagingModule } from './messaging/messaging.module'
 import { PipeModule } from './pipes/pipe.module'
 import { AuthService } from './services/auth/auth.service'
 import { EmployeesService } from './services/employees/employees.service'
@@ -54,6 +55,7 @@ import { SkillsService } from './services/skills/skills.service'
         blacklistedRoutes: [],
       },
     }),
+    MessagingModule,
   ],
   providers: [
     AuthService,
