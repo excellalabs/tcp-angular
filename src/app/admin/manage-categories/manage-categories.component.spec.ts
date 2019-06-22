@@ -3,14 +3,15 @@ import { FlexLayoutModule } from '@angular/flex-layout'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing'
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'
-import { MaterialModule } from 'src/app/material.module'
-import { ICategory } from 'src/app/models/skill.interface'
-import { PipeModule } from 'src/app/pipes/pipe.module'
-import { SkillCategoriesService } from 'src/app/services/skill-categories/skill-categories.service'
-import { MockSkillCategoriesService } from 'src/app/services/skill-categories/skill-categories.service.fake'
-import { SkillsService } from 'src/app/services/skills/skills.service'
-import { MockSkillsService } from 'src/app/services/skills/skills.service.fake'
 
+import { MaterialModule } from '../../material.module'
+import { MessagingModule } from '../../messaging/messaging.module'
+import { ICategory } from '../../models/skill.interface'
+import { PipeModule } from '../../pipes/pipe.module'
+import { SkillCategoriesService } from '../../services/skill-categories/skill-categories.service'
+import { MockSkillCategoriesService } from '../../services/skill-categories/skill-categories.service.fake'
+import { SkillsService } from '../../services/skills/skills.service'
+import { MockSkillsService } from '../../services/skills/skills.service.fake'
 import { CategoryFormComponent } from './category-form/category-form.component'
 import { CategoryListComponent } from './category-list/category-list.component'
 import { ConfirmCategoryDeleteComponent } from './confirm-category-delete/confirm-category-delete.component'
@@ -35,6 +36,7 @@ describe('ManageCategoriesComponent', () => {
         MaterialModule,
         NoopAnimationsModule,
         PipeModule,
+        MessagingModule,
       ],
       providers: [
         { provide: SkillCategoriesService, useClass: MockSkillCategoriesService },
