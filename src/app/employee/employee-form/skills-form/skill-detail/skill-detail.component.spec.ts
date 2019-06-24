@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, async } from '@angular/core/testing'
 import { FlexLayoutModule } from '@angular/flex-layout'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'
-import { PrimarySkillService } from 'src/app/employee/services/primary-skill/primary-skill.service';
+import { PrimarySkillService } from 'src/app/employee/services/primary-skill/primary-skill.service'
 import { MaterialModule } from 'src/app/material.module'
 import { SkillCategoriesService } from 'src/app/services/skill-categories/skill-categories.service'
 import { MockSkillCategoriesService } from 'src/app/services/skill-categories/skill-categories.service.fake'
@@ -72,7 +72,7 @@ fdescribe('SkillDetailComponent', () => {
     })
     it('should not set the primary index when set from T -> F', async () => {
       spyOn(primarySkillService.primarySkill$, 'next').and.callThrough()
-      component.primary.setValue(true, {emitEvent: false})
+      component.primary.setValue(true, { emitEvent: false })
       fixture.detectChanges()
       await fixture.whenStable()
       expect(component.primary.value).toBe(true)
@@ -80,11 +80,13 @@ fdescribe('SkillDetailComponent', () => {
       fixture.detectChanges()
       await fixture.whenStable()
       expect(component.primary.value).toBe(false)
-      expect(primarySkillService.primarySkill$.next).not.toHaveBeenCalledWith(component.index)
+      expect(primarySkillService.primarySkill$.next).not.toHaveBeenCalledWith(
+        component.index
+      )
     })
     xit('should reassert the index when the index changes and is set to primary', async () => {
       spyOn(primarySkillService.primarySkill$, 'next').and.callThrough()
-      component.primary.setValue(true, {emitEvent: false})
+      component.primary.setValue(true, { emitEvent: false })
       fixture.detectChanges()
       await fixture.whenStable()
       expect(component.primary.value).toBe(true)

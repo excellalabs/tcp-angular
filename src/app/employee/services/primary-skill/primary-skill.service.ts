@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs'
 export class PrimarySkillService {
   readonly primarySkill$ = new BehaviorSubject<number>(-1)
 
-  constructor() { }
+  constructor() {}
 
   // For use when on deletion, in order to maintain a chosen Primary
   //     if the currently chosen Primary is the item deleted

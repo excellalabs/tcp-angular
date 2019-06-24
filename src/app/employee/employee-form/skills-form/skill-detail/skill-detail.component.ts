@@ -68,10 +68,10 @@ export class SkillDetailComponent extends BaseForm
       }),
       this.primarySkillService.primarySkill$.subscribe(primaryIndex => {
         if (primaryIndex !== this.index && this.primary.value === true) {
-          this.primary.setValue(false, {emitEvent: false})
+          this.primary.setValue(false, { emitEvent: false })
         }
         if (primaryIndex === this.index && this.primary.value !== true) {
-          this.primary.setValue(true, {emitEvent: false})
+          this.primary.setValue(true, { emitEvent: false })
         }
       })
     )
@@ -91,7 +91,7 @@ export class SkillDetailComponent extends BaseForm
         this.primarySkillService.primarySkill$.next(this.index)
       } else {
         if (this.primarySkillService.primarySkill$.value === this.index) {
-          this.primary.setValue(true, {emitEvent: false})
+          this.primary.setValue(true, { emitEvent: false })
         }
       }
     }

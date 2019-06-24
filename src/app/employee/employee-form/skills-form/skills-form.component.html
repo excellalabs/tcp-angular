@@ -1,9 +1,7 @@
 <div class="form-content" fxLayout="column">
   <div *ngFor="let skill of skillList; let i = index;"
     fxLayoutAlign="space-between center" fxLayoutGap="5px">
-    <tcp-skill-detail fxFlex="85%"
-      [index]="i"
-      [employeeSkill]="skillList[i]"
+    <tcp-skill-detail fxFlex="85%" [index]="i" [employeeSkill]="skillList[i]"
       (formReady)="registerSkillDetail(i, $event)"
       (destroyForm)="deregisterSkillDetail(i)"></tcp-skill-detail>
     <button *ngIf="skillList.length > 1" fxFlex="15%" mat-raised-button color="warn"
