@@ -18,6 +18,7 @@ import {
   MatRadioModule,
   MatSelectModule,
   MatSidenavModule,
+  MatSnackBarModule,
   MatSortModule,
   MatStepperModule,
   MatTableModule,
@@ -48,6 +49,7 @@ const materialModules = [
   MatTableModule,
   MatToolbarModule,
   MatProgressSpinnerModule,
+  MatSnackBarModule,
 ]
 
 @NgModule({

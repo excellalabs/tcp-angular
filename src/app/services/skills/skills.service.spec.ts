@@ -1,5 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing'
 import { TestBed } from '@angular/core/testing'
+import { MessagingModule } from 'src/app/messaging/messaging.module'
 
 import { SkillsService } from './skills.service'
 
@@ -7,7 +8,7 @@ describe('SkillsService', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
       providers: [SkillsService],
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, MessagingModule],
     })
   )
 

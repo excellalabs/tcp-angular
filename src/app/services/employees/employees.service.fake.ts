@@ -76,7 +76,7 @@ export const dummyEmployees: IEmployee[] = [
         skill: dummySkills.find(s => s.name === 'NoSQL Databases'),
         proficiency: PROFICIENCY.MID,
         primary: false,
-      }
+      },
     ],
   },
   {
