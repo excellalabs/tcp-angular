@@ -20,11 +20,11 @@ export class ManageSkillsComponent implements OnInit {
   }
 
   onDeleteSkill(id: number) {
-    this.skillService.deleteSkill(id)
+    this.skillService.delete(id)
   }
 
   onAddSkill(skill: ISkill) {
     this.skillToEdit = null
-    this.skillService.addSkill(skill)
+    this.skillService.create(skill)
   }
 }

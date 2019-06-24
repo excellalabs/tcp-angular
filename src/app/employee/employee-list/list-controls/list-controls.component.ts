@@ -33,7 +33,7 @@ export class ListControlsComponent extends BaseForm {
   constructor(private fb: FormBuilder, private skillService: SkillsService) {
     super()
     this.formGroup = this.buildForm()
-    this.skillService.fetch() // should be in a route resolver
+
     this.allSkills = this.skillService.list.value
     this.nameFilter$ = this.nameFilter.valueChanges.pipe(debounceTime(1))
 
