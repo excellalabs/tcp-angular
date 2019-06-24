@@ -11,7 +11,7 @@ import { MockSkillsService } from 'src/app/services/skills/skills.service.fake'
 
 import { SkillDetailComponent } from './skill-detail.component'
 
-fdescribe('SkillDetailComponent', () => {
+describe('SkillDetailComponent', () => {
   let component: SkillDetailComponent
   let primarySkillService: PrimarySkillService
   let fixture: ComponentFixture<SkillDetailComponent>
