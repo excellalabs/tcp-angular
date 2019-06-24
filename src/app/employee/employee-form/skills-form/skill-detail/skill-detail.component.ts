@@ -9,9 +9,8 @@ import {
   SimpleChanges,
 } from '@angular/core'
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { Observable, Subscription, combineLatest } from 'rxjs'
+import { Observable, Subscription } from 'rxjs'
 import { filter, map } from 'rxjs/operators'
-import { PrimarySkillService } from 'src/app/employee/services/primary-skill/primary-skill.service'
 
 import {
   IEmployeeSkill,
@@ -22,6 +21,7 @@ import {
 import { SkillsService } from '../../../../services/skills/skills.service'
 import { hasChanged } from '../../../../utils/functions'
 import { BaseForm } from '../../../abstracts/base-form.class'
+import { PrimarySkillService } from '../../../services/primary-skill/primary-skill.service'
 
 @Component({
   selector: 'tcp-skill-detail',
