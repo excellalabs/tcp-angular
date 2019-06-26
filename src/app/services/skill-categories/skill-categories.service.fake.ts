@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core'
-import { BehaviorSubject } from 'rxjs'
+import { BehaviorSubject, Observable, of } from 'rxjs'
 
 import { ICategory } from '../../models/skill.interface'
-import { ISkillCategoryService } from './skill-categories.service'
+import { IBaseCrudService } from '../abstract/base-crud.service';
 
 export const dummySkillCategories: ICategory[] = [
   { id: 1, name: 'Agile' },
@@ -12,32 +12,42 @@ export const dummySkillCategories: ICategory[] = [
 ] as ICategory[]
 
 @Injectable()
-export class MockSkillCategoriesService implements ISkillCategoryService {
+export class MockSkillCategoriesService implements IBaseCrudService<ICategory> {
   readonly list = new BehaviorSubject<ICategory[]>([])
 
-  constructor() {}
+  endpoint = '/category'
 
-  fetch(): void {
+  constructor() { }
+
+  fetch(): Observable<ICategory[]> {
     if (this.list.value.length === 0) {
       this.list.next(dummySkillCategories)
     }
+    return this.list.asObservable()
   }
 
-  addCategory(category: ICategory) {
+  getById(id: number): Observable<ICategory> {
+    return of(this.list.value.find(c => c.id === id))
+  }
+
+  create(category: ICategory): Observable<ICategory> {
     const newList = this.list.value
     category.id = newList.length
     newList.push(category)
     this.list.next(newList)
+    return of(category)
   }
 
-  updateCategory(category: ICategory) {
-    this.deleteCategory(category.id)
+  update(category: ICategory): Observable<ICategory> {
+    this.delete(category.id)
     const newList = this.list.value
     newList.push(category)
     this.list.next(newList)
+    return of(category)
   }
 
-  deleteCategory(id: number) {
+  delete(id: number): Observable<ICategory>  {
     this.list.next(this.list.value.filter(s => s.id !== id))
+    return of(null)
   }
 }
