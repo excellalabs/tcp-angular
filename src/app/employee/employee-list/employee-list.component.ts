@@ -31,7 +31,6 @@ export class EmployeeListComponent implements AfterViewInit {
     private authService: AuthService,
     private employeeService: EmployeesService
   ) {
-    this.employeeService.fetch()
     this.dataSource = new MatTableDataSource(this.employeeService.list.value)
     this.dataFilter$.subscribe(f => (this.dataSource.filter = JSON.stringify(f)))
 

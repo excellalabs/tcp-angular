@@ -45,9 +45,7 @@ export class CategoryListComponent implements OnInit {
       .subscribe((categoryData: ICategoryData[]) => (this.dataSource.data = categoryData))
   }
 
-  ngOnInit() {
-    this.categoryService.fetch()
-    }
+  ngOnInit() { }
 
   applyTableFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase()
