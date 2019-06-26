@@ -1,11 +1,12 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing'
 import { FlexLayoutModule } from '@angular/flex-layout'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing'
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'
 
 import { MaterialModule } from '../../material.module'
 import { MessagingModule } from '../../messaging/messaging.module'
+import { SnackBarService } from '../../messaging/services/snack-bar/snack-bar.service';
+import { MockSnackBarService } from '../../messaging/services/snack-bar/snack-bar.service.fake';
 import { ICategory } from '../../models/skill.interface'
 import { PipeModule } from '../../pipes/pipe.module'
 import { SkillCategoriesService } from '../../services/skill-categories/skill-categories.service'
@@ -39,6 +40,7 @@ describe('ManageCategoriesComponent', () => {
       providers: [
         { provide: SkillCategoriesService, useClass: MockSkillCategoriesService },
         { provide: SkillsService, useClass: MockSkillsService },
+        { provide: SnackBarService, useClass: MockSnackBarService }
       ],
     }).compileComponents()
   }))
