@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
 import { FlexLayoutModule } from '@angular/flex-layout'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 import { MaterialModule } from '../material.module'
 import { PipeModule } from '../pipes/pipe.module'
@@ -17,6 +16,7 @@ import { EmployeeListComponent } from './employee-list/employee-list.component'
 import { ListControlsComponent } from './employee-list/list-controls/list-controls.component'
 import { EmployeeRoutingModule } from './employee-routing.module'
 import { SelfServiceComponent } from './self-service/self-service.component'
+import { PrimarySkillService } from './services/primary-skill/primary-skill.service'
 import { StateService } from './services/state/state.service'
 
 @NgModule({
@@ -41,6 +41,6 @@ import { StateService } from './services/state/state.service'
     PipeModule,
     ReactiveFormsModule,
   ],
-  providers: [StateService],
+  providers: [StateService, PrimarySkillService],
 })
 export class EmployeeModule {}

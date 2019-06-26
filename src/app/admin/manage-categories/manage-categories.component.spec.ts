@@ -14,7 +14,6 @@ import { SkillsService } from '../../services/skills/skills.service'
 import { MockSkillsService } from '../../services/skills/skills.service.fake'
 import { CategoryFormComponent } from './category-form/category-form.component'
 import { CategoryListComponent } from './category-list/category-list.component'
-import { ConfirmCategoryDeleteComponent } from './confirm-category-delete/confirm-category-delete.component'
 import { ManageCategoriesComponent } from './manage-categories.component'
 
 describe('ManageCategoriesComponent', () => {
@@ -27,7 +26,6 @@ describe('ManageCategoriesComponent', () => {
         ManageCategoriesComponent,
         CategoryFormComponent,
         CategoryListComponent,
-        ConfirmCategoryDeleteComponent,
       ],
       imports: [
         FormsModule,
@@ -42,11 +40,7 @@ describe('ManageCategoriesComponent', () => {
         { provide: SkillCategoriesService, useClass: MockSkillCategoriesService },
         { provide: SkillsService, useClass: MockSkillsService },
       ],
-    })
-      .overrideModule(BrowserDynamicTestingModule, {
-        set: { entryComponents: [ConfirmCategoryDeleteComponent] },
-      })
-      .compileComponents()
+    }).compileComponents()
   }))
 
   beforeEach(async () => {
