@@ -5,6 +5,7 @@ import { ETHNICITY, GENDER, IEmployee } from '../../models/employee.interface'
 import { PROFICIENCY } from '../../models/skill.interface'
 import { IBaseCrudService } from '../abstract/base-crud.service';
 import { dummySkills } from '../skills/skills.service.fake'
+import { IEmployeesService } from './employees.service';
 
 export const dummyEmployees: IEmployee[] = [
   {
@@ -132,7 +133,7 @@ export const dummyEmployees: IEmployee[] = [
 ]
 
 @Injectable()
-export class MockEmployeesService implements IBaseCrudService<IEmployee> {
+export class MockEmployeesService implements IEmployeesService {
   readonly list = new BehaviorSubject<IEmployee[]>([])
 
   endpoint = '/employee'
