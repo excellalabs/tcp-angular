@@ -3,6 +3,8 @@ import { FlexLayoutModule } from '@angular/flex-layout'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatChipInputEvent } from '@angular/material'
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'
+import { ISkill } from 'src/app/models/skill.interface';
+import { IBaseCrudService } from 'src/app/services/abstract/base-crud.service';
 
 import { MaterialModule } from '../../../material.module'
 import { SkillsService } from '../../../services/skills/skills.service'
@@ -15,6 +17,7 @@ import { ListControlsComponent } from './list-controls.component'
 describe('ListControlsComponent', () => {
   let component: ListControlsComponent
   let fixture: ComponentFixture<ListControlsComponent>
+  let skillService: IBaseCrudService<ISkill>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -31,6 +34,8 @@ describe('ListControlsComponent', () => {
   }))
 
   beforeEach(() => {
+    skillService = TestBed.get(SkillsService)
+    skillService.fetch().subscribe()
     fixture = TestBed.createComponent(ListControlsComponent)
     component = fixture.componentInstance
     fixture.detectChanges()
@@ -50,7 +55,7 @@ describe('ListControlsComponent', () => {
   })
 
   it('should emit on skillFilter$ when a skill is added', done => {
-    const skillInput = dummySkills[0]
+    const skillInput = dummySkills[1]
     component.skillFilters$.subscribe(skills => {
       if (skills.length > 0) {
         expect(skills).toContain(skillInput)

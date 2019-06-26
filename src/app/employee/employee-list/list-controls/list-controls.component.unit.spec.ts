@@ -22,6 +22,7 @@ describe('ListControlsComponent (Unit)', () => {
 
   beforeEach(() => {
     skillService = new MockSkillsService()
+    skillService.fetch()
     component = new ListControlsComponent(
       new FormBuilder(),
       skillService as SkillsService
@@ -147,7 +148,7 @@ describe('ListControlsComponent (Unit)', () => {
       component.skillFilterInput.setValue(skillName)
     })
     it('should filter to chosen skill when the skillFilterInput is set to an ISkill', done => {
-      const skillOption = dummySkills[0]
+      const skillOption = dummySkills[1]
       component.filteredSkills$.subscribe(options => {
         if (options.length < skillService.list.value.length) {
           expect(options.length).toBe(1)
