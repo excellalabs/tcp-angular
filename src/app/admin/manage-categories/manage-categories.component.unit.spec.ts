@@ -46,14 +46,14 @@ describe('ManageCategories (Unit)', () => {
       component.onDeleteCategory(1)
       expect(dialogService.confirm).toHaveBeenCalled()
     })
-    xit('should call SkillCategoriesService.deleteCategory()', () => {
-      spyOn(categoryService, 'deleteCategory').and.callThrough()
+    xit('should call SkillCategoriesService.delete()', () => {
+      spyOn(categoryService, 'delete').and.callThrough()
       component.onDeleteCategory(1)
-      expect(categoryService.deleteCategory).toHaveBeenCalledWith(1)
+      expect(categoryService.delete).toHaveBeenCalledWith(1)
     })
   })
 
-  describe('#onAddCategory()', () => {
+  describe('#onSubmitCategory()', () => {
     let newCategory: ICategory
     beforeEach(() => {
       newCategory = {
@@ -62,13 +62,13 @@ describe('ManageCategories (Unit)', () => {
       }
     })
     it('should call SkillCategoriesService.addCategory()', () => {
-      spyOn(categoryService, 'addCategory').and.callThrough()
-      component.onAddCategory(newCategory)
-      expect(categoryService.addCategory).toHaveBeenCalledWith(newCategory)
+      spyOn(categoryService, 'create').and.callThrough()
+      component.onSubmitCategory(newCategory)
+      expect(categoryService.create).toHaveBeenCalledWith(newCategory)
     })
     it('should null categoryToEdit to the form resets', () => {
       component.categoryToEdit = newCategory
-      component.onAddCategory(newCategory)
+      component.onSubmitCategory(newCategory)
       expect(component.categoryToEdit).toBeNull()
     })
   })

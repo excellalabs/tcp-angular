@@ -73,7 +73,7 @@ describe('ManageCategoriesComponent', () => {
     })
     xit('should register add/update events from CategoryFormComponent', async () => {
       // Arrange
-      spyOn(component, 'onAddCategory').and.callThrough()
+      spyOn(component, 'onSubmitCategory').and.callThrough()
       const input = fixture.debugElement.nativeElement.querySelector(
         'input#category-name'
       )
@@ -89,7 +89,7 @@ describe('ManageCategoriesComponent', () => {
       fixture.detectChanges()
       await fixture.whenStable()
       // Assert
-      expect(component.onAddCategory).toHaveBeenCalledWith({
+      expect(component.onSubmitCategory).toHaveBeenCalledWith({
         name: 'Name',
         id: undefined,
       } as ICategory)

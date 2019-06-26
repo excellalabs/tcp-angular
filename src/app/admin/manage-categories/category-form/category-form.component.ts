@@ -18,7 +18,7 @@ import { hasChanged } from 'src/app/utils/functions'
 })
 export class CategoryFormComponent extends BaseForm implements OnChanges {
   @Input() category: ICategory = {} as ICategory
-  @Output() addCategory = new EventEmitter<ICategory>()
+  @Output() submitCategory = new EventEmitter<ICategory>()
 
   constructor(private fb: FormBuilder) {
     super()
@@ -47,6 +47,6 @@ export class CategoryFormComponent extends BaseForm implements OnChanges {
       newSkill.id = this.category.id
     }
 
-    this.addCategory.emit(newSkill)
+    this.submitCategory.emit(newSkill)
   }
 }

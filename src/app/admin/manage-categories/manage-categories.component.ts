@@ -1,8 +1,8 @@
 import { Component } from '@angular/core'
-import { MatDialog } from '@angular/material'
-import { DialogService } from 'src/app/messaging/services/dialog/dialog.service'
-import { ICategory } from 'src/app/models/skill.interface'
+import { SnackBarService } from 'src/app/messaging/services/snack-bar/snack-bar.service';
 
+import { DialogService } from '../../messaging/services/dialog/dialog.service'
+import { ICategory } from '../../models/skill.interface'
 import { SkillCategoriesService } from '../../services/skill-categories/skill-categories.service'
 import { SkillsService } from '../../services/skills/skills.service'
 
@@ -17,7 +17,8 @@ export class ManageCategoriesComponent {
   constructor(
     private categoryService: SkillCategoriesService,
     private skillService: SkillsService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private snackBarService: SnackBarService
   ) {}
 
   onEditCategory(id: number) {
@@ -40,11 +41,15 @@ export class ManageCategoriesComponent {
   }
 
   private deleteHelper(id: number) {
-    this.categoryService.deleteCategory(id) // rely on the API to cascade delete
+    this.categoryService.delete(id).subscribe(this.snackBarService.observerFor<ICategory>('Delete Category'))
   }
 
-  onAddCategory(category: ICategory) {
+  onSubmitCategory(category: ICategory) {
     this.categoryToEdit = null
-    this.categoryService.addCategory(category)
+    if (category.id) {
+      this.categoryService.update(category).subscribe(this.snackBarService.observerFor<ICategory>('Create Category'))
+    } else {
+      this.categoryService.create(category).subscribe(this.snackBarService.observerFor<ICategory>('Update Category'))
+    }
   }
 }
