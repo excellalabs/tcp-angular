@@ -1,7 +1,7 @@
 import { DialogService } from '../../messaging/services/dialog/dialog.service'
 import { MockDialogService } from '../../messaging/services/dialog/dialog.service.fake'
-import { SnackBarService } from '../../messaging/services/snack-bar/snack-bar.service';
-import { MockSnackBarService } from '../../messaging/services/snack-bar/snack-bar.service.fake';
+import { SnackBarService } from '../../messaging/services/snack-bar/snack-bar.service'
+import { MockSnackBarService } from '../../messaging/services/snack-bar/snack-bar.service.fake'
 import { ICategory } from '../../models/skill.interface'
 import { SkillCategoriesService } from '../../services/skill-categories/skill-categories.service'
 import {

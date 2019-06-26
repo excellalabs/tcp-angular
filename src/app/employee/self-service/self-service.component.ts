@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup } from '@angular/forms'
 import { BehaviorSubject } from 'rxjs'
 
-import { SnackBarService } from '../../messaging/services/snack-bar/snack-bar.service';
+import { SnackBarService } from '../../messaging/services/snack-bar/snack-bar.service'
 import { IEmployee } from '../../models/employee.interface'
 import { IEmployeeSkill } from '../../models/skill.interface'
 import { AuthService } from '../../services/auth/auth.service'
@@ -41,6 +41,8 @@ export class SelfServiceComponent extends BaseForm implements OnInit {
       ...this.user$.value,
       skills: this.formGroup.value.skills as IEmployeeSkill[],
     }
-    this.employeeService.update(newEmployee).subscribe(this.snackBarService.observerFor<IEmployee>('Update My Skills'))
+    this.employeeService
+      .update(newEmployee)
+      .subscribe(this.snackBarService.observerFor<IEmployee>('Update My Skills'))
   }
 }

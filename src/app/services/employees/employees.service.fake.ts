@@ -3,9 +3,9 @@ import { BehaviorSubject, Observable, of } from 'rxjs'
 
 import { ETHNICITY, GENDER, IEmployee } from '../../models/employee.interface'
 import { PROFICIENCY } from '../../models/skill.interface'
-import { IBaseCrudService } from '../abstract/base-crud.service';
+import { IBaseCrudService } from '../abstract/base-crud.service'
 import { dummySkills } from '../skills/skills.service.fake'
-import { IEmployeesService } from './employees.service';
+import { IEmployeesService } from './employees.service'
 
 export const dummyEmployees: IEmployee[] = [
   {

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
 
 import { DialogService } from '../../messaging/services/dialog/dialog.service'
-import { SnackBarService } from '../../messaging/services/snack-bar/snack-bar.service';
+import { SnackBarService } from '../../messaging/services/snack-bar/snack-bar.service'
 import { ICategory } from '../../models/skill.interface'
 import { SkillCategoriesService } from '../../services/skill-categories/skill-categories.service'
 import { SkillsService } from '../../services/skills/skills.service'
@@ -41,15 +41,21 @@ export class ManageCategoriesComponent {
   }
 
   private deleteHelper(id: number) {
-    this.categoryService.delete(id).subscribe(this.snackBarService.observerFor<ICategory>('Delete Category'))
+    this.categoryService
+      .delete(id)
+      .subscribe(this.snackBarService.observerFor<ICategory>('Delete Category'))
   }
 
   onSubmitCategory(category: ICategory) {
     this.categoryToEdit = null
     if (category.id) {
-      this.categoryService.update(category).subscribe(this.snackBarService.observerFor<ICategory>('Create Category'))
+      this.categoryService
+        .update(category)
+        .subscribe(this.snackBarService.observerFor<ICategory>('Create Category'))
     } else {
-      this.categoryService.create(category).subscribe(this.snackBarService.observerFor<ICategory>('Update Category'))
+      this.categoryService
+        .create(category)
+        .subscribe(this.snackBarService.observerFor<ICategory>('Update Category'))
     }
   }
 }

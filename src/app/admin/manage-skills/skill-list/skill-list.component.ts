@@ -24,7 +24,7 @@ export class SkillListComponent implements OnInit {
     })
   }
 
-  ngOnInit() {  }
+  ngOnInit() {}
 
   applyTableFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase()

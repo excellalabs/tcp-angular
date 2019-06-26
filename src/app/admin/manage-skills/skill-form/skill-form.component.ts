@@ -34,7 +34,7 @@ export class SkillFormComponent extends BaseForm implements OnInit, OnChanges {
     this.formGroup = this.buildForm()
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (hasChanged(changes.skill)) {

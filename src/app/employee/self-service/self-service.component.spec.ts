@@ -5,8 +5,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations'
 import { RouterTestingModule } from '@angular/router/testing'
 
 import { MaterialModule } from '../../material.module'
-import { SnackBarService } from '../../messaging/services/snack-bar/snack-bar.service';
-import { MockSnackBarService } from '../../messaging/services/snack-bar/snack-bar.service.fake';
+import { SnackBarService } from '../../messaging/services/snack-bar/snack-bar.service'
+import { MockSnackBarService } from '../../messaging/services/snack-bar/snack-bar.service.fake'
 import { AuthService } from '../../services/auth/auth.service'
 import { MockAuthService } from '../../services/auth/auth.service.fake'
 import { EmployeesService } from '../../services/employees/employees.service'
@@ -17,7 +17,7 @@ import { SkillsService } from '../../services/skills/skills.service'
 import { MockSkillsService } from '../../services/skills/skills.service.fake'
 import { SkillDetailComponent } from '../employee-form/skills-form/skill-detail/skill-detail.component'
 import { SkillsFormComponent } from '../employee-form/skills-form/skills-form.component'
-import { PrimarySkillService } from '../services/primary-skill/primary-skill.service';
+import { PrimarySkillService } from '../services/primary-skill/primary-skill.service'
 import { SelfServiceComponent } from './self-service.component'
 
 describe('SelfServiceComponent', () => {
@@ -41,7 +41,7 @@ describe('SelfServiceComponent', () => {
         { provide: SkillsService, useClass: MockSkillsService },
         { provide: SkillCategoriesService, useClass: MockSkillCategoriesService },
         { provide: EmployeesService, useClass: MockEmployeesService },
-        { provide: SnackBarService, useClass: MockSnackBarService }
+        { provide: SnackBarService, useClass: MockSnackBarService },
       ],
     }).compileComponents()
   }))

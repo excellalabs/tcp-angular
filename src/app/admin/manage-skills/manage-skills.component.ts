@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 
-import { SnackBarService } from '../../messaging/services/snack-bar/snack-bar.service';
+import { SnackBarService } from '../../messaging/services/snack-bar/snack-bar.service'
 import { ISkill } from '../../models/skill.interface'
 import { SkillsService } from '../../services/skills/skills.service'
 
@@ -12,7 +12,10 @@ import { SkillsService } from '../../services/skills/skills.service'
 export class ManageSkillsComponent implements OnInit {
   skillToEdit: ISkill = null
 
-  constructor(private skillService: SkillsService, private snackBarService: SnackBarService) {}
+  constructor(
+    private skillService: SkillsService,
+    private snackBarService: SnackBarService
+  ) {}
 
   ngOnInit() {}
 
@@ -21,15 +24,21 @@ export class ManageSkillsComponent implements OnInit {
   }
 
   onDeleteSkill(id: number) {
-    this.skillService.delete(id).subscribe(this.snackBarService.observerFor<ISkill>('Delete Skill'))
+    this.skillService
+      .delete(id)
+      .subscribe(this.snackBarService.observerFor<ISkill>('Delete Skill'))
   }
 
   onAddSkill(skill: ISkill) {
     this.skillToEdit = null
     if (skill.id) {
-      this.skillService.update(skill).subscribe(this.snackBarService.observerFor<ISkill>('Update Skill'))
+      this.skillService
+        .update(skill)
+        .subscribe(this.snackBarService.observerFor<ISkill>('Update Skill'))
     } else {
-      this.skillService.create(skill).subscribe(this.snackBarService.observerFor<ISkill>('Create Skill'))
+      this.skillService
+        .create(skill)
+        .subscribe(this.snackBarService.observerFor<ISkill>('Create Skill'))
     }
   }
 }

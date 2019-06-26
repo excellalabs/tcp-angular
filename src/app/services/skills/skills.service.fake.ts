@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, Observable, of } from 'rxjs'
-import { map } from 'rxjs/operators';
+import { map } from 'rxjs/operators'
 
 import { ISkill } from '../../models/skill.interface'
-import { IBaseCrudService } from '../abstract/base-crud.service';
+import { IBaseCrudService } from '../abstract/base-crud.service'
 import { dummySkillCategories } from '../skill-categories/skill-categories.service.fake'
 
 export const dummySkills: ISkill[] = [

@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
-import { Resolve } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http'
+import { Resolve } from '@angular/router'
+import { BehaviorSubject, Observable } from 'rxjs'
+import { tap } from 'rxjs/operators'
 
 export interface IBaseCrudService<T> {
   readonly list: BehaviorSubject<T[]>
@@ -21,7 +21,9 @@ export abstract class BaseCrudService<T> implements IBaseCrudService<T>, Resolve
   constructor(protected http: HttpClient) {}
 
   fetch(): Observable<T[]> {
-    return this.http.get<T[]>(this.endpoint).pipe(tap((items: T[]) => this.list.next(items)))
+    return this.http
+      .get<T[]>(this.endpoint)
+      .pipe(tap((items: T[]) => this.list.next(items)))
   }
 
   getById(id: number): Observable<T> {
