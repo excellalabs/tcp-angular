@@ -1,6 +1,8 @@
 import { MatDialog } from '@angular/material'
 import { DialogService } from 'src/app/messaging/services/dialog/dialog.service'
 import { MockDialogService } from 'src/app/messaging/services/dialog/dialog.service.fake'
+import { SnackBarService } from 'src/app/messaging/services/snack-bar/snack-bar.service';
+import { MockSnackBarService } from 'src/app/messaging/services/snack-bar/snack-bar.service.fake';
 import { ICategory } from 'src/app/models/skill.interface'
 import { SkillCategoriesService } from 'src/app/services/skill-categories/skill-categories.service'
 import {
@@ -16,6 +18,7 @@ describe('ManageCategories (Unit)', () => {
   let categoryService: MockSkillCategoriesService
   let skillService: MockSkillsService
   let dialogService: MockDialogService
+  let snackBarService: MockSnackBarService
   let component: ManageCategoriesComponent
 
   beforeEach(() => {
@@ -24,10 +27,12 @@ describe('ManageCategories (Unit)', () => {
     skillService = new MockSkillsService()
     skillService.fetch()
     dialogService = new MockDialogService()
+    snackBarService = new MockSnackBarService()
     component = new ManageCategoriesComponent(
       categoryService as SkillCategoriesService,
       skillService as SkillsService,
-      dialogService as DialogService
+      dialogService as DialogService,
+      snackBarService as SnackBarService
     )
   })
 

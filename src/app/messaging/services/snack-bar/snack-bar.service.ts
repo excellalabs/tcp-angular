@@ -2,8 +2,13 @@ import { Injectable } from '@angular/core'
 import { MatSnackBar } from '@angular/material'
 import { Observer } from 'rxjs';
 
+export interface ISnackBarService {
+  openSnackBar(message: string, action: string): void
+  observerFor<T>(action: string, next?: (value: T) => void, error?: (err: any) => void, complete?: () => void): Observer<T>
+}
+
 @Injectable()
-export class SnackBarService {
+export class SnackBarService implements ISnackBarService {
   constructor(private snackBar: MatSnackBar) {}
 
   openSnackBar(message: string, action: string = null) {
