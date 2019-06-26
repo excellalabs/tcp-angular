@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing'
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'
-import { MaterialModule } from 'src/app/material.module'
 
+import { MaterialModule } from '../../../material.module'
 import { DialogService } from './dialog.service'
 
 describe('DialogService', () => {

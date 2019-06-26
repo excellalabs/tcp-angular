@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
-import { SnackBarService } from 'src/app/messaging/services/snack-bar/snack-bar.service';
 
 import { DialogService } from '../../messaging/services/dialog/dialog.service'
+import { SnackBarService } from '../../messaging/services/snack-bar/snack-bar.service';
 import { ICategory } from '../../models/skill.interface'
 import { SkillCategoriesService } from '../../services/skill-categories/skill-categories.service'
 import { SkillsService } from '../../services/skills/skills.service'

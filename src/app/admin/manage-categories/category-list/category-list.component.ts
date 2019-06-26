@@ -2,10 +2,11 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core'
 import { MatTableDataSource } from '@angular/material'
 import { combineLatest } from 'rxjs'
 import { map } from 'rxjs/operators'
-import { ICategory } from 'src/app/models/skill.interface'
-import { SkillCategoriesService } from 'src/app/services/skill-categories/skill-categories.service'
-import { SkillsService } from 'src/app/services/skills/skills.service'
-import { stringCompare } from 'src/app/utils/functions'
+
+import { ICategory } from '../../../models/skill.interface'
+import { SkillCategoriesService } from '../../../services/skill-categories/skill-categories.service'
+import { SkillsService } from '../../../services/skills/skills.service'
+import { stringCompare } from '../../../utils/functions'
 
 export interface ICategoryData extends ICategory {
   skillCount: number

@@ -10,10 +10,11 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
-import { BaseForm } from 'src/app/employee/abstracts/base-form.class'
-import { ICategory, ISkill } from 'src/app/models/skill.interface'
-import { SkillCategoriesService } from 'src/app/services/skill-categories/skill-categories.service'
-import { hasChanged, stringCompare } from 'src/app/utils/functions'
+
+import { BaseForm } from '../../../employee/abstracts/base-form.class'
+import { ICategory, ISkill } from '../../../models/skill.interface'
+import { SkillCategoriesService } from '../../../services/skill-categories/skill-categories.service'
+import { hasChanged, stringCompare } from '../../../utils/functions'
 
 @Component({
   selector: 'tcp-skill-form',

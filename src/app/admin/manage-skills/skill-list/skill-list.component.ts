@@ -1,9 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core'
 import { MatTableDataSource } from '@angular/material'
-import { Observable } from 'rxjs'
-import { ISkill } from 'src/app/models/skill.interface'
-import { SkillsService } from 'src/app/services/skills/skills.service'
-import { stringCompare } from 'src/app/utils/functions'
+
+import { ISkill } from '../../../models/skill.interface'
+import { SkillsService } from '../../../services/skills/skills.service'
+import { stringCompare } from '../../../utils/functions'
 
 @Component({
   selector: 'tcp-skill-list',

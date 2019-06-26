@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing'
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'
-import { MaterialModule } from 'src/app/material.module'
-import { SkillsService } from 'src/app/services/skills/skills.service'
-import { MockSkillsService } from 'src/app/services/skills/skills.service.fake'
 
+import { MaterialModule } from '../../../material.module'
+import { SkillsService } from '../../../services/skills/skills.service'
+import { MockSkillsService } from '../../../services/skills/skills.service.fake'
 import { SkillListComponent } from './skill-list.component'
 
 describe('SkillListComponent', () => {

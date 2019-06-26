@@ -7,9 +7,10 @@ import {
   SimpleChanges,
 } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { BaseForm } from 'src/app/employee/abstracts/base-form.class'
-import { ICategory } from 'src/app/models/skill.interface'
-import { hasChanged } from 'src/app/utils/functions'
+
+import { BaseForm } from '../../../employee/abstracts/base-form.class'
+import { ICategory } from '../../../models/skill.interface'
+import { hasChanged } from '../../../utils/functions'
 
 @Component({
   selector: 'tcp-category-form',

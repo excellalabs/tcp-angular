@@ -1,7 +1,7 @@
-import { EventEmitter, SimpleChange, SimpleChanges } from '@angular/core'
+import { EventEmitter, SimpleChange } from '@angular/core'
 import { AbstractControl, FormBuilder } from '@angular/forms'
-import { ICategory } from 'src/app/models/skill.interface'
 
+import { ICategory } from '../../../models/skill.interface'
 import { CategoryFormComponent } from './category-form.component'
 
 describe('CategoryFormComponent (Unit)', () => {

@@ -1,17 +1,15 @@
-import { MatDialog } from '@angular/material'
-import { DialogService } from 'src/app/messaging/services/dialog/dialog.service'
-import { MockDialogService } from 'src/app/messaging/services/dialog/dialog.service.fake'
-import { SnackBarService } from 'src/app/messaging/services/snack-bar/snack-bar.service';
-import { MockSnackBarService } from 'src/app/messaging/services/snack-bar/snack-bar.service.fake';
-import { ICategory } from 'src/app/models/skill.interface'
-import { SkillCategoriesService } from 'src/app/services/skill-categories/skill-categories.service'
+import { DialogService } from '../../messaging/services/dialog/dialog.service'
+import { MockDialogService } from '../../messaging/services/dialog/dialog.service.fake'
+import { SnackBarService } from '../../messaging/services/snack-bar/snack-bar.service';
+import { MockSnackBarService } from '../../messaging/services/snack-bar/snack-bar.service.fake';
+import { ICategory } from '../../models/skill.interface'
+import { SkillCategoriesService } from '../../services/skill-categories/skill-categories.service'
 import {
   MockSkillCategoriesService,
   dummySkillCategories,
-} from 'src/app/services/skill-categories/skill-categories.service.fake'
-import { SkillsService } from 'src/app/services/skills/skills.service'
-import { MockSkillsService } from 'src/app/services/skills/skills.service.fake'
-
+} from '../../services/skill-categories/skill-categories.service.fake'
+import { SkillsService } from '../../services/skills/skills.service'
+import { MockSkillsService } from '../../services/skills/skills.service.fake'
 import { ManageCategoriesComponent } from './manage-categories.component'
 
 describe('ManageCategories (Unit)', () => {

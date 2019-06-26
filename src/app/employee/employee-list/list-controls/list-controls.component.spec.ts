@@ -1,15 +1,15 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing'
 import { FlexLayoutModule } from '@angular/flex-layout'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { MatChipInputEvent, MatOption } from '@angular/material'
+import { MatChipInputEvent } from '@angular/material'
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'
-import { MaterialModule } from 'src/app/material.module'
-import { SkillsService } from 'src/app/services/skills/skills.service'
+
+import { MaterialModule } from '../../../material.module'
+import { SkillsService } from '../../../services/skills/skills.service'
 import {
   MockSkillsService,
   dummySkills,
-} from 'src/app/services/skills/skills.service.fake'
-
+} from '../../../services/skills/skills.service.fake'
 import { ListControlsComponent } from './list-controls.component'
 
 describe('ListControlsComponent', () => {

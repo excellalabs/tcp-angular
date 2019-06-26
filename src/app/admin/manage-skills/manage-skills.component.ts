@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core'
-import { Observable } from 'rxjs'
-import { SnackBarService } from 'src/app/messaging/services/snack-bar/snack-bar.service';
-import { ISkill } from 'src/app/models/skill.interface'
-import { SkillsService } from 'src/app/services/skills/skills.service'
+
+import { SnackBarService } from '../../messaging/services/snack-bar/snack-bar.service';
+import { ISkill } from '../../models/skill.interface'
+import { SkillsService } from '../../services/skills/skills.service'
 
 @Component({
   selector: 'tcp-manage-skills',

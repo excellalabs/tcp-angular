@@ -7,10 +7,10 @@ import {
   MatChipInputEvent,
 } from '@angular/material'
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs'
-import { debounceTime, map, startWith, tap } from 'rxjs/operators'
-import { ISkill, displaySkillFn } from 'src/app/models/skill.interface'
-import { SkillsService } from 'src/app/services/skills/skills.service'
+import { debounceTime, map, startWith } from 'rxjs/operators'
 
+import { ISkill, displaySkillFn } from '../../../models/skill.interface'
+import { SkillsService } from '../../../services/skills/skills.service'
 import { BaseForm } from '../../abstracts/base-form.class'
 
 @Component({
