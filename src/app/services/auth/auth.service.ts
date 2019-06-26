@@ -1,8 +1,9 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http'
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { Router } from '@angular/router'
 import { JwtHelperService } from '@auth0/angular-jwt'
 
+import { environment } from '../../../environments/environment'
 import { Role } from '../../models/role'
 
 export interface IAuthService {
@@ -15,25 +16,60 @@ export interface IAuthService {
   isAdmin(): boolean
 }
 
+export interface IAuthContents {
+  access_token: string,
+  expires_in: number,
+  jti: string,
+  refresh_token: string,
+  scope: string,
+  token_type: string
+}
+
+export interface IJwtContents {
+  authorities: string[],
+  client_id: string,
+  exp: number,
+  jti: string,
+  scope: string[],
+  user_name: string
+}
+
 @Injectable()
 export class AuthService implements IAuthService {
   key = 'tcp-angular'
   jwtHelper = new JwtHelperService()
 
-  constructor(private http: HttpClient, private router: Router) {}
+  tokenEndpoint: '/oauth/token'
+  authorizationEndpoint: '/oauth/authorization'
 
-  login(username: string, password: string) {
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+  ) { }
+
+  login(userName: string, userPass: string) {
+    const url = `${environment.api}/oauth/token`
+
+    const payload = new HttpParams()
+      .append('grant_type', 'password')
+      .append('username', userName)
+      .append('password', userPass)
+      .append('scope', 'read write')
+
+    const authHeaders = new HttpHeaders()
+      .append('Content-Type', 'application/x-www-form-urlencoded')
+      .append('Authorization', 'Basic ' + btoa('app:$2a$04$hqawBldLsWkFJ5CVsvtL7ed1z9yeoknfuszPOEHWzxfLBoViK6OVi'))
+      .append('Accept', '*/*')
+
     this.http
-      .get('login', {
-        headers: new HttpHeaders({ u: username, p: password }),
-      })
+      .post(url, payload, { headers: authHeaders })
       .subscribe(
-        (data: string) => {
-          localStorage.setItem(this.key, data)
+        (data: IAuthContents) => {
+          localStorage.setItem(this.key, data.access_token)
           this.router.navigateByUrl('')
         },
         (err: HttpErrorResponse) => {
-          alert(err.error)
+          console.log(err)
         }
       )
   }
@@ -47,7 +83,7 @@ export class AuthService implements IAuthService {
     const token = localStorage.getItem(this.key)
     try {
       if (token) {
-        const decodedToken = this.jwtHelper.decodeToken(token)
+        const decodedToken: IJwtContents = this.jwtHelper.decodeToken(token)
         if (decodedToken.exp - new Date().getTime() < 0) {
           this.logout()
           return null
