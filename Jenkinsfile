@@ -1,10 +1,13 @@
 pipeline {
   agent {
         docker {
-            image 'centos/nodejs-10-centos7'
+            image 'duluca/minimal-node-chromium'
             args '-p 4200:80'
         }
     }
+   environment {
+     HOME = '.'
+   }
   stages {
     stage('Checkout') {
       steps {
