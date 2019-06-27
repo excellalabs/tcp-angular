@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core'
-import { BehaviorSubject } from 'rxjs'
+import { BehaviorSubject, Observable, of } from 'rxjs'
+import { map } from 'rxjs/operators';
 
 import { ISkill } from '../../models/skill.interface'
+import { IBaseCrudService } from '../abstract/base-crud.service';
 import { dummySkillCategories } from '../skill-categories/skill-categories.service.fake'
-import { ISkillsService } from './skills.service'
 
 export const dummySkills: ISkill[] = [
   {
@@ -84,30 +85,40 @@ export const dummySkills: ISkill[] = [
 ]
 
 @Injectable()
-export class MockSkillsService implements ISkillsService {
+export class MockSkillsService implements IBaseCrudService<ISkill> {
   readonly list = new BehaviorSubject<ISkill[]>([])
+
+  endpoint = '/skills'
 
   constructor() {}
 
-  fetch(): void {
-    this.list.next(dummySkills)
+  getById(id: number): Observable<ISkill> {
+    return this.list.pipe(map(skills => skills.find(s => s.id === id)))
   }
 
-  addSkill(skill: ISkill) {
+  fetch(): Observable<ISkill[]> {
+    this.list.next(dummySkills)
+    return this.list.asObservable()
+  }
+
+  create(skill: ISkill): Observable<ISkill> {
     const newList = this.list.value
     skill.id = newList.length
     newList.push(skill)
     this.list.next(newList)
+    return of(skill)
   }
 
-  updateSkill(skill: ISkill) {
-    this.deleteSkill(skill.id)
+  update(skill: ISkill): Observable<ISkill> {
+    this.delete(skill.id)
     const newList = this.list.value
     newList.push(skill)
     this.list.next(newList)
+    return of(skill)
   }
 
-  deleteSkill(id: number) {
+  delete(id: number): Observable<ISkill> {
     this.list.next(this.list.value.filter(s => s.id !== id))
+    return of(null)
   }
 }

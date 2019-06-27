@@ -1,19 +1,18 @@
-import { IEmployee } from 'src/app/models/employee.interface'
+import { IEmployee } from '../../models/employee.interface'
 import {
   ICategory,
   IEmployeeSkill,
   ISkill,
   PROFICIENCY,
-} from 'src/app/models/skill.interface'
-import { AuthService } from 'src/app/services/auth/auth.service'
-import { MockAuthService } from 'src/app/services/auth/auth.service.fake'
-import { EmployeesService } from 'src/app/services/employees/employees.service'
+} from '../../models/skill.interface'
+import { AuthService } from '../../services/auth/auth.service'
+import { MockAuthService } from '../../services/auth/auth.service.fake'
+import { EmployeesService } from '../../services/employees/employees.service'
 import {
   MockEmployeesService,
   dummyEmployees,
-} from 'src/app/services/employees/employees.service.fake'
-import { dummySkills } from 'src/app/services/skills/skills.service.fake'
-
+} from '../../services/employees/employees.service.fake'
+import { dummySkills } from '../../services/skills/skills.service.fake'
 import { EmployeeListComponent, IEmployeeFilters } from './employee-list.component'
 
 describe('EmployeeListComponent (Unit)', () => {

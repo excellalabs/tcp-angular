@@ -2,13 +2,15 @@ import { ComponentFixture, TestBed, async } from '@angular/core/testing'
 import { FlexLayoutModule } from '@angular/flex-layout'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'
-import { MaterialModule } from 'src/app/material.module'
-import { PipeModule } from 'src/app/pipes/pipe.module'
-import { SkillCategoriesService } from 'src/app/services/skill-categories/skill-categories.service'
-import { MockSkillCategoriesService } from 'src/app/services/skill-categories/skill-categories.service.fake'
-import { SkillsService } from 'src/app/services/skills/skills.service'
-import { MockSkillsService } from 'src/app/services/skills/skills.service.fake'
 
+import { MaterialModule } from '../../material.module'
+import { SnackBarService } from '../../messaging/services/snack-bar/snack-bar.service';
+import { MockSnackBarService } from '../../messaging/services/snack-bar/snack-bar.service.fake';
+import { PipeModule } from '../../pipes/pipe.module'
+import { SkillCategoriesService } from '../../services/skill-categories/skill-categories.service'
+import { MockSkillCategoriesService } from '../../services/skill-categories/skill-categories.service.fake'
+import { SkillsService } from '../../services/skills/skills.service'
+import { MockSkillsService } from '../../services/skills/skills.service.fake'
 import { ManageSkillsComponent } from './manage-skills.component'
 import { SkillFormComponent } from './skill-form/skill-form.component'
 import { SkillListComponent } from './skill-list/skill-list.component'
@@ -31,6 +33,7 @@ describe('ManageSkillsComponent', () => {
       providers: [
         { provide: SkillsService, useClass: MockSkillsService },
         { provide: SkillCategoriesService, useClass: MockSkillCategoriesService },
+        { provide: SnackBarService, useClass: MockSnackBarService }
       ],
     }).compileComponents()
   }))

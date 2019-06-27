@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core'
-import { Observable } from 'rxjs'
-import { ISkill } from 'src/app/models/skill.interface'
-import { SkillsService } from 'src/app/services/skills/skills.service'
+
+import { SnackBarService } from '../../messaging/services/snack-bar/snack-bar.service';
+import { ISkill } from '../../models/skill.interface'
+import { SkillsService } from '../../services/skills/skills.service'
 
 @Component({
   selector: 'tcp-manage-skills',
@@ -11,7 +12,7 @@ import { SkillsService } from 'src/app/services/skills/skills.service'
 export class ManageSkillsComponent implements OnInit {
   skillToEdit: ISkill = null
 
-  constructor(private skillService: SkillsService) {}
+  constructor(private skillService: SkillsService, private snackBarService: SnackBarService) {}
 
   ngOnInit() {}
 
@@ -20,11 +21,15 @@ export class ManageSkillsComponent implements OnInit {
   }
 
   onDeleteSkill(id: number) {
-    this.skillService.deleteSkill(id)
+    this.skillService.delete(id).subscribe(this.snackBarService.observerFor<ISkill>('Delete Skill'))
   }
 
   onAddSkill(skill: ISkill) {
     this.skillToEdit = null
-    this.skillService.addSkill(skill)
+    if (skill.id) {
+      this.skillService.update(skill).subscribe(this.snackBarService.observerFor<ISkill>('Update Skill'))
+    } else {
+      this.skillService.create(skill).subscribe(this.snackBarService.observerFor<ISkill>('Create Skill'))
+    }
   }
 }

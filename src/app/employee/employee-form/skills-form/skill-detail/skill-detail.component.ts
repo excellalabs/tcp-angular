@@ -50,7 +50,6 @@ export class SkillDetailComponent extends BaseForm
 
   ngOnInit() {
     this.emitFormReady()
-    this.skillService.fetch()
 
     this.filteredSkills$ = this.skill.valueChanges.pipe(
       map(s => (typeof s === 'string' ? s : s.name)),

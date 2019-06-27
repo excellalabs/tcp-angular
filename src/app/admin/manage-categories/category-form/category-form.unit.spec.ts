@@ -1,7 +1,7 @@
-import { EventEmitter, SimpleChange, SimpleChanges } from '@angular/core'
+import { EventEmitter, SimpleChange } from '@angular/core'
 import { AbstractControl, FormBuilder } from '@angular/forms'
-import { ICategory } from 'src/app/models/skill.interface'
 
+import { ICategory } from '../../../models/skill.interface'
 import { CategoryFormComponent } from './category-form.component'
 
 describe('CategoryFormComponent (Unit)', () => {
@@ -16,7 +16,7 @@ describe('CategoryFormComponent (Unit)', () => {
       expect(component.formGroup.contains('name'))
     })
     it('should have an addCategory EventEmitter', () => {
-      expect(component.addCategory instanceof EventEmitter).toBe(true)
+      expect(component.submitCategory instanceof EventEmitter).toBe(true)
     })
   })
 
@@ -66,20 +66,20 @@ describe('CategoryFormComponent (Unit)', () => {
 
   describe('#onSubmit()', () => {
     it('should emit the new category via addCategory', () => {
-      spyOn(component.addCategory, 'emit').and.callThrough()
+      spyOn(component.submitCategory, 'emit').and.callThrough()
       component.category = null
       component.formGroup.get('name').setValue('New Category')
       component.onSubmit()
-      expect(component.addCategory.emit).toHaveBeenCalledWith(
+      expect(component.submitCategory.emit).toHaveBeenCalledWith(
         jasmine.objectContaining({ name: 'New Category' })
       )
     })
     it('should emit the updated category value via addCategory when editing', () => {
-      spyOn(component.addCategory, 'emit').and.callThrough()
+      spyOn(component.submitCategory, 'emit').and.callThrough()
       component.category = { id: 15, name: 'Old Category' }
       component.formGroup.get('name').setValue('New Category')
       component.onSubmit()
-      expect(component.addCategory.emit).toHaveBeenCalledWith(
+      expect(component.submitCategory.emit).toHaveBeenCalledWith(
         jasmine.objectContaining({ id: 15, name: 'New Category' })
       )
     })

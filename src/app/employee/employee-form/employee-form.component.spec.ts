@@ -3,15 +3,16 @@ import { FlexLayoutModule } from '@angular/flex-layout'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'
 import { RouterTestingModule } from '@angular/router/testing'
-import { MaterialModule } from 'src/app/material.module'
-import { PipeModule } from 'src/app/pipes/pipe.module'
-import { EmployeesService } from 'src/app/services/employees/employees.service'
-import { SkillCategoriesService } from 'src/app/services/skill-categories/skill-categories.service'
-import { MockSkillCategoriesService } from 'src/app/services/skill-categories/skill-categories.service.fake'
-import { SkillsService } from 'src/app/services/skills/skills.service'
-import { MockSkillsService } from 'src/app/services/skills/skills.service.fake'
 
+import { MaterialModule } from '../../material.module'
+import { PipeModule } from '../../pipes/pipe.module'
+import { EmployeesService } from '../../services/employees/employees.service'
 import { MockEmployeesService } from '../../services/employees/employees.service.fake'
+import { SkillCategoriesService } from '../../services/skill-categories/skill-categories.service'
+import { MockSkillCategoriesService } from '../../services/skill-categories/skill-categories.service.fake'
+import { SkillsService } from '../../services/skills/skills.service'
+import { MockSkillsService } from '../../services/skills/skills.service.fake'
+import { PrimarySkillService } from '../services/primary-skill/primary-skill.service';
 import { StateService } from '../services/state/state.service'
 import { MockStateService } from '../services/state/state.service.fake'
 import { BioFormComponent } from './bio-form/bio-form.component'
@@ -47,6 +48,7 @@ describe('EmployeeFormComponent', () => {
         RouterTestingModule,
       ],
       providers: [
+        PrimarySkillService,
         { provide: EmployeesService, useClass: MockEmployeesService },
         { provide: SkillsService, useClass: MockSkillsService },
         { provide: SkillCategoriesService, useClass: MockSkillCategoriesService },

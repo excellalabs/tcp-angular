@@ -3,7 +3,9 @@ import { BehaviorSubject, Observable, of } from 'rxjs'
 
 import { ETHNICITY, GENDER, IEmployee } from '../../models/employee.interface'
 import { PROFICIENCY } from '../../models/skill.interface'
+import { IBaseCrudService } from '../abstract/base-crud.service';
 import { dummySkills } from '../skills/skills.service.fake'
+import { IEmployeesService } from './employees.service';
 
 export const dummyEmployees: IEmployee[] = [
   {
@@ -130,24 +132,17 @@ export const dummyEmployees: IEmployee[] = [
   },
 ]
 
-export interface IEmployeesService {
-  readonly list: BehaviorSubject<IEmployee[]>
-  fetch(): void
-  getById(id: number): Observable<IEmployee>
-  getByEmail(email: string): Observable<IEmployee>
-  addEmployee(employee: IEmployee): void
-  updateEmployee(employee: IEmployee): void
-  deleteEmployee(id: number): void
-}
-
 @Injectable()
 export class MockEmployeesService implements IEmployeesService {
   readonly list = new BehaviorSubject<IEmployee[]>([])
 
+  endpoint = '/employee'
+
   constructor() {}
 
-  fetch(): void {
+  fetch(): Observable<IEmployee[]> {
     this.list.next(dummyEmployees)
+    return this.list.asObservable()
   }
 
   getById(id: number): Observable<IEmployee> {
@@ -161,21 +156,24 @@ export class MockEmployeesService implements IEmployeesService {
     return of(this.list.value.find(e => e.contact.email === email))
   }
 
-  addEmployee(employee: IEmployee) {
+  create(employee: IEmployee): Observable<IEmployee> {
     const newList = this.list.value
     employee.id = this.list.value.length
     newList.push(employee)
     this.list.next(newList)
+    return of(employee)
   }
 
-  updateEmployee(employee: IEmployee) {
-    this.deleteEmployee(employee.id)
+  update(employee: IEmployee): Observable<IEmployee> {
+    this.delete(employee.id)
     const newList = this.list.value
     newList.push(employee)
     this.list.next(newList)
+    return of(employee)
   }
 
-  deleteEmployee(id: number) {
+  delete(id: number): Observable<IEmployee> {
     this.list.next(this.list.value.filter(e => e.id !== id))
+    return of(null)
   }
 }
