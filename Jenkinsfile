@@ -14,10 +14,19 @@ pipeline {
         checkout scm
       }
     }
-    stage('Build') {
+    stage('Install') {
       steps {
         sh 'npm install'
-        // stash includes: 'node_modules/', name: 'node_modules'
+      }
+    }
+    stage('Build') {
+      steps {
+        sh 'npm run build'
+      }
+    }
+    stage('Test') {
+      steps {
+        sh 'npm run test:headless -- --watch false'
       }
     }
   }
