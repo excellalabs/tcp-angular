@@ -1,3 +1,4 @@
+// This is a Scripted Syntax file
 node {
     stage('Checkout') {
         checkout scm
