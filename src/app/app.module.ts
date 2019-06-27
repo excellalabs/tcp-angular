@@ -11,6 +11,7 @@ import { AdminModule } from './admin/admin.module'
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 import { HttpMockRequestInterceptor } from './auth/http-mock-request.interceptor'
+import { TokenInterceptor } from './auth/token.interceptor';
 import { EmployeeModule } from './employee/employee.module'
 import { ErrorComponent } from './error/error.component'
 import { ChartComponent } from './home/chart/chart.component'
@@ -62,6 +63,11 @@ import { SkillsService } from './services/skills/skills.service'
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpMockRequestInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
       multi: true,
     },
     EmployeesService,
