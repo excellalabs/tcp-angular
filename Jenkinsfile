@@ -1,4 +1,3 @@
-// A different comment
 node {
     stage('Checkout') {
         checkout scm
