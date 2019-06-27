@@ -1,7 +1,7 @@
 pipeline {
   agent {
         docker {
-            image 'duluca/minimal-node-chromium'
+            image 'centos/nodejs-10-centos7'
             args '-p 4200:80'
         }
     }
