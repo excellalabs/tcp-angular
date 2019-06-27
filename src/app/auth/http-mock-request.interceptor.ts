@@ -45,7 +45,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
         throw new HttpErrorResponse({ error: 'failed login', status: 401 })
       }
     }
-    console.log('Loaded from http call :' + request.url)
+    // console.log('Loaded from http call :' + request.url)
     return next.handle(request)
   }
 }
