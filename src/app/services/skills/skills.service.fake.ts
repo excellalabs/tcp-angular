@@ -88,7 +88,7 @@ export const dummySkills: ISkill[] = [
 export class MockSkillsService implements IBaseCrudService<ISkill> {
   readonly list = new BehaviorSubject<ISkill[]>([])
 
-  endpoint = '/skills'
+  endpoint = '/skills/'
 
   constructor() {}
 

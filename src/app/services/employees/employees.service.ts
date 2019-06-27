@@ -13,7 +13,7 @@ export interface IEmployeesService extends IBaseCrudService<IEmployee> {
 @Injectable()
 export class EmployeesService extends BaseCrudService<IEmployee>
   implements IEmployeesService {
-  endpoint = '/employee'
+  endpoint = '/employee/'
 
   constructor(protected http: HttpClient) {
     super(http)

@@ -136,7 +136,7 @@ export const dummyEmployees: IEmployee[] = [
 export class MockEmployeesService implements IEmployeesService {
   readonly list = new BehaviorSubject<IEmployee[]>([])
 
-  endpoint = '/employee'
+  endpoint = '/employee/'
 
   constructor() {}
 

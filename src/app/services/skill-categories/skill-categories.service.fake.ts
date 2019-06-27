@@ -15,7 +15,7 @@ export const dummySkillCategories: ICategory[] = [
 export class MockSkillCategoriesService implements IBaseCrudService<ICategory> {
   readonly list = new BehaviorSubject<ICategory[]>([])
 
-  endpoint = '/category'
+  endpoint = '/skill-category/'
 
   constructor() {}
 

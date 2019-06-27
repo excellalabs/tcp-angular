@@ -7,7 +7,7 @@ import { BaseCrudService, IBaseCrudService } from '../abstract/base-crud.service
 @Injectable()
 export class SkillsService extends BaseCrudService<ISkill>
   implements IBaseCrudService<ISkill> {
-  endpoint = '/skill'
+  endpoint = '/skill/'
 
   constructor(protected http: HttpClient) {
     super(http)
