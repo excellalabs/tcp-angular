@@ -1,4 +1,4 @@
-// This is a Scripted Syntax file
+// This is a Pipeline in Scripted Syntax
 node {
     stage('Checkout') {
         checkout scm
