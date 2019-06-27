@@ -17,7 +17,10 @@ const routes: Routes = [
     path: 'home',
     component: HomeComponent,
     canActivate: [AuthGuard],
-    resolve: { skills: SkillsService, categories: SkillCategoriesService },
+    resolve: {
+      skills: SkillsService,
+      categories: SkillCategoriesService,
+      employees: EmployeesService, },
   },
   {
     path: 'employee',

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnDestroy, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup } from '@angular/forms'
-import { BehaviorSubject } from 'rxjs'
+import { BehaviorSubject, Subscription } from 'rxjs'
+import { sortEmployeeSkillsByImpact } from 'src/app/utils/functions';
 
 import { SnackBarService } from '../../messaging/services/snack-bar/snack-bar.service'
 import { IEmployee } from '../../models/employee.interface'
@@ -14,8 +15,9 @@ import { BaseForm } from '../abstracts/base-form.class'
   templateUrl: './self-service.component.html',
   styleUrls: ['./self-service.component.scss'],
 })
-export class SelfServiceComponent extends BaseForm implements OnInit {
+export class SelfServiceComponent extends BaseForm implements OnInit, OnDestroy {
   user$ = new BehaviorSubject<IEmployee>(null)
+  subscriptions: Subscription[] = []
 
   constructor(
     private authService: AuthService,
@@ -29,11 +31,15 @@ export class SelfServiceComponent extends BaseForm implements OnInit {
 
   ngOnInit() {
     const userEmail = this.authService.getEmail()
-    this.employeeService.getByEmail(userEmail).subscribe(user => this.user$.next(user))
+    this.subscriptions.push(this.employeeService.getByEmail(userEmail).subscribe(user => this.user$.next(user)))
   }
 
   buildForm(): FormGroup {
     return this.fb.group({})
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(s => s.unsubscribe())
   }
 
   onSave() {
@@ -44,5 +50,9 @@ export class SelfServiceComponent extends BaseForm implements OnInit {
     this.employeeService
       .update(newEmployee)
       .subscribe(this.snackBarService.observerFor<IEmployee>('Update My Skills'))
+  }
+
+  sortedSkills(skills: IEmployeeSkill[]): IEmployeeSkill[] {
+    return skills.sort(sortEmployeeSkillsByImpact)
   }
 }

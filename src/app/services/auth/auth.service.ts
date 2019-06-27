@@ -7,6 +7,7 @@ import {
 import { Injectable } from '@angular/core'
 import { Router } from '@angular/router'
 import { JwtHelperService } from '@auth0/angular-jwt'
+import { of } from 'rxjs';
 
 import { environment } from '../../../environments/environment'
 import { Role } from '../../models/role'
@@ -89,7 +90,8 @@ export class AuthService implements IAuthService {
     try {
       if (token) {
         const decodedToken: IJwtContents = this.jwtHelper.decodeToken(token)
-        if (decodedToken.exp - new Date().getTime() / 1000 < 0) {
+        const tokenLifeLeft = decodedToken.exp - (new Date().getTime() / 1000)
+        if (tokenLifeLeft < 0) {
           console.log('logging out')
           this.logout()
           return null
@@ -108,7 +110,7 @@ export class AuthService implements IAuthService {
   getEmail(): string {
     const token = this.getToken(true)
     // return token.email
-    return dummyEmployees.find(e => e.contact.email.includes('jon')).contact.email
+    return 'john@winchester.com'
   }
 
   getRole(): string {

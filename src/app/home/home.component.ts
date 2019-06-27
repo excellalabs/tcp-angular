@@ -57,7 +57,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   skillCountByCategory(skills: IEmployeeSkill[]): IDataPoint[] {
     const categories = []
     skills.forEach(s => {
-      if (!categories.includes(s.skill.category)) {
+      if (!categories.find(c => s.skill.category.id === c.id)) {
         categories.push(s.skill.category)
       }
     })
