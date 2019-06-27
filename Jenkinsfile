@@ -1,4 +1,4 @@
-// This is a Pipeline in Scripted Syntax
+// A different comment
 node {
     stage('Checkout') {
         checkout scm
