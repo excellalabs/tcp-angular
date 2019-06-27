@@ -1,5 +1,5 @@
 pipeline {
-  node {
+  stages {
     stage('Checkout') {
         checkout scm
     }
