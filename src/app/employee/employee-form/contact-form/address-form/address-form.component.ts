@@ -10,9 +10,9 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs'
 
+import { BaseForm } from '../../../../abstracts/base-form.class'
 import { IUSAddress } from '../../../../models/address.interface'
 import { hasChanged } from '../../../../utils/functions'
-import { BaseForm } from '../../../abstracts/base-form.class'
 import { IState, StateService } from '../../../services/state/state.service'
 
 @Component({

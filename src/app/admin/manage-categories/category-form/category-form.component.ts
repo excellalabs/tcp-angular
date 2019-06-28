@@ -8,7 +8,7 @@ import {
 } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 
-import { BaseForm } from '../../../employee/abstracts/base-form.class'
+import { BaseForm } from '../../../abstracts/base-form.class'
 import { ICategory } from '../../../models/skill.interface'
 import { hasChanged } from '../../../utils/functions'
 

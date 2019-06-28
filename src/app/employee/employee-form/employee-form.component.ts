@@ -4,9 +4,9 @@ import { ActivatedRoute, ParamMap } from '@angular/router'
 import { BehaviorSubject, Subscription } from 'rxjs'
 import { switchMap } from 'rxjs/operators'
 
+import { BaseForm } from '../../abstracts/base-form.class'
 import { IEmployee } from '../../models/employee.interface'
 import { EmployeesService } from '../../services/employees/employees.service'
-import { BaseForm } from '../abstracts/base-form.class'
 
 @Component({
   selector: 'tcp-employee-form',

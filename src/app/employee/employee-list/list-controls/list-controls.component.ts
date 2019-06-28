@@ -9,9 +9,9 @@ import {
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs'
 import { debounceTime, map, startWith } from 'rxjs/operators'
 
+import { BaseForm } from '../../../abstracts/base-form.class'
 import { ISkill, displaySkillFn } from '../../../models/skill.interface'
 import { SkillsService } from '../../../services/skills/skills.service'
-import { BaseForm } from '../../abstracts/base-form.class'
 
 @Component({
   selector: 'tcp-list-controls',

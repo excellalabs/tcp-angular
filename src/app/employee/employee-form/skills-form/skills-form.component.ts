@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms'
 
+import { BaseForm } from '../../../abstracts/base-form.class'
 import { IEmployeeSkill } from '../../../models/skill.interface'
-import { BaseForm } from '../../abstracts/base-form.class'
 
 @Component({
   selector: 'tcp-skills-form',

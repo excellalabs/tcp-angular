@@ -12,6 +12,7 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { Observable, Subscription } from 'rxjs'
 import { filter, map } from 'rxjs/operators'
 
+import { BaseForm } from '../../../../abstracts/base-form.class'
 import {
   IEmployeeSkill,
   ISkill,
@@ -20,7 +21,6 @@ import {
 } from '../../../../models/skill.interface'
 import { SkillsService } from '../../../../services/skills/skills.service'
 import { hasChanged } from '../../../../utils/functions'
-import { BaseForm } from '../../../abstracts/base-form.class'
 import { PrimarySkillService } from '../../../services/primary-skill/primary-skill.service'
 
 @Component({
