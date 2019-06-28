@@ -11,7 +11,7 @@ import { AdminModule } from './admin/admin.module'
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 import { HttpMockRequestInterceptor } from './auth/http-mock-request.interceptor'
-import { TokenInterceptor } from './auth/token.interceptor';
+import { TokenInterceptor } from './auth/token.interceptor'
 import { EmployeeModule } from './employee/employee.module'
 import { ErrorComponent } from './error/error.component'
 import { ChartComponent } from './home/chart/chart.component'
@@ -25,6 +25,10 @@ import { AuthService } from './services/auth/auth.service'
 import { EmployeesService } from './services/employees/employees.service'
 import { SkillCategoriesService } from './services/skill-categories/skill-categories.service'
 import { SkillsService } from './services/skills/skills.service'
+
+export function tokenGetterFn() {
+  return localStorage.getItem('tcp-angular')
+}
 
 @NgModule({
   declarations: [
@@ -49,9 +53,7 @@ import { SkillsService } from './services/skills/skills.service'
     ChartsModule,
     JwtModule.forRoot({
       config: {
-        tokenGetter: () => {
-          return localStorage.getItem('tcp-angular')
-        },
+        tokenGetter: tokenGetterFn,
         whitelistedDomains: ['localhost:4200'],
         blacklistedRoutes: [],
       },
