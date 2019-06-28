@@ -25,6 +25,10 @@ import { EmployeesService } from './services/employees/employees.service'
 import { SkillCategoriesService } from './services/skill-categories/skill-categories.service'
 import { SkillsService } from './services/skills/skills.service'
 
+export function tokenGetterFn() {
+  return localStorage.getItem(AuthService.key)
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,11 +52,9 @@ import { SkillsService } from './services/skills/skills.service'
     ChartsModule,
     JwtModule.forRoot({
       config: {
-        tokenGetter: () => {
-          return localStorage.getItem('tcp-angular')
-        },
-        whitelistedDomains: ['localhost:4200'],
-        blacklistedRoutes: [],
+        tokenGetter: tokenGetterFn,
+        whitelistedDomains: ['localhost:4200', 'localhost:8080'],
+        blacklistedRoutes: ['localhost:8080/api/oauth/*'],
       },
     }),
     MessagingModule,

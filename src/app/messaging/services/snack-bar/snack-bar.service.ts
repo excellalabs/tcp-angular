@@ -1,10 +1,15 @@
 import { Injectable } from '@angular/core'
 import { MatSnackBar } from '@angular/material'
-import { Observer } from 'rxjs';
+import { Observer } from 'rxjs'
 
 export interface ISnackBarService {
   openSnackBar(message: string, action: string): void
-  observerFor<T>(action: string, next?: (value: T) => void, error?: (err: any) => void, complete?: () => void): Observer<T>
+  observerFor<T>(
+    action: string,
+    next?: (value: T) => void,
+    error?: (err: any) => void,
+    complete?: () => void
+  ): Observer<T>
 }
 
 @Injectable()
@@ -17,7 +22,12 @@ export class SnackBarService implements ISnackBarService {
     })
   }
 
-  observerFor<T>(action: string, next?: (value: T) => void, error?: (err: any) => void, complete?: () => void): Observer<T> {
+  observerFor<T>(
+    action: string,
+    next?: (value: T) => void,
+    error?: (err: any) => void,
+    complete?: () => void
+  ): Observer<T> {
     return {
       next: (value: T) => {
         this.openSnackBar(`${action} succeeded!`)
@@ -31,7 +41,7 @@ export class SnackBarService implements ISnackBarService {
           error(err)
         }
       },
-      complete: complete ? complete : () => {}
+      complete: complete ? complete : () => {},
     } as Observer<T>
   }
 }

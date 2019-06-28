@@ -8,9 +8,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations'
 import { MaterialModule } from '../../../material.module'
 import { ICategory } from '../../../models/skill.interface'
 import { PipeModule } from '../../../pipes/pipe.module'
-import {
-  requiredPostfix,
-} from '../../../pipes/required-message/required-message.pipe'
+import { requiredPostfix } from '../../../pipes/required-message/required-message.pipe'
 import { SkillCategoriesService } from '../../../services/skill-categories/skill-categories.service'
 import { MockSkillCategoriesService } from '../../../services/skill-categories/skill-categories.service.fake'
 import { CategoryFormComponent } from './category-form.component'

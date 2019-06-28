@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { BehaviorSubject, Observable, of } from 'rxjs'
 
 import { ICategory } from '../../models/skill.interface'
-import { IBaseCrudService } from '../abstract/base-crud.service';
+import { IBaseCrudService } from '../abstract/base-crud.service'
 
 export const dummySkillCategories: ICategory[] = [
   { id: 1, name: 'Agile' },
@@ -15,9 +15,9 @@ export const dummySkillCategories: ICategory[] = [
 export class MockSkillCategoriesService implements IBaseCrudService<ICategory> {
   readonly list = new BehaviorSubject<ICategory[]>([])
 
-  endpoint = '/category'
+  endpoint = '/skill-category/'
 
-  constructor() { }
+  constructor() {}
 
   fetch(): Observable<ICategory[]> {
     if (this.list.value.length === 0) {
@@ -46,7 +46,7 @@ export class MockSkillCategoriesService implements IBaseCrudService<ICategory> {
     return of(category)
   }
 
-  delete(id: number): Observable<ICategory>  {
+  delete(id: number): Observable<ICategory> {
     this.list.next(this.list.value.filter(s => s.id !== id))
     return of(null)
   }

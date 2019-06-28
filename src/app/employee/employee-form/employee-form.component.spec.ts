@@ -12,7 +12,7 @@ import { SkillCategoriesService } from '../../services/skill-categories/skill-ca
 import { MockSkillCategoriesService } from '../../services/skill-categories/skill-categories.service.fake'
 import { SkillsService } from '../../services/skills/skills.service'
 import { MockSkillsService } from '../../services/skills/skills.service.fake'
-import { PrimarySkillService } from '../services/primary-skill/primary-skill.service';
+import { PrimarySkillService } from '../services/primary-skill/primary-skill.service'
 import { StateService } from '../services/state/state.service'
 import { MockStateService } from '../services/state/state.service.fake'
 import { BioFormComponent } from './bio-form/bio-form.component'

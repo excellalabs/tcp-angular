@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core'
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material'
 import { BehaviorSubject, Subscription } from 'rxjs'
+import { sortEmployeeSkillsByImpact } from 'src/app/utils/functions';
 
 import { IEmployee } from '../../models/employee.interface'
 import { IEmployeeSkill, ISkill, PROFICIENCY } from '../../models/skill.interface'
@@ -94,5 +95,9 @@ export class EmployeeListComponent implements AfterViewInit {
 
   skillAriaLabel(skill: IEmployeeSkill): string {
     return `${skill.skill.name} - ${skill.proficiency} proficiency`
+  }
+
+  sortedSkills(skills: IEmployeeSkill[]): IEmployeeSkill[] {
+    return skills.sort(sortEmployeeSkillsByImpact)
   }
 }

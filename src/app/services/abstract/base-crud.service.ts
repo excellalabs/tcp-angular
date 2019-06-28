@@ -1,7 +1,9 @@
-import { HttpClient } from '@angular/common/http';
-import { Resolve } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http'
+import { Resolve } from '@angular/router'
+import { BehaviorSubject, Observable } from 'rxjs'
+import { tap } from 'rxjs/operators'
+
+import { environment } from '../../../environments/environment'
 
 export interface IBaseCrudService<T> {
   readonly list: BehaviorSubject<T[]>
@@ -21,23 +23,25 @@ export abstract class BaseCrudService<T> implements IBaseCrudService<T>, Resolve
   constructor(protected http: HttpClient) {}
 
   fetch(): Observable<T[]> {
-    return this.http.get<T[]>(this.endpoint).pipe(tap((items: T[]) => this.list.next(items)))
+    return this.http
+      .get<T[]>(`${environment.api}${this.endpoint}`)
+      .pipe(tap((items: T[]) => this.list.next(items)))
   }
 
   getById(id: number): Observable<T> {
-    return this.http.get<T>(`${this.endpoint}/${id}`)
+    return this.http.get<T>(`${environment.api}${this.endpoint}/${id}`)
   }
 
   create(item: T): Observable<T> {
-    return this.http.post<T>(this.endpoint, item)
+    return this.http.post<T>(`${environment.api}${this.endpoint}`, item)
   }
 
   update(item: T): Observable<T> {
-    return this.http.put<T>(this.endpoint, item)
+    return this.http.put<T>(`${environment.api}${this.endpoint}`, item)
   }
 
   delete(id: number): Observable<T> {
-    return this.http.delete<T>(`${this.endpoint}/${id}`)
+    return this.http.delete<T>(`${environment.api}${this.endpoint}/${id}`)
   }
 
   resolve(): Observable<T[]> {

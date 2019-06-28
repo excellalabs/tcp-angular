@@ -1,11 +1,16 @@
-import { Injectable } from '@angular/core';
-import { Observer } from 'rxjs';
+import { Injectable } from '@angular/core'
+import { Observer } from 'rxjs'
 
 @Injectable()
 export class MockSnackBarService {
   openSnackBar(message: string, action: string = null): void {}
 
-  observerFor<T>(action: string, next?: (value: T) => void, error?: (err: any) => void, complete?: () => void): Observer<T> {
+  observerFor<T>(
+    action: string,
+    next?: (value: T) => void,
+    error?: (err: any) => void,
+    complete?: () => void
+  ): Observer<T> {
     return {
       next: (value: T) => {
         this.openSnackBar(`${action} succeeded!`)
@@ -19,7 +24,7 @@ export class MockSnackBarService {
           error(err)
         }
       },
-      complete: complete ? complete : () => {}
+      complete: complete ? complete : () => {},
     } as Observer<T>
   }
 }
