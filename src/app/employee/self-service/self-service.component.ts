@@ -3,12 +3,12 @@ import { FormBuilder, FormGroup } from '@angular/forms'
 import { BehaviorSubject, Subscription } from 'rxjs'
 import { sortEmployeeSkillsByImpact } from 'src/app/utils/functions';
 
+import { BaseForm } from '../../abstracts/base-form.class'
 import { SnackBarService } from '../../messaging/services/snack-bar/snack-bar.service'
 import { IEmployee } from '../../models/employee.interface'
 import { IEmployeeSkill } from '../../models/skill.interface'
 import { AuthService } from '../../services/auth/auth.service'
 import { EmployeesService } from '../../services/employees/employees.service'
-import { BaseForm } from '../abstracts/base-form.class'
 
 @Component({
   selector: 'tcp-self-service',

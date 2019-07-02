@@ -11,7 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 
-import { BaseForm } from '../../../employee/abstracts/base-form.class'
+import { BaseForm } from '../../../abstracts/base-form.class'
 import { ICategory, ISkill } from '../../../models/skill.interface'
 import { SkillCategoriesService } from '../../../services/skill-categories/skill-categories.service'
 import { hasChanged, stringCompare } from '../../../utils/functions'

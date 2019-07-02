@@ -1,9 +1,9 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 
+import { BaseForm } from '../../../abstracts/base-form.class'
 import { IEmployeeContact } from '../../../models/employee.interface'
 import { hasChanged } from '../../../utils/functions'
-import { BaseForm } from '../../abstracts/base-form.class'
 
 @Component({
   selector: 'tcp-contact-form',
