@@ -37,7 +37,7 @@ export abstract class BaseCrudService<T> implements IBaseCrudService<T>, Resolve
   }
 
   update(item: T): Observable<T> {
-    return this.http.put<T>(`${environment.api}${this.endpoint}`, item)
+    return this.http.post<T>(`${environment.api}${this.endpoint}`, item)
   }
 
   delete(id: number): Observable<T> {
