@@ -9,7 +9,6 @@ void setBuildStatus(String message, String state) {
 }
 
 pipeline {
-  setBuildStatus("Build pending", "PENDING");
   agent {
         docker {
             image 'duluca/minimal-node-chromium'
