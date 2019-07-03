@@ -146,4 +146,6 @@ Some useful testing commands:
 - `npm run test` To run the automated unit/integration tests.  A browser window will pop up and the tests will be displayed as they run.
 - `npm run test:headless` To run the tests without the pop-up and have a nice result summary in the console.  This is a useful setup for devs writing tests
 - `npm run test:coverage` To run code-coverage.  Coverage details can be found by opening `coverage/tcp-angular/index.html` in a browser.
-- `npm run e2e` To run the End-to-End (E2E) tests.  NOTE: The application must already be up and running for these tests to work.
+- `npm run e2e` To run the End-to-End (E2E) tests.  NOTE: The application must already be up and running for these tests to work.  
+
+
