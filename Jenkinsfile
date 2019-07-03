@@ -1,3 +1,13 @@
+void setBuildStatus(String message, String state) {
+  step([
+      $class: "GitHubCommitStatusSetter",
+      reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/excellaco/tcp-angular"],
+      contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"],
+      errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
+      statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
+  ]);
+}
+
 pipeline {
   agent {
         docker {
@@ -10,6 +20,7 @@ pipeline {
    }
   stages {
     stage('Checkout') {
+      setBuildStatus("Build pending", "PENDING");
       steps {
         checkout scm
       }
@@ -28,6 +39,14 @@ pipeline {
       steps {
         sh 'npm run test:headless -- --watch false'
       }
+    }
+  }
+  post {
+    success {
+        setBuildStatus("Build succeeded", "SUCCESS");
+    }
+    failure {
+        setBuildStatus("Build failed", "FAILURE");
     }
   }
 }
