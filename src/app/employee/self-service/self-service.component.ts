@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup } from '@angular/forms'
 import { BehaviorSubject, Subscription } from 'rxjs'
-import { sortEmployeeSkillsByImpact } from 'src/app/utils/functions';
 
 import { BaseForm } from '../../abstracts/base-form.class'
 import { SnackBarService } from '../../messaging/services/snack-bar/snack-bar.service'
@@ -9,6 +8,7 @@ import { IEmployee } from '../../models/employee.interface'
 import { IEmployeeSkill } from '../../models/skill.interface'
 import { AuthService } from '../../services/auth/auth.service'
 import { EmployeesService } from '../../services/employees/employees.service'
+import { sortEmployeeSkillsByImpact } from '../../utils/functions'
 
 @Component({
   selector: 'tcp-self-service',
@@ -31,7 +31,9 @@ export class SelfServiceComponent extends BaseForm implements OnInit, OnDestroy 
 
   ngOnInit() {
     const userEmail = this.authService.getEmail()
-    this.subscriptions.push(this.employeeService.getByEmail(userEmail).subscribe(user => this.user$.next(user)))
+    this.subscriptions.push(
+      this.employeeService.getByEmail(userEmail).subscribe(user => this.user$.next(user))
+    )
   }
 
   buildForm(): FormGroup {
