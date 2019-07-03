@@ -116,6 +116,7 @@ export class AuthService implements IAuthService {
   getRole(): string {
     const token = this.getToken(true)
     return token.role
+    // return Role.admin
   }
 
   isLoggedIn(): boolean {
