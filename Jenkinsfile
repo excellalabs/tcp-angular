@@ -34,11 +34,11 @@ pipeline {
         sh 'npm run build'
       }
     }
-    stage('Test') {
-      steps {
-        sh 'npm run test:headless -- --watch false'
-      }
-    }
+    #stage('Test') {
+    #  steps {
+    #    sh 'npm run test:headless -- --watch false'
+    #  }
+    #}
   }
   post {
     success {
