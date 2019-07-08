@@ -7,11 +7,9 @@ import {
 import { Injectable } from '@angular/core'
 import { Router } from '@angular/router'
 import { JwtHelperService } from '@auth0/angular-jwt'
-import { of } from 'rxjs'
 
 import { environment } from '../../../environments/environment'
 import { Role } from '../../models/role'
-import { dummyEmployees } from '../employees/employees.service.fake'
 
 export interface IAuthService {
   login(username: string, password: string): void
@@ -115,8 +113,8 @@ export class AuthService implements IAuthService {
 
   getRole(): string {
     const token = this.getToken(true)
-    return token.role
-    // return Role.admin
+    // return token.role
+    return Role.admin
   }
 
   isLoggedIn(): boolean {
