@@ -20,7 +20,8 @@ const routes: Routes = [
     resolve: {
       skills: SkillsService,
       categories: SkillCategoriesService,
-      employees: EmployeesService, },
+      employees: EmployeesService,
+    },
   },
   {
     path: 'employee',

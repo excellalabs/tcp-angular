@@ -90,7 +90,9 @@ export class MockSkillsService implements IBaseCrudService<ISkill> {
 
   endpoint = '/skills/'
 
-  constructor() {}
+  constructor() {
+    this.fetch()
+  }
 
   getById(id: number): Observable<ISkill> {
     return this.list.pipe(map(skills => skills.find(s => s.id === id)))

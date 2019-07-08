@@ -7,16 +7,16 @@ import {
 import { Injectable } from '@angular/core'
 import { Router } from '@angular/router'
 import { JwtHelperService } from '@auth0/angular-jwt'
-import { of } from 'rxjs'
 
 import { environment } from '../../../environments/environment'
 import { Role } from '../../models/role'
-import { dummyEmployees } from '../employees/employees.service.fake'
 
 export interface IAuthService {
+  tokenEndpoint: string
+  authorizationEndpoint: string
   login(username: string, password: string): void
   logout(): void
-  getToken(decoded: boolean)
+  getToken(decoded: boolean): any
   getEmail(): string
   getRole(): string
   isLoggedIn(): boolean
@@ -49,7 +49,7 @@ export class AuthService implements IAuthService {
   tokenEndpoint: '/oauth/token'
   authorizationEndpoint: '/oauth/authorization'
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(protected http: HttpClient, protected router: Router) {}
 
   login(userName: string, userPass: string) {
     const url = `${environment.api}/oauth/token`
@@ -92,7 +92,6 @@ export class AuthService implements IAuthService {
         const decodedToken: IJwtContents = this.jwtHelper.decodeToken(token)
         const tokenLifeLeft = decodedToken.exp - new Date().getTime() / 1000
         if (tokenLifeLeft < 0) {
-          console.log('logging out')
           this.logout()
           return null
         }
@@ -109,13 +108,14 @@ export class AuthService implements IAuthService {
 
   getEmail(): string {
     const token = this.getToken(true)
-    // return token.email
-    return 'john@winchester.com'
+    return token.email
+    // return 'john@winchester.com'
   }
 
   getRole(): string {
     const token = this.getToken(true)
     return token.role
+    // return Role.admin
   }
 
   isLoggedIn(): boolean {

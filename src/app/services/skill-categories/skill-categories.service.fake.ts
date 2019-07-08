@@ -17,7 +17,9 @@ export class MockSkillCategoriesService implements IBaseCrudService<ICategory> {
 
   endpoint = '/skill-category/'
 
-  constructor() {}
+  constructor() {
+    this.fetch()
+  }
 
   fetch(): Observable<ICategory[]> {
     if (this.list.value.length === 0) {

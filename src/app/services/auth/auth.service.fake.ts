@@ -1,26 +1,13 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { Router } from '@angular/router'
-import { JwtHelperService } from '@auth0/angular-jwt'
 
 import { Role } from '../../models/role'
-
-export interface IAuthService {
-  login(username: string, password: string): void
-  logout(): void
-  getToken(decoded: boolean)
-  getEmail(): string
-  getRole(): string
-  isLoggedIn(): boolean
-  isAdmin(): boolean
-}
+import { AuthService, IAuthService } from './auth.service'
 
 @Injectable()
-export class MockAuthService implements IAuthService {
-  key = 'tcp-angular'
-  jwtHelper = new JwtHelperService()
-
-  constructor() {}
+export class MockAuthService extends AuthService implements IAuthService {
+  constructor() {
+    super(null, null)
+  }
 
   login(username: string, password: string) {}
 
