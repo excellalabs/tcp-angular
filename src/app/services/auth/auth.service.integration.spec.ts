@@ -24,7 +24,6 @@ describe('AuthService', () => {
     router = TestBed.get(Router)
     navigateSpy = spyOn(router, 'navigateByUrl').and.callFake((url: string | UrlTree) => new Promise<boolean>(() => true))
     service = TestBed.get(AuthService)
-    service.key = 'test-tcp-angular'
   })
 
   afterEach(() => {
@@ -63,11 +62,11 @@ describe('AuthService', () => {
 
     it('should set localStorageKey when successful', () => {
       const randomKey = 'randomKey'
-      localStorage.removeItem(service.key)
+      localStorage.removeItem(AuthService.key)
       service.login('u', 'p')
       const req = http.expectOne({ method: 'POST', url: service.authorizationEndpoint })
       req.flush({ access_token: randomKey})
-      expect(localStorage.getItem(service.key)).toBe(randomKey)
+      expect(localStorage.getItem(AuthService.key)).toBe(randomKey)
     })
 
     it('should route to home when successful', () => {
@@ -79,11 +78,11 @@ describe('AuthService', () => {
     })
 
     it('should not localStorageKey when unsuccessful', () => {
-      localStorage.removeItem(service.key)
+      localStorage.removeItem(AuthService.key)
       service.login('u', 'p')
       const req = http.expectOne({ method: 'POST', url: service.authorizationEndpoint })
       req.flush({ errorMessage: 'Uh oh!' }, { status: 500, statusText: 'Server Error' })
-      expect(localStorage.getItem(service.key)).toBeFalsy()
+      expect(localStorage.getItem(AuthService.key)).toBeFalsy()
     })
   })
 })

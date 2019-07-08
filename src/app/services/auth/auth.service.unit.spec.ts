@@ -1,6 +1,6 @@
 import { AuthService } from './auth.service'
 
-describe('AuthService', () => {
+describe('AuthService (Unit)', () => {
   let service
   const adminKey =
     // tslint:disable-next-line:max-line-length
@@ -15,7 +15,6 @@ describe('AuthService', () => {
   beforeEach(() => {
     service = new AuthService(null, null)
     service.router = { navigateByUrl: () => {} }
-    service.key = 'tcp-test-key'
   })
 
   it('should be created', () => {
@@ -24,9 +23,9 @@ describe('AuthService', () => {
 
   describe('logout()', () => {
     it('should clear localstorage', () => {
-      localStorage.setItem(service.key, adminKey)
+      localStorage.setItem(AuthService.key, adminKey)
       service.logout()
-      expect(localStorage.getItem(service.key)).toEqual(null)
+      expect(localStorage.getItem(AuthService.key)).toEqual(null)
     })
     it('should navigate to te login page', () => {
       spyOn(service.router, 'navigateByUrl').and.callThrough()
@@ -37,56 +36,56 @@ describe('AuthService', () => {
 
   describe('getToken()', () => {
     it('should return token', () => {
-      localStorage.setItem(service.key, adminKey)
+      localStorage.setItem(AuthService.key, adminKey)
       expect(service.getToken()).toEqual(adminKey)
     })
 
     it('decoded should return decoded token', () => {
-      localStorage.setItem(service.key, adminKey)
+      localStorage.setItem(AuthService.key, adminKey)
       expect(service.getToken(true).role).toEqual('admin')
     })
 
     // THIS NEEDS A NEW TOKEN THAT IS ACTUALLY EXPIRED
     xit('should not return token when expired', () => {
-      localStorage.setItem(service.key, expiredKey)
+      localStorage.setItem(AuthService.key, expiredKey)
       expect(service.getToken()).toEqual(null)
     })
   })
 
   describe('getEmail()', () => {
     it('should return email', () => {
-      localStorage.setItem(service.key, adminKey)
+      localStorage.setItem(AuthService.key, adminKey)
       expect(service.getEmail()).toEqual('jon.doe@gmail.com')
     })
   })
 
   describe('getRole()', () => {
     it('should return role', () => {
-      localStorage.setItem(service.key, adminKey)
+      localStorage.setItem(AuthService.key, adminKey)
       expect(service.getRole()).toEqual('admin')
     })
   })
 
   describe('isLoggedIn()', () => {
     it('should return true if logged in', () => {
-      localStorage.setItem(service.key, adminKey)
+      localStorage.setItem(AuthService.key, adminKey)
       expect(service.isLoggedIn()).toEqual(true)
     })
 
     it('should return false if not logged in', () => {
-      localStorage.removeItem(service.key)
+      localStorage.removeItem(AuthService.key)
       expect(service.isLoggedIn()).toEqual(false)
     })
   })
 
   describe('isAdmin()', () => {
     it('should return true if user is admin', () => {
-      localStorage.setItem(service.key, adminKey)
+      localStorage.setItem(AuthService.key, adminKey)
       expect(service.isAdmin()).toEqual(true)
     })
 
     it('should return false if user is not admin', () => {
-      localStorage.setItem(service.key, userKey)
+      localStorage.setItem(AuthService.key, userKey)
       expect(service.isAdmin()).toEqual(false)
     })
   })

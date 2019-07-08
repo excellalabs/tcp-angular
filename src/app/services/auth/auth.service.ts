@@ -43,7 +43,7 @@ export interface IJwtContents {
 
 @Injectable()
 export class AuthService implements IAuthService {
-  key = 'tcp-angular'
+  static key = 'tcp-angular'
   jwtHelper = new JwtHelperService()
 
   tokenEndpoint: '/oauth/token'
@@ -71,7 +71,7 @@ export class AuthService implements IAuthService {
 
     this.http.post(url, payload, { headers: authHeaders }).subscribe(
       (data: IAuthContents) => {
-        localStorage.setItem(this.key, data.access_token)
+        localStorage.setItem(AuthService.key, data.access_token)
         this.router.navigateByUrl('home')
       },
       (err: HttpErrorResponse) => {
@@ -81,12 +81,12 @@ export class AuthService implements IAuthService {
   }
 
   logout() {
-    localStorage.removeItem(this.key)
+    localStorage.removeItem(AuthService.key)
     this.router.navigateByUrl('login')
   }
 
   getToken(decoded: boolean = false) {
-    const token = localStorage.getItem(this.key)
+    const token = localStorage.getItem(AuthService.key)
     try {
       if (token) {
         const decodedToken: IJwtContents = this.jwtHelper.decodeToken(token)
