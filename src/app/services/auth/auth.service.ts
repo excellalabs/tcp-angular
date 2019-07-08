@@ -12,9 +12,11 @@ import { environment } from '../../../environments/environment'
 import { Role } from '../../models/role'
 
 export interface IAuthService {
+  tokenEndpoint: string
+  authorizationEndpoint: string
   login(username: string, password: string): void
   logout(): void
-  getToken(decoded: boolean)
+  getToken(decoded: boolean): any
   getEmail(): string
   getRole(): string
   isLoggedIn(): boolean
@@ -41,13 +43,13 @@ export interface IJwtContents {
 
 @Injectable()
 export class AuthService implements IAuthService {
-  static key = 'tcp-angular'
+  key = 'tcp-angular'
   jwtHelper = new JwtHelperService()
 
   tokenEndpoint: '/oauth/token'
   authorizationEndpoint: '/oauth/authorization'
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(protected http: HttpClient, protected router: Router) {}
 
   login(userName: string, userPass: string) {
     const url = `${environment.api}/oauth/token`
@@ -69,7 +71,7 @@ export class AuthService implements IAuthService {
 
     this.http.post(url, payload, { headers: authHeaders }).subscribe(
       (data: IAuthContents) => {
-        localStorage.setItem(AuthService.key, data.access_token)
+        localStorage.setItem(this.key, data.access_token)
         this.router.navigateByUrl('home')
       },
       (err: HttpErrorResponse) => {
@@ -79,18 +81,17 @@ export class AuthService implements IAuthService {
   }
 
   logout() {
-    localStorage.removeItem(AuthService.key)
+    localStorage.removeItem(this.key)
     this.router.navigateByUrl('login')
   }
 
   getToken(decoded: boolean = false) {
-    const token = localStorage.getItem(AuthService.key)
+    const token = localStorage.getItem(this.key)
     try {
       if (token) {
         const decodedToken: IJwtContents = this.jwtHelper.decodeToken(token)
         const tokenLifeLeft = decodedToken.exp - new Date().getTime() / 1000
         if (tokenLifeLeft < 0) {
-          console.log('logging out')
           this.logout()
           return null
         }
@@ -107,14 +108,14 @@ export class AuthService implements IAuthService {
 
   getEmail(): string {
     const token = this.getToken(true)
-    // return token.email
-    return 'john@winchester.com'
+    return token.email
+    // return 'john@winchester.com'
   }
 
   getRole(): string {
     const token = this.getToken(true)
-    // return token.role
-    return Role.admin
+    return token.role
+    // return Role.admin
   }
 
   isLoggedIn(): boolean {
