@@ -108,14 +108,14 @@ export class AuthService implements IAuthService {
 
   getEmail(): string {
     const token = this.getToken(true)
-    return token.email
-    // return 'john@winchester.com'
+    return token.email ? token.email : 'john@winchester.com'
   }
 
   getRole(): string {
     const token = this.getToken(true)
-    return token.role
-    // return Role.admin
+    console.log(token)
+    // return token.role
+    return Role.admin
   }
 
   isLoggedIn(): boolean {
