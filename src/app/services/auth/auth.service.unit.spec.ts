@@ -1,3 +1,4 @@
+import { Role } from '../../models/role';
 import { AuthService } from './auth.service'
 
 describe('AuthService (Unit)', () => {
@@ -80,12 +81,12 @@ describe('AuthService (Unit)', () => {
 
   describe('isAdmin()', () => {
     it('should return true if user is admin', () => {
-      localStorage.setItem(AuthService.key, adminKey)
+      spyOn(service, 'getRole').and.returnValue(Role.admin)
       expect(service.isAdmin()).toEqual(true)
     })
 
     it('should return false if user is not admin', () => {
-      localStorage.setItem(AuthService.key, userKey)
+      spyOn(service, 'getRole').and.returnValue(Role.user)
       expect(service.isAdmin()).toEqual(false)
     })
   })
