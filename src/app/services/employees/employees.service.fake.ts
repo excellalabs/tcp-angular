@@ -138,7 +138,9 @@ export class MockEmployeesService implements IEmployeesService {
 
   endpoint = '/employee/'
 
-  constructor() {}
+  constructor() {
+    this.fetch()
+  }
 
   fetch(): Observable<IEmployee[]> {
     this.list.next(dummyEmployees)
