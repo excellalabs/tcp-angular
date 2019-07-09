@@ -2,7 +2,6 @@ pipeline {
   agent {
         docker {
             image 'duluca/minimal-node-chromium'
-            args '-p 4200:80'
         }
     }
    environment {

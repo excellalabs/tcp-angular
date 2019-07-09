@@ -1,10 +1,10 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http'
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing'
 import { TestBed } from '@angular/core/testing'
-import { Router, UrlTree } from '@angular/router';
+import { Router, UrlTree } from '@angular/router'
 import { RouterTestingModule } from '@angular/router/testing'
 
 import { AuthService } from './auth.service'
@@ -22,7 +22,9 @@ describe('AuthService', () => {
 
     http = TestBed.get(HttpTestingController)
     router = TestBed.get(Router)
-    navigateSpy = spyOn(router, 'navigateByUrl').and.callFake((url: string | UrlTree) => new Promise<boolean>(() => true))
+    navigateSpy = spyOn(router, 'navigateByUrl').and.callFake(
+      (url: string | UrlTree) => new Promise<boolean>(() => true)
+    )
     service = TestBed.get(AuthService)
   })
 
@@ -39,24 +41,24 @@ describe('AuthService', () => {
       const username = 'testUsername'
       const password = 'testPassword'
       service.login(username, password)
-      const req = http.expectOne(
-        r => {
-          const goodHeaders =  r.headers.has('Content-Type') &&
+      const req = http.expectOne(r => {
+        const goodHeaders =
+          r.headers.has('Content-Type') &&
           r.headers.get('Content-Type') === 'application/x-www-form-urlencoded' &&
           r.headers.has('Authorization') &&
           r.headers.get('Authorization').startsWith('Basic')
 
-          const body = r.body as HttpParams
-          const goodBody = body.has('username') &&
-            body.get('username') === username &&
-            body.has('password') &&
-            body.get('password') === password &&
-            body.has('grant_type') &&
-            body.get('grant_type') === 'password'
+        const body = r.body as HttpParams
+        const goodBody =
+          body.has('username') &&
+          body.get('username') === username &&
+          body.has('password') &&
+          body.get('password') === password &&
+          body.has('grant_type') &&
+          body.get('grant_type') === 'password'
 
-          return r.method === 'POST' && goodHeaders && goodBody
-        }
-      )
+        return r.method === 'POST' && goodHeaders && goodBody
+      })
       expect(req).toBeTruthy()
     })
 
@@ -65,7 +67,7 @@ describe('AuthService', () => {
       localStorage.removeItem(AuthService.key)
       service.login('u', 'p')
       const req = http.expectOne({ method: 'POST', url: service.authorizationEndpoint })
-      req.flush({ access_token: randomKey})
+      req.flush({ access_token: randomKey })
       expect(localStorage.getItem(AuthService.key)).toBe(randomKey)
     })
 
@@ -73,7 +75,7 @@ describe('AuthService', () => {
       const randomKey = 'randomKey'
       service.login('u', 'p')
       const req = http.expectOne({ method: 'POST', url: service.authorizationEndpoint })
-      req.flush({ access_token: randomKey})
+      req.flush({ access_token: randomKey })
       expect(navigateSpy).toHaveBeenCalledWith('home')
     })
 

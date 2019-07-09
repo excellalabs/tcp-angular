@@ -96,11 +96,9 @@ export class AuthService implements IAuthService {
           return null
         }
       }
-      if (decoded) {
-        return this.jwtHelper.decodeToken(token)
-      } else {
-        return token
-      }
+
+      return decoded ? this.jwtHelper.decodeToken(token) : token
+
     } catch (err) {
       this.logout()
     }
@@ -108,21 +106,16 @@ export class AuthService implements IAuthService {
 
   getEmail(): string {
     const token = this.getToken(true)
-    return token.email
-    // return 'john@winchester.com'
+    return token.email ? token.email : 'john@winchester.com'
   }
 
   getRole(): string {
     const token = this.getToken(true)
-    return token.role
-    // return Role.admin
+    return token.role ? token.role as Role : Role.user
   }
 
   isLoggedIn(): boolean {
-    if (this.getToken()) {
-      return true
-    }
-    return false
+    return !!this.getToken()
   }
 
   isAdmin(): boolean {
