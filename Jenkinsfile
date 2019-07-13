@@ -1,3 +1,13 @@
+void setBuildStatus(String message, String state) {
+  step([
+      $class: "GitHubCommitStatusSetter",
+      reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/excellaco/tcp-angular"],
+      contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"],
+      errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
+      statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
+  ]);
+}
+
 pipeline {
   agent {
         docker {
@@ -10,6 +20,7 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
+        slackSend(channel: '#tcp-angular', color: '#FFFF00', message: ":jenkins-triggered: Build Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
         checkout scm
       }
     }
@@ -27,6 +38,16 @@ pipeline {
       steps {
         sh 'npm run test:headless -- --watch false'
       }
+    }
+  }
+  post {
+    success {
+        setBuildStatus("Build succeeded", "SUCCESS");
+        slackSend(channel: '#tcp-angular', color: '#00FF00', message: ":jenkins_ci: Build Successful!  WOOT WOOT!! :jenkins_ci:")
+    }
+    failure {
+        setBuildStatus("Build failed", "FAILURE");
+        slackSend(channel: '#tcp-angular', color: '#FF0000', message: ":alert: :jenkins_exploding: *Build Failed!  WHO BROKE THE FREAKING CODE??* :jenkins_exploding: :alert:")
     }
   }
 }
