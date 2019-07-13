@@ -1,11 +1,26 @@
 # TCP Angular
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli).
+## Purpose
+
+This is a front-end UI for Exella's proprietary Tech-Challenge Platform:
+
+![Tech Challenge Platform Architecture](tcp-architecture.png)
 
 ## Prerequisites
 
-- [Docker](https://www.docker.com/)
-- [Node LTS](https://nodejs.org/)
+- [Git](www.git-scm.com)
+- [Node LTS](https://nodejs.org/) (which includes [Node Package Manager](https://www.npmjs.com/get-npm), `npm`, automatically)
+- [Docker](https://www.docker.com/) (optional)
+
+## Quick Start
+
+1. Install the prerequisites, above
+1. Clone this repo:   `git clone git@github.com:excellaco/tcp-angular.git`
+1. Install dependencies:  `npm i`
+1. Start up a back-end service
+1. Start the Angular App via Docker or the Angular CLI (see the **Development** or **Production** sections below)
+1. Navigate to http://localhost:4200 to open the app
+1. Log in using the credentials specified in the chosen back-end service's README
 
 ## Development
 
@@ -34,13 +49,67 @@ There are three npm commands of importance:
 
 ## Architecture
 
-#### Application files
-The folder architecture is standard Angular componentized architecture. 
-
-The structure of the repo has common shared files and components at the top of the folder tree, and more specialized components nested within folders belonging to those specific scopes and concerns. For instance, files that are only used by one component (services and other components) are located within that component's folder.
-
 #### Application Architecture
-The application architecture closely follows the folder architecture.  Common features are bundled into modules (Admin, Employee), and those modules are loaded on-demand.
+The application architecture follows the standard [Angular folder structure](https://angular.io/guide/file-structure). 
+
+Here is an overview of the purpose / contents of the files/folders in this project
+
+```bash
+|-- e2e\ # End-to-End tests
+|-- src\  # main source code folder
+    |-- app\  # application code
+        |-- abstracts\  # abstract form template
+        |-- admin\  # admin feature module
+            |-- manage-categories\
+            |-- manage-skills\
+            |-- admin-routing.module.ts
+            |-- admin.module.ts
+        |-- auth\  # authentication guards, interceptors, etc
+        |-- employee\  # employee feature module
+            |-- employee-form\  # manages the multi-stage form
+                |-- bio-form\  # bio portion of employee form
+                |-- contact-form\  #contact portion of employee form
+                |-- review\  # review stage of employee form
+                |-- skills-form\  # skills management portion of employee form
+                |-- employee-form.component.html  # component template
+                |-- employee-form.component.scss  # component styling (scoped to the component)
+                |-- employee-form.component.spec.ts #component tests
+                |-- employee-form.component.ts # component class, logic, configuration
+            |-- employee-list\
+            |-- self-service\  # User's "Manage My Skills" page
+            |-- services\  # services used only within the Employee Module
+                |-- primary-skill\  # Manages the Primary Skill "radio buttons"
+                |-- state\  # US State CRUD service
+            |-- employee-routing.module.ts  # Employee module child routes
+            |-- employee.module.ts  # Employee module configuration
+        |-- error\  # error view (404, etc)
+        |-- home\  # user home page
+        |-- login\  # login page
+        |-- main-nav\  # sidebar navigation
+        |-- messaging\  # toast and modal views and services
+        |-- models\  # data models and interfaces
+        |-- pipes\  # in-template formatters
+        |-- services\  # CRUD and other API services
+            |-- abstract\
+            |-- auth\
+            |-- employees\
+            |-- skill-categories\
+            |-- skills
+        |-- utils\  # helper functions, custom form validators
+    |-- assets\  # images, theme color variables, etc
+    |-- environments\  #environment configuration files
+    |-- index.html  #don't ever modify this
+    |-- main.ts
+    |-- styles.css  # globally applied styles
+    |-- theme.css  # Material theme configuration
+|-- angular.json  # angular configuration 
+|-- docker-compose.yml
+|-- Jenkinsfile
+|-- package-lock.json # managed by NPM, don't change manually
+|-- package.json # dependency management, linter tool config
+|-- README.md
+
+```
 
 ## Auth
 
@@ -132,7 +201,22 @@ To add more [Angular Material](https://material.angular.io/components/categories
 
 ## Layout
 
-[Angular Flex Layout](https://github.com/angular/flex-layout/wiki) (@angular/flex-layout) is the library us used for positioning components in the application.
+[Angular Flex Layout](https://github.com/angular/flex-layout/wiki) (@angular/flex-layout) is the library used for positioning components in the application.
+
+#### Narrative 
+
+This was chosen because the Flex Layout library has media-queries built in and thus provides a quick way to dictate different layouts based on user screen size.  This means we can easily make the entire ap reactive and mobile friendly by simply specifying different layouts based on screen size.
+
+The library does not try to implement it's own flex manager, instead it simply renders the in-template configurations into native css flex settings.  This very neatly reduces the css boilerplate required to implement flex in an angular-friendly way by using angular directives.
+
+
+#### Examples
+
+`<div fxFlex="50%">` - sets a div with a width of 50% the current screen width
+
+`<div fxLayout="row" fxLayout.xs="column">` - sets the container div to use a row layout for it's children normally, but use a column layout when the screen size is extra small (xs), like on mobile devices.  This is very useful for reorganizing forms, where the fields should be side-by-side for desktop users, but likely need to be arranged vertically for mobile users.
+
+The author of the library has an amazingly useful demo site, here:  https://tburleson-layouts-demos.firebaseapp.com/#/docs
 
 ## Messaging
 
@@ -140,10 +224,10 @@ The application makes use of Angular Material's [SnackBar](https://material.angu
 
 ## Testing
 
-85% is the agreed upon TCP minimal test coverage ammount
+85% is the agreed upon TCP minimal test coverage amount
 
 Some useful testing commands:
 - `npm run test` To run the automated unit/integration tests.  A browser window will pop up and the tests will be displayed as they run.
 - `npm run test:headless` To run the tests without the pop-up and have a nice result summary in the console.  This is a useful setup for devs writing tests
 - `npm run test:coverage` To run code-coverage.  Coverage details can be found by opening `coverage/tcp-angular/index.html` in a browser.
-- `npm run e2e` To run the End-to-End (E2E) tests.  NOTE: The application must already be up and running for these tests to work.
+- `npm run e2e` To run the End-to-End (E2E) tests.  NOTE: The complete application must already be up and running for these tests to work.
