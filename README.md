@@ -173,9 +173,36 @@ Lastly, an abstract method must be implemented by any implementing class:
 
 Most CRUD operations are identical, except for the API endpoint and format of the data being managed. Leveraging this fact, there is a `BaseCrudService` that can be utilized to quickly build an [Angular Service](https://angular.io/tutorial/toh-pt4) that supports CRUD to a given endpoint that serves data aligned with a given object or interface.
 
-**Implementation examples exist in the `services` folder**, and must declare their data format in the extension of the `BaseCrudService` at the class level.  Additionally, they should implement an `endpoint` string that references the unique portion of the API url for that endpoint.
-
 This effectively reduces basic CRUD services to a handful of lines of code, once an API contract has been established using [typescript interfaces](https://www.typescriptlang.org/docs/handbook/interfaces.html) or javascript classes.
+
+*skills.service.ts*
+```typescript
+@Injectable()
+export class SkillsService extends BaseCrudService<ISkill>
+  implements IBaseCrudService<ISkill> {
+  endpoint = '/skill/'
+
+  constructor(protected http: HttpClient) {
+    super(http)
+  }
+}
+```
+
+## Routing
+
+Base routing is handled through the `app-routing.module.ts` file. 
+
+Sub-routes such as the employee module will have their own `routing.module.ts` file for further routing within that sub-module. 
+
+The `admin` module and `employees` module are both [lazy loaded](https://angular.io/guide/lazy-loading-ngmodules), which means they are not downloaded to the user's browser until they are requested.  
+
+This has several advantages:
+- drastically reduces the initial payload to the user, resulting in a very fast initial rendering of the application.
+- increases security since unauthenticated users only receive the public portion of the site in their download, so users must successfully authenticate before they even get to download the rest of the application
+- Angular is better able to tree-shake the application and optimize the lazy-loaded modules since those don't need whatever is already included in their parent modules
+- Lazy Loaded modules can also be pre-fetched.  This enables a scenario where the login page paints quickly and the standard user module is downloaded while the user goes through authentication.
+
+The module routing files are where the AuthGuards, Interceptors and other routing functions are wired into the application.
 
 #### Route Resolvers
 
@@ -183,13 +210,27 @@ In many cases, it is desirable for lists of data to be ready before the comonent
 
 Any service that extends the `BaseCrudService` can also be wired into a route as its own route resolver.
 
-## Routing
+*From app-routing.module.ts:*
+```typescript
+const routes = [
+  ...
+  {
+    // url segment:  http://myapp.com/admin
+    path: 'admin',
 
-Base routing is handled through the `app-routing.module.ts` file. 
+    // lazy-loaded module
+    loadChildren: () => import('./admin/admin.module').then(mod => mod.AdminModule),  
 
-Sub-routes such as the employee module will have their own `routing.module.ts` file for further routing within that sub-module. The `admin` module and `employees` module are both lazy loaded, which means they are not downloaded to the user's browser until they are requested.  This drastically reduces the initial payload to the user, resulting in a very fast initial rendering of the application. 
-
-The routing file is where the AuthGuards, Interceptors and other routing functions are added into the application.
+    // Authentication Guard wired in
+    canActivate: [AuthGuard],
+    data: { roles: [Role.admin] },  // data fed into Auth Guard
+    
+    // Resolve these before trying to render the route
+    resolve: { skills: SkillsService, categories: SkillCategoriesService },  
+  },
+  ...
+]
+```
 
 ## Style
 
@@ -221,6 +262,58 @@ The author of the library has an amazingly useful demo site, here:  https://tbur
 ## Messaging
 
 The application makes use of Angular Material's [SnackBar](https://material.angular.io/components/snack-bar/overview) for simple operation confirmation messages, and [MatDialog](https://material.angular.io/components/dialog/overview) for larger, more important (and interactable) confirmation dialogs.
+
+#### SnackBar (toasts)
+
+1. Dependency inject the service into the component/service that will source the toast 
+1.  Use `openSnackBar()` to send a toast to the user
+```typescript
+constructor(private snackBarService: SnackBarService) {
+  this.snackBarService.openSnackBar('This is the toast message')
+}
+```
+If using the snackbar to notify success/failure on a CRUD operation, use the `observerFor<T>()` function to build an [observer](http://reactivex.io/rxjs/class/es6/MiscJSDoc.js~ObserverDoc.html) for the call.  The function automatically handles success/failure messaging using the prefix string provided.
+```typescript
+onDeleteSkill(id: number) {
+    this.skillService
+      .delete(id)
+      .subscribe(this.snackBarService.observerFor<ISkill>('Delete Skill'))
+  }
+```
+
+This can be overloaded with additional functions if additional work needs to be done on success/fail/close of the subscription.
+```typescript
+observerFor<T>(
+    action: string,
+    next?: (value: T) => void,
+    error?: (err: any) => void,
+    complete?: () => void
+  ): Observer<T>
+```
+
+#### Modal Dialogs
+
+Similar to the SnackBar, the [Angular Material Dialog](https://material.angular.io/components/dialog/overview) system uses services to trigger and handle responses to modals.
+
+*Example use of a simple dialog from the manage-skills.component.ts file:*
+```typescript
+onDeleteCategory(id: number) {
+  ...
+  if (hasSkills) {
+    this.dialogService.confirm({
+      title: 'Confirm Deletion',
+      message: 'Deleting a Category with Skills will also delete those Skills.',
+      accept: () => {
+        this.deleteHelper(id) // actually perform the delete
+      },
+      cancel: () => null,
+    })
+  } 
+}
+```
+
+The TCP-Angular dialog service uses a custom component to render the modal content. This can easily be modified or copied to create modals that display whatever data may be needed however the client may wish.
+
 
 ## Testing
 
