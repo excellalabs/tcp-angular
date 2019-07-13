@@ -18,7 +18,7 @@ export interface IAuthService {
   logout(): void
   getToken(decoded: boolean): any
   getEmail(): string
-  getRole(): string
+  getRoles(): Role[]
   isLoggedIn(): boolean
   isAdmin(): boolean
 }
@@ -98,7 +98,6 @@ export class AuthService implements IAuthService {
       }
 
       return decoded ? this.jwtHelper.decodeToken(token) : token
-
     } catch (err) {
       this.logout()
     }
@@ -106,12 +105,12 @@ export class AuthService implements IAuthService {
 
   getEmail(): string {
     const token = this.getToken(true)
-    return token.email ? token.email : 'john@winchester.com'
+    return token.email
   }
 
-  getRole(): string {
+  getRoles(): Role[] {
     const token = this.getToken(true)
-    return token.role ? token.role as Role : Role.user
+    return token.authorities ? (token.authorities as Role[]) : [Role.user]
   }
 
   isLoggedIn(): boolean {
@@ -119,6 +118,6 @@ export class AuthService implements IAuthService {
   }
 
   isAdmin(): boolean {
-    return this.getRole() === Role.admin
+    return this.getRoles().includes(Role.admin)
   }
 }
