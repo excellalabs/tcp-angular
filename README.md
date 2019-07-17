@@ -1,11 +1,26 @@
 # TCP Angular
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli).
+## Purpose
+
+This is a front-end UI for Exella's proprietary Tech-Challenge Platform:
+
+![Tech Challenge Platform Architecture](tcp-architecture.png)
 
 ## Prerequisites
 
-- [Docker](https://www.docker.com/)
-- [Node LTS](https://nodejs.org/)
+- [Git](www.git-scm.com)
+- [Node LTS](https://nodejs.org/) (which includes [Node Package Manager](https://www.npmjs.com/get-npm), `npm`, automatically)
+- [Docker](https://www.docker.com/) (optional)
+
+## Quick Start
+
+1. Install the prerequisites, above
+1. Clone this repo:   `git clone git@github.com:excellaco/tcp-angular.git`
+1. Install dependencies:  `npm i`
+1. Start up a back-end service
+1. Start the Angular App via Docker or the Angular CLI (see the **Development** or **Production** sections below)
+1. Navigate to http://localhost:4200 to open the app
+1. Log in using the credentials specified in the chosen back-end service's README
 
 ## Development
 
@@ -34,13 +49,67 @@ There are three npm commands of importance:
 
 ## Architecture
 
-#### Application files
-The folder architecture is standard Angular componentized architecture. 
-
-The structure of the repo has common shared files and components at the top of the folder tree, and more specialized components nested within folders belonging to those specific scopes and concerns. For instance, files that are only used by one component (services and other components) are located within that component's folder.
-
 #### Application Architecture
-The application architecture closely follows the folder architecture.  Common features are bundled into modules (Admin, Employee), and those modules are loaded on-demand.
+The application architecture follows the standard [Angular folder structure](https://angular.io/guide/file-structure). 
+
+Here is an overview of the purpose / contents of the files/folders in this project
+
+```bash
+|-- e2e\ # End-to-End tests
+|-- src\  # main source code folder
+    |-- app\  # application code
+        |-- abstracts\  # abstract form template
+        |-- admin\  # admin feature module
+            |-- manage-categories\
+            |-- manage-skills\
+            |-- admin-routing.module.ts
+            |-- admin.module.ts
+        |-- auth\  # authentication guards, interceptors, etc
+        |-- employee\  # employee feature module
+            |-- employee-form\  # manages the multi-stage form
+                |-- bio-form\  # bio portion of employee form
+                |-- contact-form\  #contact portion of employee form
+                |-- review\  # review stage of employee form
+                |-- skills-form\  # skills management portion of employee form
+                |-- employee-form.component.html  # component template
+                |-- employee-form.component.scss  # component styling (scoped to the component)
+                |-- employee-form.component.spec.ts #component tests
+                |-- employee-form.component.ts # component class, logic, configuration
+            |-- employee-list\
+            |-- self-service\  # User's "Manage My Skills" page
+            |-- services\  # services used only within the Employee Module
+                |-- primary-skill\  # Manages the Primary Skill "radio buttons"
+                |-- state\  # US State CRUD service
+            |-- employee-routing.module.ts  # Employee module child routes
+            |-- employee.module.ts  # Employee module configuration
+        |-- error\  # error view (404, etc)
+        |-- home\  # user home page
+        |-- login\  # login page
+        |-- main-nav\  # sidebar navigation
+        |-- messaging\  # toast and modal views and services
+        |-- models\  # data models and interfaces
+        |-- pipes\  # in-template formatters
+        |-- services\  # CRUD and other API services
+            |-- abstract\
+            |-- auth\
+            |-- employees\
+            |-- skill-categories\
+            |-- skills
+        |-- utils\  # helper functions, custom form validators
+    |-- assets\  # images, theme color variables, etc
+    |-- environments\  #environment configuration files
+    |-- index.html  #don't ever modify this
+    |-- main.ts
+    |-- styles.css  # globally applied styles
+    |-- theme.css  # Material theme configuration
+|-- angular.json  # angular configuration 
+|-- docker-compose.yml
+|-- Jenkinsfile
+|-- package-lock.json # managed by NPM, don't change manually
+|-- package.json # dependency management, linter tool config
+|-- README.md
+
+```
 
 ## Auth
 
@@ -104,9 +173,36 @@ Lastly, an abstract method must be implemented by any implementing class:
 
 Most CRUD operations are identical, except for the API endpoint and format of the data being managed. Leveraging this fact, there is a `BaseCrudService` that can be utilized to quickly build an [Angular Service](https://angular.io/tutorial/toh-pt4) that supports CRUD to a given endpoint that serves data aligned with a given object or interface.
 
-**Implementation examples exist in the `services` folder**, and must declare their data format in the extension of the `BaseCrudService` at the class level.  Additionally, they should implement an `endpoint` string that references the unique portion of the API url for that endpoint.
-
 This effectively reduces basic CRUD services to a handful of lines of code, once an API contract has been established using [typescript interfaces](https://www.typescriptlang.org/docs/handbook/interfaces.html) or javascript classes.
+
+*skills.service.ts*
+```typescript
+@Injectable()
+export class SkillsService extends BaseCrudService<ISkill>
+  implements IBaseCrudService<ISkill> {
+  endpoint = '/skill/'
+
+  constructor(protected http: HttpClient) {
+    super(http)
+  }
+}
+```
+
+## Routing
+
+Base routing is handled through the `app-routing.module.ts` file. 
+
+Sub-routes such as the employee module will have their own `routing.module.ts` file for further routing within that sub-module. 
+
+The `admin` module and `employees` module are both [lazy loaded](https://angular.io/guide/lazy-loading-ngmodules), which means they are not downloaded to the user's browser until they are requested.  
+
+This has several advantages:
+- drastically reduces the initial payload to the user, resulting in a very fast initial rendering of the application.
+- increases security since unauthenticated users only receive the public portion of the site in their download, so users must successfully authenticate before they even get to download the rest of the application
+- Angular is better able to tree-shake the application and optimize the lazy-loaded modules since those don't need whatever is already included in their parent modules
+- Lazy Loaded modules can also be pre-fetched.  This enables a scenario where the login page paints quickly and the standard user module is downloaded while the user goes through authentication.
+
+The module routing files are where the AuthGuards, Interceptors and other routing functions are wired into the application.
 
 #### Route Resolvers
 
@@ -114,13 +210,27 @@ In many cases, it is desirable for lists of data to be ready before the comonent
 
 Any service that extends the `BaseCrudService` can also be wired into a route as its own route resolver.
 
-## Routing
+*From app-routing.module.ts:*
+```typescript
+const routes = [
+  ...
+  {
+    // url segment:  http://myapp.com/admin
+    path: 'admin',
 
-Base routing is handled through the `app-routing.module.ts` file. 
+    // lazy-loaded module
+    loadChildren: () => import('./admin/admin.module').then(mod => mod.AdminModule),  
 
-Sub-routes such as the employee module will have their own `routing.module.ts` file for further routing within that sub-module. The `admin` module and `employees` module are both lazy loaded, which means they are not downloaded to the user's browser until they are requested.  This drastically reduces the initial payload to the user, resulting in a very fast initial rendering of the application. 
-
-The routing file is where the AuthGuards, Interceptors and other routing functions are added into the application.
+    // Authentication Guard wired in
+    canActivate: [AuthGuard],
+    data: { roles: [Role.admin] },  // data fed into Auth Guard
+    
+    // Resolve these before trying to render the route
+    resolve: { skills: SkillsService, categories: SkillCategoriesService },  
+  },
+  ...
+]
+```
 
 ## Style
 
@@ -132,18 +242,85 @@ To add more [Angular Material](https://material.angular.io/components/categories
 
 ## Layout
 
-[Angular Flex Layout](https://github.com/angular/flex-layout/wiki) (@angular/flex-layout) is the library us used for positioning components in the application.
+[Angular Flex Layout](https://github.com/angular/flex-layout/wiki) (@angular/flex-layout) is the library used for positioning components in the application.
+
+#### Narrative 
+
+This was chosen because the Flex Layout library has media-queries built in and thus provides a quick way to dictate different layouts based on user screen size.  This means we can easily make the entire ap reactive and mobile friendly by simply specifying different layouts based on screen size.
+
+The library does not try to implement it's own flex manager, instead it simply renders the in-template configurations into native css flex settings.  This very neatly reduces the css boilerplate required to implement flex in an angular-friendly way by using angular directives.
+
+
+#### Examples
+
+`<div fxFlex="50%">` - sets a div with a width of 50% the current screen width
+
+`<div fxLayout="row" fxLayout.xs="column">` - sets the container div to use a row layout for it's children normally, but use a column layout when the screen size is extra small (xs), like on mobile devices.  This is very useful for reorganizing forms, where the fields should be side-by-side for desktop users, but likely need to be arranged vertically for mobile users.
+
+The author of the library has an amazingly useful demo site, here:  https://tburleson-layouts-demos.firebaseapp.com/#/docs
 
 ## Messaging
 
 The application makes use of Angular Material's [SnackBar](https://material.angular.io/components/snack-bar/overview) for simple operation confirmation messages, and [MatDialog](https://material.angular.io/components/dialog/overview) for larger, more important (and interactable) confirmation dialogs.
 
+#### SnackBar (toasts)
+
+1. Dependency inject the service into the component/service that will source the toast 
+1.  Use `openSnackBar()` to send a toast to the user
+```typescript
+constructor(private snackBarService: SnackBarService) {
+  this.snackBarService.openSnackBar('This is the toast message')
+}
+```
+If using the snackbar to notify success/failure on a CRUD operation, use the `observerFor<T>()` function to build an [observer](http://reactivex.io/rxjs/class/es6/MiscJSDoc.js~ObserverDoc.html) for the call.  The function automatically handles success/failure messaging using the prefix string provided.
+```typescript
+onDeleteSkill(id: number) {
+    this.skillService
+      .delete(id)
+      .subscribe(this.snackBarService.observerFor<ISkill>('Delete Skill'))
+  }
+```
+
+This can be overloaded with additional functions if additional work needs to be done on success/fail/close of the subscription.
+```typescript
+observerFor<T>(
+    action: string,
+    next?: (value: T) => void,
+    error?: (err: any) => void,
+    complete?: () => void
+  ): Observer<T>
+```
+
+#### Modal Dialogs
+
+Similar to the SnackBar, the [Angular Material Dialog](https://material.angular.io/components/dialog/overview) system uses services to trigger and handle responses to modals.
+
+*Example use of a simple dialog from the manage-skills.component.ts file:*
+```typescript
+onDeleteCategory(id: number) {
+  ...
+  if (hasSkills) {
+    this.dialogService.confirm({
+      title: 'Confirm Deletion',
+      message: 'Deleting a Category with Skills will also delete those Skills.',
+      accept: () => {
+        this.deleteHelper(id) // actually perform the delete
+      },
+      cancel: () => null,
+    })
+  } 
+}
+```
+
+The TCP-Angular dialog service uses a custom component to render the modal content. This can easily be modified or copied to create modals that display whatever data may be needed however the client may wish.
+
+
 ## Testing
 
-85% is the agreed upon TCP minimal test coverage ammount
+85% is the agreed upon TCP minimal test coverage amount
 
 Some useful testing commands:
 - `npm run test` To run the automated unit/integration tests.  A browser window will pop up and the tests will be displayed as they run.
 - `npm run test:headless` To run the tests without the pop-up and have a nice result summary in the console.  This is a useful setup for devs writing tests
 - `npm run test:coverage` To run code-coverage.  Coverage details can be found by opening `coverage/tcp-angular/index.html` in a browser.
-- `npm run e2e` To run the End-to-End (E2E) tests.  NOTE: The application must already be up and running for these tests to work.
+- `npm run e2e` To run the End-to-End (E2E) tests.  NOTE: The complete application must already be up and running for these tests to work.
