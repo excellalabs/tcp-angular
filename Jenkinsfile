@@ -39,9 +39,11 @@ pipeline {
         sh 'npm run test:headless -- --watch false --code-coverage'
       }
     }
-    stage('SonarQube Scans') {
-      steps {
-        sh 'npm run sonar'
+    stage('SonarQube analysis') {
+      steps{
+        withSonarQubeEnv('default') {
+          sh 'npm run sonar'
+        }
       }
     }
   }
