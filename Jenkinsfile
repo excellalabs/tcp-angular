@@ -20,7 +20,7 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        slackSend(channel: '#tcp-angular', color: '#FFFF00', message: ":jenkins-triggered: Build Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+        //slackSend(channel: '#tcp-angular', color: '#FFFF00', message: ":jenkins-triggered: Build Triggered - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
         checkout scm
       }
     }
@@ -36,18 +36,23 @@ pipeline {
     }
     stage('Test') {
       steps {
-        sh 'npm run test:headless -- --watch false'
+        sh 'npm run test:headless -- --watch false --code-coverage'
+      }
+    }
+    stage('SonarQube Scans') {
+      steps {
+        sh 'npm run sonar'
       }
     }
   }
-  post {
-    success {
-        setBuildStatus("Build succeeded", "SUCCESS");
-        slackSend(channel: '#tcp-angular', color: '#00FF00', message: ":jenkins_ci: Build Successful!  ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>) :jenkins_ci:")
-    }
-    failure {
-        setBuildStatus("Build failed", "FAILURE");
-        slackSend(channel: '#tcp-angular', color: '#FF0000', message: ":alert: :jenkins_exploding: *Build Failed!  WHO BROKE THE FREAKING CODE??* ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>) :jenkins_exploding: :alert:")
-    }
-  }
+  //post {
+  //  success {
+  //      setBuildStatus("Build succeeded", "SUCCESS");
+  //      slackSend(channel: '#tcp-angular', color: '#00FF00', message: ":jenkins_ci: Build Successful!  ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>) :jenkins_ci:")
+  //  }
+  //  failure {
+  //      setBuildStatus("Build failed", "FAILURE");
+  //      slackSend(channel: '#tcp-angular', color: '#FF0000', message: ":alert: :jenkins_exploding: *Build Failed!  WHO BROKE THE FREAKING CODE??* ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>) :jenkins_exploding: :alert:")
+  //  }
+  //}
 }
