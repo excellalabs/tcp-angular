@@ -44,6 +44,7 @@ pipeline {
           sh 'npm run sonar'
       }
     }
+  }
   //post {
   //  success {
   //      setBuildStatus("Build succeeded", "SUCCESS");
