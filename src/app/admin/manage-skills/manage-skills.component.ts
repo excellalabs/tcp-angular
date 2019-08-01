@@ -9,15 +9,13 @@ import { SkillsService } from '../../services/skills/skills.service'
   templateUrl: './manage-skills.component.html',
   styleUrls: ['./manage-skills.component.scss'],
 })
-export class ManageSkillsComponent implements OnInit {
+export class ManageSkillsComponent {
   skillToEdit: ISkill = null
 
   constructor(
     private skillService: SkillsService,
     private snackBarService: SnackBarService
   ) {}
-
-  ngOnInit() {}
 
   onEditSkill(id: number) {
     this.skillToEdit = this.skillService.list.value.find(skill => skill.id === id)
