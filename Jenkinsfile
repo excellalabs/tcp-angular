@@ -9,7 +9,6 @@ void setBuildStatus(String message, String state) {
 }
 
 pipeline {
-  cleanWs()
   agent {
         docker {
             image 'duluca/minimal-node-chromium'
