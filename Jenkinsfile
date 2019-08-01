@@ -42,7 +42,7 @@ pipeline {
     stage('SonarQube analysis') {
       steps{
         withSonarQubeEnv('default') {
-          sh "cd ${env.WORKSPACE};sonar"
+          sh "cd ${env.WORKSPACE}; npm run sonar"
         }
       }
     }
