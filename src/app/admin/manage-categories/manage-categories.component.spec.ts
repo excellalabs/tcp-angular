@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed, async } from '@angular/core/testing'
 import { FlexLayoutModule } from '@angular/flex-layout'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'
+import { DialogService } from 'src/app/messaging/services/dialog/dialog.service';
+import { MockDialogService } from 'src/app/messaging/services/dialog/dialog.service.fake';
 
 import { MaterialModule } from '../../material.module'
 import { MessagingModule } from '../../messaging/messaging.module'
@@ -41,6 +43,7 @@ describe('ManageCategoriesComponent', () => {
         { provide: SkillCategoriesService, useClass: MockSkillCategoriesService },
         { provide: SkillsService, useClass: MockSkillsService },
         { provide: SnackBarService, useClass: MockSnackBarService },
+        { provide: DialogService, useClass: MockDialogService }
       ],
     }).compileComponents()
   }))
