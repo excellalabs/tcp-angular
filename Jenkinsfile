@@ -41,13 +41,10 @@ pipeline {
     }
     stage('SonarQube analysis') {
       steps{
-        withSonarQubeEnv('default') {
           sh 'npm run sonar'
-        }
       }
     }
-  }
-  //post {
+`  //post {
   //  success {
   //      setBuildStatus("Build succeeded", "SUCCESS");
   //      slackSend(channel: '#tcp-angular', color: '#00FF00', message: ":jenkins_ci: Build Successful!  ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>) :jenkins_ci:")
