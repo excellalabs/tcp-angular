@@ -42,7 +42,7 @@ pipeline {
     stage('SonarQube analysis') {
       steps{
         withSonarQubeEnv('default') {
-          sh 'npm run sonar'
+          sh 'sonar'
         }
       }
     }
