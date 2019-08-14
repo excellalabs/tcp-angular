@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This is a front-end UI for Exella's proprietary Tech-Challenge Platform:
+This is a front-end UI for a sample Tech-Challenge Platform:
 
 ![Tech Challenge Platform Architecture](tcp-architecture.png)
 
