@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { JwtModule } from '@auth0/angular-jwt'
 import { ChartsModule } from 'ng2-charts'
 
+import { environment } from '../environments/environment';
 import { AdminModule } from './admin/admin.module'
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
@@ -53,8 +54,8 @@ export function tokenGetterFn() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetterFn,
-        whitelistedDomains: ['localhost:4200', 'localhost:8080'],
-        blacklistedRoutes: ['localhost:8080/api/oauth/*'],
+        whitelistedDomains: environment.whitelist,
+        blacklistedRoutes: [/.+\/api\/oauth\//],
       },
     }),
     MessagingModule,
