@@ -22,6 +22,27 @@ This is a front-end UI for a sample Tech-Challenge Platform:
 1. Navigate to http://localhost:4200 to open the app
 1. Log in using the credentials specified in the chosen back-end service's README
 
+## Deployment
+Angular uses an environment file to manage deployment environment configurations.  They are found in `src/environments/`.
+
+Updating the `domain` constant should be all that is needed.
+
+```javascript
+// Base domain for the API
+const domain = 'localhost:8080'
+
+export const environment = {
+  // Whether or not this is a production environment
+  production: true,
+  // Base URL for all API calls
+  api: `http://${domain}/api`,
+  // List of domains that should utilize the user's JWT for API calls
+  whitelistedDomains: [domain],
+  // List of route(s) that should never use the user's JWT for API calls
+  blacklistedRoutes: [`${domain}/api/oauth/`],
+}
+```
+
 ## Development
 
 There are two ways to run the app for local development:
