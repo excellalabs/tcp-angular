@@ -51,7 +51,7 @@ and use ecs-cli to create and bring up the service.  Also open ports.
 
 1) Install ecs-cli
 
-  `sudo curl -o /usr/local/bin/ecs-cli https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest && sudo chmod +x /usr/local/bin/ecs-cli`
+`sudo curl -o /usr/local/bin/ecs-cli https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest && sudo chmod +x /usr/local/bin/ecs-cli`
 
 2) Configure Credentials and Cluster stuff
 
@@ -62,7 +62,7 @@ Try:
 
 If this succeeds, you may be able to skip to the next numbered step.
 
-    a) Generating AWS credentials
+    - a) Generating AWS credentials
 
 Generate credentials with awsmfa (may need to do on your own laptop)
 
@@ -77,14 +77,14 @@ Note: the credentials expire after a set time, usually 8 hours. You
 will need to regenerate them after they expire, or the following
 commands will not work.
 
-    b) Configuring AWS command-line tool
+    - b) Configuring AWS command-line tool
 
 Run: `aws-configure`
 
 It will ask you for four inputs.
 Accept the defaults for the first two, enter the appropriate region for region, output should be json.
 
-    c) Configureing `ecs-cli` command-line tool
+    - c) Configureing `ecs-cli` command-line tool
 
 Run:
 
@@ -158,21 +158,21 @@ This will also tell you which host(s) it's running on.
 
 [In the future, we will replace this step with Terraform automation.]
 
-    a) Create a new target group; make its name end with "-to-3000-tg".
+    - a) Create a new target group; make its name end with "-to-3000-tg".
 Make sure to select the correct VPC.
 Set its type to Instance.  Set its protocol to HTTP. Set its target port to 3000.
 Do *not* register any instances with it directly: the Auto-Scaling Group (ASG) will do that for us.
 
-    b) Go to the cluster node ASG (name contains "-cluster-node") and attach the new target group:
+    - b) Go to the cluster node ASG (name contains "-cluster-node") and attach the new target group:
 "Details" tab, "Edit" button.  Click in the "Target Groups" box, type "3000", select the new target group.
 Click "Save".
 
-    c) Remove any exsiting Listeners on the ALB that are listening on port 80.
+    - c) Remove any exsiting Listeners on the ALB that are listening on port 80.
 Add a Listener to the ALB: listen on 80, forward to the new target group.
 
-    d) Make sure the ALB's Security Group (name ends with "-alb-sg") allows connections on port 80.
+    - d) Make sure the ALB's Security Group (name ends with "-alb-sg") allows connections on port 80.
 
-    e) Set the cluster node security group (name ends with "-cluster-instance-sg") to
+    - e) Set the cluster node security group (name ends with "-cluster-instance-sg") to
 accept connections on 3000 from the ALB's Security Group.
 
 ## Development
