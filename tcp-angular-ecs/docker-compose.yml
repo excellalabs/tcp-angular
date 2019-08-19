@@ -1,0 +1,11 @@
+version: '2'
+services:
+  web:
+    image: 090999229429.dkr.ecr.us-east-1.amazonaws.com/excellaco/tcp-angular
+    ports:
+      - "3000:3000"
+    # npm run start:docker just runs this anyway: (after "npm run standardize")
+    # command: bash -c "ng serve --host 0.0.0.0 --port 3000"
+    command: ["npm", "start"]
+    # changed the port from 4200 to 3000 for production
+    # TODO: maybe change command to be ["ng", "serve", ...] ?
