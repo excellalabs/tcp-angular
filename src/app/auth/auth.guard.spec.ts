@@ -1,9 +1,9 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing'
 import { TestBed, inject } from '@angular/core/testing'
-import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router'
 import { RouterTestingModule } from '@angular/router/testing'
 
-import { Role } from '../models/role';
+import { Role } from '../models/role'
 import { AuthService } from '../services/auth/auth.service'
 import { MockAuthService } from '../services/auth/auth.service.fake'
 import { AuthGuard } from './auth.guard'
@@ -14,10 +14,14 @@ describe('AuthGuard', () => {
   let guard: AuthGuard
 
   beforeEach(() => {
-    mockRouter = { navigateByUrl: jasmine.createSpy('navigateByUrl')}
+    mockRouter = { navigateByUrl: jasmine.createSpy('navigateByUrl') }
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [AuthGuard, { provide: AuthService, useClass: MockAuthService }, { provide: Router, useValue: mockRouter}],
+      providers: [
+        AuthGuard,
+        { provide: AuthService, useClass: MockAuthService },
+        { provide: Router, useValue: mockRouter },
+      ],
     })
 
     guard = TestBed.get(AuthGuard)

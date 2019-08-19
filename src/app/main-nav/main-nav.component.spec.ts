@@ -1,7 +1,7 @@
 import { LayoutModule } from '@angular/cdk/layout'
-import { DebugElement } from '@angular/core';
+import { DebugElement } from '@angular/core'
 import { ComponentFixture, TestBed, async } from '@angular/core/testing'
-import { By } from '@angular/platform-browser';
+import { By } from '@angular/platform-browser'
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'
 import { RouterTestingModule } from '@angular/router/testing'
 
@@ -145,5 +145,4 @@ describe('Main Nav Rendering', () => {
     expect(adminSkillsLink).toBeTruthy()
     expect(adminCategoriesLink).toBeTruthy()
   })
-
 })

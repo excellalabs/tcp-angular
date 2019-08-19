@@ -95,7 +95,9 @@ export class EmployeeListComponent implements AfterViewInit {
   }
 
   skillAriaLabel(skill: IEmployeeSkill): string {
-    return skill && skill.skill ? `${skill.skill.name} - ${skill.proficiency} proficiency` : ''
+    return skill && skill.skill
+      ? `${skill.skill.name} - ${skill.proficiency} proficiency`
+      : ''
   }
 
   sortedSkills(skills: IEmployeeSkill[]): IEmployeeSkill[] {
