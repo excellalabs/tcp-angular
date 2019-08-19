@@ -49,11 +49,11 @@ To deploy to the ECS cluster, you need to set the domain to point to
 the Java API, build the production Docker image, push it to the ECR,
 and use ecs-cli to create and bring up the service.  Also open ports.
 
-1) Install ecs-cli
+1. Install ecs-cli
 
-`sudo curl -o /usr/local/bin/ecs-cli https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest && sudo chmod +x /usr/local/bin/ecs-cli`
+    `sudo curl -o /usr/local/bin/ecs-cli https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest && sudo chmod +x /usr/local/bin/ecs-cli`
 
-2) Configure Credentials and Cluster stuff
+1. Configure Credentials and Default Cluster
 
     You may not need to perform this step, if you have already done it for `tcp-java`.
     Try:
@@ -64,36 +64,36 @@ and use ecs-cli to create and bring up the service.  Also open ports.
 
     - a) Generating AWS credentials
 
-    Generate credentials with awsmfa (may need to do on your own laptop)
+        Generate credentials with awsmfa (may need to do on your own laptop)
     
-    Copy those credentials to the file `~/.aws/credentials` on the computer you're working on.
-    Then set the file permissions so only you can read or write it:
+        Copy those credentials to the file `~/.aws/credentials` on the computer you're working on.
+        Then set the file permissions so only you can read or write it:
     
-    `chomd go-rwx ~/.aws/credentials`
+        `chomd go-rwx ~/.aws/credentials`
     
-    This lets you pass `--aws-profile default` to the `ecs-cli` command.
+        This lets you pass `--aws-profile default` to the `ecs-cli` command.
     
-    Note: the credentials expire after a set time, usually 8 hours. You
-    will need to regenerate them after they expire, or the following
-    commands will not work.
+        Note: the credentials expire after a set time, usually 8 hours. You
+        will need to regenerate them after they expire, or the following
+        commands will not work.
 
     - b) Configuring AWS command-line tool
 
-    Run: `aws-configure`
+        Run: `aws-configure`
     
-    It will ask you for four inputs.
-    Accept the defaults for the first two, enter the appropriate region for region, output should be json.
+        It will ask you for four inputs.
+        Accept the defaults for the first two, enter the appropriate region for region, output should be json.
 
-    - c) Configureing `ecs-cli` command-line tool
+    - c) Configuring `ecs-cli` command-line tool
 
-    Run:
+        Run:
     
-    `ecs-cli configure --cluster [project]-[env]-cluster --region [region] --default-launch-type EC2`,
+        `ecs-cli configure --cluster [project]-[env]-cluster --region [region] --default-launch-type EC2`,
     
-    replacing the cluster name with your actual cluster name, and the region with your actual region.
-    This configures your default cluster (in `~/.ecs/config`).
+        replacing the cluster name with your actual cluster name, and the region with your actual region.
+        This configures your default cluster (in `~/.ecs/config`).
 
-3) Setting the API domain:
+1. Setting the API domain:
 
 Find out what the external FQDN of the Application Load Balancer (ALB)
 is; change the domain line in `src/environments/environment.prod.ts`
@@ -106,7 +106,7 @@ Note: do include the port, `:8080`
 
 Note: you *must* perform this step before doing the Docker image build.
 
-4) Build the production Docker image:
+1. Build the production Docker image:
 
 `npm run docker:build`
 
@@ -115,7 +115,7 @@ This step will take about 4 minutes.  It uses the `prod.Dockerfile`.
 
 Do `docker image ls` to make sure the image was built: `excellaco/tcp-angular`
 
-5) Push the image to the Elastic Container Repository (ECR):
+1. Push the image to the Elastic Container Repository (ECR):
 
 `ecs-cli push --aws-profile default excellaco/tcp-angular:latest`
 
@@ -123,7 +123,7 @@ or, if necessary,
 
 `sudo ecs-cli push --aws-profile default excellaco/tcp-angular:latest`
 
-6) Use ecs-cli to create a new task and bring up the service:
+1. Use ecs-cli to create a new task and bring up the service:
 
 Go to the tcp-angular-ecs subdirectory
 
@@ -150,30 +150,30 @@ Double-check that the service is running:
 
 This will also tell you which host(s) it's running on.
 
-7) Scale up the service (Optional)
+1. Scale up the service (Optional)
 
 `ecs-cli compose --aws-profile default service scale 2`
 
-8) Enable connections from the internet to the tcp-angular containers
+1. Enable connections from the internet to the tcp-angular containers
 
     [In the future, we will replace this step with Terraform automation.]
 
     - a) Create a new target group; make its name end with "-to-3000-tg".
-    Make sure to select the correct VPC.
-    Set its type to Instance.  Set its protocol to HTTP. Set its target port to 3000.
-    Do *not* register any instances with it directly: the Auto-Scaling Group (ASG) will do that for us.
+        Make sure to select the correct VPC.
+        Set its type to Instance.  Set its protocol to HTTP. Set its target port to 3000.
+        Do *not* register any instances with it directly: the Auto-Scaling Group (ASG) will do that for us.
 
     - b) Go to the cluster node ASG (name contains "-cluster-node") and attach the new target group:
-    "Details" tab, "Edit" button.  Click in the "Target Groups" box, type "3000", select the new target group.
-    Click "Save".
+        "Details" tab, "Edit" button.  Click in the "Target Groups" box, type "3000", select the new target group.
+        Click "Save".
 
     - c) Remove any exsiting Listeners on the ALB that are listening on port 80.
-    Add a Listener to the ALB: listen on 80, forward to the new target group.
+        Add a Listener to the ALB: listen on 80, forward to the new target group.
 
     - d) Make sure the ALB's Security Group (name ends with "-alb-sg") allows connections on port 80.
 
     - e) Set the cluster node security group (name ends with "-cluster-instance-sg") to
-    accept connections on 3000 from the ALB's Security Group.
+        accept connections on 3000 from the ALB's Security Group.
 
 ## Development
 
