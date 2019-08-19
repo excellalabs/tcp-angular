@@ -99,7 +99,7 @@ export class MockSkillsService implements IBaseCrudService<ISkill> {
   }
 
   fetch(): Observable<ISkill[]> {
-    this.list.next([ ...dummySkills])
+    this.list.next([...dummySkills])
     return this.list.asObservable()
   }
 

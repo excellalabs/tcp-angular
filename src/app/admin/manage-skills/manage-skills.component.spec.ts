@@ -6,7 +6,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations'
 import { MaterialModule } from '../../material.module'
 import { SnackBarService } from '../../messaging/services/snack-bar/snack-bar.service'
 import { MockSnackBarService } from '../../messaging/services/snack-bar/snack-bar.service.fake'
-import { ISkill } from '../../models/skill.interface';
+import { ISkill } from '../../models/skill.interface'
 import { PipeModule } from '../../pipes/pipe.module'
 import { SkillCategoriesService } from '../../services/skill-categories/skill-categories.service'
 import { MockSkillCategoriesService } from '../../services/skill-categories/skill-categories.service.fake'
@@ -86,7 +86,7 @@ describe('ManageSkillsComponent', () => {
       component.onAddSkill(updatedSkill)
       expect(skillService.update).toHaveBeenCalledWith(updatedSkill)
     })
-    it('should use an observer with \'Update Skill\' when the skill has an id already', () => {
+    it("should use an observer with 'Update Skill' when the skill has an id already", () => {
       spyOn(snackBarService, 'observerFor').and.callThrough()
       const updatedSkill = skillService.list.value[0]
       component.onAddSkill(updatedSkill)
@@ -94,13 +94,13 @@ describe('ManageSkillsComponent', () => {
     })
     it('should call skillService.create() when skill.id is null', () => {
       spyOn(skillService, 'create').and.callThrough()
-      const newSkill = { ...skillService.list.value[0], id: null}
+      const newSkill = { ...skillService.list.value[0], id: null }
       component.onAddSkill(newSkill)
       expect(skillService.create).toHaveBeenCalledWith(newSkill)
     })
-    it('should use an observer with \'Create Skill\' when skill.id is null', () => {
+    it("should use an observer with 'Create Skill' when skill.id is null", () => {
       spyOn(snackBarService, 'observerFor').and.callThrough()
-      const newSkill = { ...skillService.list.value[0], id: null}
+      const newSkill = { ...skillService.list.value[0], id: null }
       component.onAddSkill(newSkill)
       expect(snackBarService.observerFor).toHaveBeenCalledWith('Create Skill')
     })

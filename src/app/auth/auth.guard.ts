@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router'
 
-import { Role } from '../models/role';
+import { Role } from '../models/role'
 import { AuthService } from '../services/auth/auth.service'
 
 @Injectable({
@@ -11,7 +11,7 @@ export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot): boolean {
-    return this.handleCheck(route.data.roles);
+    return this.handleCheck(route.data.roles)
   }
 
   handleCheck(rolesAllowed: Role[]): boolean {

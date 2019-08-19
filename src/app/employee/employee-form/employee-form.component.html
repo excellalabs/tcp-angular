@@ -5,11 +5,7 @@
       <tcp-bio-form [bio]="(employee$ | async)?.bio"
         (formReady)="registerForm('bio', $event)"></tcp-bio-form>
     </mat-card>
-    <button
-      mat-raised-button
-      matStepperNext
-      type="button"
-      color="primary"
+    <button mat-raised-button matStepperNext type="button" color="primary"
       [disabled]="this.formGroup.get('bio')?.invalid"
       aria-label="Next to Employee Contact">Next</button>
   </mat-step>
@@ -20,16 +16,9 @@
         (formReady)="registerForm('contact', $event)"></tcp-contact-form>
     </mat-card>
     <div fxLayoutGap="10px">
-      <button
-        mat-raised-button
-        matStepperPrevious
-        type="button"
+      <button mat-raised-button matStepperPrevious type="button"
         aria-label="Back to Employee Bio">Back</button>
-      <button
-        mat-raised-button
-        matStepperNext
-        type="button"
-        color="primary"
+      <button mat-raised-button matStepperNext type="button" color="primary"
         [disabled]="this.formGroup.get('contact')?.invalid"
         aria-label="Next to Employee Skills">Next</button>
     </div>
@@ -41,16 +30,9 @@
         (formReady)="registerForm('skills', $event)"></tcp-skills-form>
     </mat-card>
     <div fxLayutGap="10px">
-      <button
-        mat-raised-button
-        matStepperPrevious
-        type="button"
+      <button mat-raised-button matStepperPrevious type="button"
         aria-label="Back to Employee Contact">Back</button>
-      <button
-        mat-raised-button
-        matStepperNext
-        type="button"
-        color="primary"
+      <button mat-raised-button matStepperNext type="button" color="primary"
         [disabled]="this.formGroup.get('skills')?.invalid"
         aria-label="Next to Review Employee">Next</button>
     </div>
@@ -60,7 +42,7 @@
     <mat-card>
       <tcp-review [employee]="formGroup.valueChanges | async"></tcp-review>
     </mat-card>
-    <button mat-raised-button class="submit-button" color="primary"
-      (click)="onSubmit()" aria-label="Submit new Employee">Submit</button>
+    <button mat-raised-button class="submit-button" color="primary" (click)="onSubmit()"
+      aria-label="Submit new Employee">Submit</button>
   </mat-step>
 </mat-vertical-stepper>
