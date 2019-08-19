@@ -55,12 +55,12 @@ and use ecs-cli to create and bring up the service.  Also open ports.
 
 2) Configure Credentials and Cluster stuff
 
-You may not need to perform this step, if you have already done it for `tcp-java`.
-Try:
+    You may not need to perform this step, if you have already done it for `tcp-java`.
+    Try:
 
-`ecs-cli compose --aws-profile default service ps`
+    `ecs-cli compose --aws-profile default service ps`
 
-If this succeeds, you may be able to skip to the next numbered step.
+    If this succeeds, you may be able to skip to the next numbered step.
 
     - a) Generating AWS credentials
 
@@ -156,7 +156,7 @@ This will also tell you which host(s) it's running on.
 
 8) Enable connections from the internet to the tcp-angular containers
 
-[In the future, we will replace this step with Terraform automation.]
+    [In the future, we will replace this step with Terraform automation.]
 
     - a) Create a new target group; make its name end with "-to-3000-tg".
 Make sure to select the correct VPC.
