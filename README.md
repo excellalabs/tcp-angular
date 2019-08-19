@@ -95,64 +95,64 @@ and use ecs-cli to create and bring up the service.  Also open ports.
 
 1. Setting the API domain:
 
-Find out what the external FQDN of the Application Load Balancer (ALB)
-is; change the domain line in `src/environments/environment.prod.ts`
-to use that instead of localhost; e.g.:
-`const domain = 'tcp-testing-3-dev-cluster-alb-877192071.us-east-1.elb.amazonaws.com:8080'`
-
-Note: do not include "http://"
-
-Note: do include the port, `:8080`
-
-Note: you *must* perform this step before doing the Docker image build.
+    Find out what the external FQDN of the Application Load Balancer (ALB)
+    is; change the domain line in `src/environments/environment.prod.ts`
+    to use that instead of localhost; e.g.:
+    `const domain = 'tcp-testing-3-dev-cluster-alb-877192071.us-east-1.elb.amazonaws.com:8080'`
+    
+    Note: do not include "http://"
+    
+    Note: do include the port, `:8080`
+    
+    Note: you *must* perform this step before doing the Docker image build.
 
 1. Build the production Docker image:
 
-`npm run docker:build`
-
-Note: you may need to run this as root: `sudo npm run docker:build`
-This step will take about 4 minutes.  It uses the `prod.Dockerfile`.
-
-Do `docker image ls` to make sure the image was built: `excellaco/tcp-angular`
+    `npm run docker:build`
+    
+    Note: you may need to run this as root: `sudo npm run docker:build`
+    This step will take about 4 minutes.  It uses the `prod.Dockerfile`.
+    
+    Do `docker image ls` to make sure the image was built: `excellaco/tcp-angular`
 
 1. Push the image to the Elastic Container Repository (ECR):
 
-`ecs-cli push --aws-profile default excellaco/tcp-angular:latest`
+    `ecs-cli push --aws-profile default excellaco/tcp-angular:latest`
 
-or, if necessary,
+    or, if necessary,
 
-`sudo ecs-cli push --aws-profile default excellaco/tcp-angular:latest`
+    `sudo ecs-cli push --aws-profile default excellaco/tcp-angular:latest`
 
 1. Use ecs-cli to create a new task and bring up the service:
 
-Go to the tcp-angular-ecs subdirectory
+    Go to the tcp-angular-ecs subdirectory
 
-Note: all `ecs-cli compose` commands *must* be run from this subdirectory.
+    Note: all `ecs-cli compose` commands *must* be run from this subdirectory.
 
-`ecs-cli compose --aws-profile default service ps`
+    `ecs-cli compose --aws-profile default service ps`
 
-Make sure the service is not running (either it doesn't show up, or it
-shows up with State = STOPPED). If it is running, do:
+    Make sure the service is not running (either it doesn't show up, or it
+    shows up with State = STOPPED). If it is running, do:
+    
+    `ecs-cli compose --aws-profile default service down`
+    
+    and wait for completion.
 
-`ecs-cli compose --aws-profile default service down`
-
-and wait for completion.
-
-Create the task and bring up the service on the ECS cluster:
-
-`ecs-cli compose --aws-profile default service up`
-
-This will take about 20 seconds.
-
-Double-check that the service is running:
-
-`ecs-cli compose --aws-profile default service ps`
-
-This will also tell you which host(s) it's running on.
+    Create the task and bring up the service on the ECS cluster:
+    
+    `ecs-cli compose --aws-profile default service up`
+    
+    This will take about 20 seconds.
+    
+    Double-check that the service is running:
+    
+    `ecs-cli compose --aws-profile default service ps`
+    
+    This will also tell you which host(s) it's running on.
 
 1. Scale up the service (Optional)
 
-`ecs-cli compose --aws-profile default service scale 2`
+    `ecs-cli compose --aws-profile default service scale 2`
 
 1. Enable connections from the internet to the tcp-angular containers
 
