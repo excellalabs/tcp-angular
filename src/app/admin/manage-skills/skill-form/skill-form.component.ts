@@ -9,7 +9,7 @@ import {
 } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Observable } from 'rxjs'
-import { map } from 'rxjs/operators'
+import { map, take } from 'rxjs/operators'
 
 import { BaseForm } from '../../../abstracts/base-form.class'
 import { ICategory, ISkill } from '../../../models/skill.interface'
@@ -39,7 +39,12 @@ export class SkillFormComponent extends BaseForm implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (hasChanged(changes.skill)) {
       if (this.skill) {
-        this.formGroup.patchValue(this.skill)
+        const skill: ISkill = {...changes.skill.currentValue}
+        // take(1) auto-completes the observable, no need to unsubscribe
+        this.categories$.pipe(take(1)).subscribe(categories => {
+          skill.category = categories.find(c => c.id === skill.category.id)
+          this.formGroup.patchValue(skill)
+        })
       } else {
         this.formGroup.reset()
       }
