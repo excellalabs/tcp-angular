@@ -48,14 +48,15 @@ export class ManageCategoriesComponent {
 
   onSubmitCategory(category: ICategory) {
     this.categoryToEdit = null
+    console.log(category)
     if (category.id) {
       this.categoryService
         .update(category)
-        .subscribe(this.snackBarService.observerFor<ICategory>('Create Category'))
+        .subscribe(this.snackBarService.observerFor<ICategory>('Update Category'))
     } else {
       this.categoryService
         .create(category)
-        .subscribe(this.snackBarService.observerFor<ICategory>('Update Category'))
+        .subscribe(this.snackBarService.observerFor<ICategory>('Add Category'))
     }
   }
 }
