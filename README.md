@@ -49,54 +49,17 @@ To deploy to the ECS cluster, you need to set the domain to point to
 the Java API, build the production Docker image, push it to the ECR,
 and use ecs-cli to create and bring up the service.  Also open ports.
 
-1. Install ecs-cli
+1. Installing and Configuring the aws and ecs-cli Command-Line Tools
 
-    `sudo curl -o /usr/local/bin/ecs-cli https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest && sudo chmod +x /usr/local/bin/ecs-cli`
-
-1. Configure Credentials and Default Cluster
-
-    You may not need to perform this step, if you have already done it for `tcp-java`.
-    Try:
-
-    `ecs-cli compose --aws-profile default service ps`
-
-    If this succeeds, you may be able to skip to the next numbered step.
-
-    - a) Generating AWS credentials
-
-        Generate credentials with awsmfa (may need to do on your own laptop)
-    
-        Copy those credentials to the file `~/.aws/credentials` on the computer you're working on.
-        Then set the file permissions so only you can read or write it:
-    
-        `chomd go-rwx ~/.aws/credentials`
-    
-        This lets you pass `--aws-profile default` to the `ecs-cli` command.
-    
-        Note: the credentials expire after a set time, usually 8 hours. You
-        will need to regenerate them after they expire, or the following
-        commands will not work.
-
-    - b) Configuring AWS command-line tool
-
-        Run: `aws-configure`
-    
-        It will ask you for four inputs.
-        Accept the defaults for the first two, enter the appropriate region for region, output should be json.
-
-    - c) Configuring `ecs-cli` command-line tool
-
-        Run:
-    
-        `ecs-cli configure --cluster [project]-[env]-cluster --region [region] --default-launch-type EC2`,
-    
-        replacing the cluster name with your actual cluster name, and the region with your actual region.
-        This configures your default cluster (in `~/.ecs/config`).
+    Follow the instructions from the tcp-ecs repo's README, in the
+    section titled "Installing and Configuring the aws and ecs-cli Command-Line Tools".
+    https://github.com/excellaco/tcp-ecs/
 
 1. Setting the API domain:
 
     Find out what the external FQDN of the Application Load Balancer (ALB)
-    is; change the domain line in `src/environments/environment.prod.ts`
+    is: this should be output when the tcp-ecs Terraform job runs.
+    Change the domain line in `src/environments/environment.prod.ts`
     to use that instead of localhost; e.g.:
     `const domain = 'tcp-testing-3-dev-cluster-alb-877192071.us-east-1.elb.amazonaws.com:8080'`
     
