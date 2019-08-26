@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing'
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material'
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'
-import { Observer } from 'rxjs';
+import { Observer } from 'rxjs'
 
 import { MaterialModule } from '../../../material.module'
 import { SnackBarService } from './snack-bar.service'
@@ -29,13 +29,15 @@ describe('SnackBarService', () => {
       spyOn(matSnackBar, 'open')
       service.openSnackBar('message')
       expect(matSnackBar.open).toHaveBeenCalledTimes(1)
-      expect(matSnackBar.open).toHaveBeenCalledWith('message', null, {duration: 2000})
+      expect(matSnackBar.open).toHaveBeenCalledWith('message', null, { duration: 2000 })
     })
     it('should take an optional action string', () => {
       spyOn(matSnackBar, 'open')
       service.openSnackBar('message', 'action')
       expect(matSnackBar.open).toHaveBeenCalledTimes(1)
-      expect(matSnackBar.open).toHaveBeenCalledWith('message', 'action', {duration: 2000})
+      expect(matSnackBar.open).toHaveBeenCalledWith('message', 'action', {
+        duration: 2000,
+      })
     })
   })
 
@@ -62,8 +64,8 @@ describe('SnackBarService', () => {
       it('should call the passed in next fn', () => {
         const fn = jasmine.createSpy()
         observer = service.observerFor<any>('my action', fn)
-        observer.next({object: true})
-        expect(fn).toHaveBeenCalledWith({object: true})
+        observer.next({ object: true })
+        expect(fn).toHaveBeenCalledWith({ object: true })
       })
     })
 

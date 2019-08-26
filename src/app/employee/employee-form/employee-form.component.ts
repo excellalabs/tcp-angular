@@ -54,15 +54,20 @@ export class EmployeeFormComponent extends BaseForm implements OnInit, OnDestroy
     const newEmployee = this.formGroup.value
     if (this.employee$.value) {
       this.employeesService
-        .update({...newEmployee, id: this.employee$.value.id})
-        .subscribe(this.snackBarService
-          .observerFor('Update Employee', () => this.employeesService.fetch().subscribe()))
+        .update({ ...newEmployee, id: this.employee$.value.id })
+        .subscribe(
+          this.snackBarService.observerFor('Update Employee', () =>
+            this.employeesService.fetch().subscribe()
+          )
+        )
     } else {
-
       this.employeesService
         .create(newEmployee)
-        .subscribe(this.snackBarService
-          .observerFor('Add Employee', () => this.employeesService.fetch().subscribe()))
+        .subscribe(
+          this.snackBarService.observerFor('Add Employee', () =>
+            this.employeesService.fetch().subscribe()
+          )
+        )
     }
   }
 }

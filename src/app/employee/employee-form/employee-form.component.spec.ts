@@ -55,7 +55,7 @@ describe('EmployeeFormComponent', () => {
         { provide: SkillsService, useClass: MockSkillsService },
         { provide: SkillCategoriesService, useClass: MockSkillCategoriesService },
         { provide: StateService, useClass: MockStateService },
-        { provide: SnackBarService, useClass: MockSnackBarService }
+        { provide: SnackBarService, useClass: MockSnackBarService },
       ],
     }).compileComponents()
   }))
