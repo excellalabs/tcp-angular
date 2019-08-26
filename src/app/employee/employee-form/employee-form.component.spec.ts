@@ -5,6 +5,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations'
 import { RouterTestingModule } from '@angular/router/testing'
 
 import { MaterialModule } from '../../material.module'
+import { SnackBarService } from '../../messaging/services/snack-bar/snack-bar.service'
+import { MockSnackBarService } from '../../messaging/services/snack-bar/snack-bar.service.fake'
 import { PipeModule } from '../../pipes/pipe.module'
 import { EmployeesService } from '../../services/employees/employees.service'
 import { MockEmployeesService } from '../../services/employees/employees.service.fake'
@@ -53,6 +55,7 @@ describe('EmployeeFormComponent', () => {
         { provide: SkillsService, useClass: MockSkillsService },
         { provide: SkillCategoriesService, useClass: MockSkillCategoriesService },
         { provide: StateService, useClass: MockStateService },
+        { provide: SnackBarService, useClass: MockSnackBarService }
       ],
     }).compileComponents()
   }))
