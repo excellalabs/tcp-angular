@@ -31,19 +31,25 @@ export abstract class BaseCrudService<I extends IBaseItem>
   }
 
   getById(id: number): Observable<I> {
-    return this.http.get<I>(`${environment.api}${this.endpoint}/${id}`)
+    return this.http.get<I>(`${environment.api}${this.endpoint}${id}`)
   }
 
   create(item: I): Observable<I> {
-    return this.http.post<I>(`${environment.api}${this.endpoint}`, item).pipe(tap(() => this.fetch().subscribe()))
+    return this.http
+      .post<I>(`${environment.api}${this.endpoint}`, item)
+      .pipe(tap(() => this.fetch().subscribe()))
   }
 
   update(item: I): Observable<I> {
-    return this.http.put<I>(`${environment.api}${this.endpoint}${item.id}`, item).pipe(tap(() => this.fetch().subscribe()))
+    return this.http
+      .put<I>(`${environment.api}${this.endpoint}${item.id}`, item)
+      .pipe(tap(() => this.fetch().subscribe()))
   }
 
   delete(id: number): Observable<I> {
-    return this.http.delete<I>(`${environment.api}${this.endpoint}${id}`).pipe(tap(() => this.fetch().subscribe()))
+    return this.http
+      .delete<I>(`${environment.api}${this.endpoint}${id}`)
+      .pipe(tap(() => this.fetch().subscribe()))
   }
 
   resolve(): Observable<I[]> {

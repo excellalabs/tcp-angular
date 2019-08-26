@@ -39,7 +39,7 @@ export class SkillFormComponent extends BaseForm implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (hasChanged(changes.skill)) {
       if (this.skill) {
-        const skill: ISkill = {...changes.skill.currentValue}
+        const skill: ISkill = { ...changes.skill.currentValue }
         // take(1) auto-completes the observable, no need to unsubscribe
         this.categories$.pipe(take(1)).subscribe(categories => {
           skill.category = categories.find(c => c.id === skill.category.id)
