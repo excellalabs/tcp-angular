@@ -48,7 +48,6 @@ export class ManageCategoriesComponent {
 
   onSubmitCategory(category: ICategory) {
     this.categoryToEdit = null
-    console.log(category)
     if (category.id) {
       this.categoryService
         .update(category)
