@@ -43,6 +43,8 @@ export class EmployeeFormComponent extends BaseForm implements OnInit, OnDestroy
           )
           .subscribe((employee: IEmployee) => this.employee$.next(employee))
       )
+    } else {
+      this.employee$.next({} as IEmployee)
     }
   }
 
@@ -52,7 +54,7 @@ export class EmployeeFormComponent extends BaseForm implements OnInit, OnDestroy
 
   onSubmit() {
     const newEmployee = this.formGroup.value
-    if (this.employee$.value) {
+    if (this.employee$.value && this.employee$.value.id) {
       this.employeesService
         .update({ ...newEmployee, id: this.employee$.value.id })
         .subscribe(

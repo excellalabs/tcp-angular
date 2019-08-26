@@ -3,13 +3,14 @@ import { FlexLayoutModule } from '@angular/flex-layout'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'
 import { RouterTestingModule } from '@angular/router/testing'
+import { of } from 'rxjs';
 
 import { MaterialModule } from '../../material.module'
 import { SnackBarService } from '../../messaging/services/snack-bar/snack-bar.service'
 import { MockSnackBarService } from '../../messaging/services/snack-bar/snack-bar.service.fake'
 import { PipeModule } from '../../pipes/pipe.module'
 import { EmployeesService } from '../../services/employees/employees.service'
-import { MockEmployeesService } from '../../services/employees/employees.service.fake'
+import { MockEmployeesService, dummyEmployees } from '../../services/employees/employees.service.fake'
 import { SkillCategoriesService } from '../../services/skill-categories/skill-categories.service'
 import { MockSkillCategoriesService } from '../../services/skill-categories/skill-categories.service.fake'
 import { SkillsService } from '../../services/skills/skills.service'
@@ -28,6 +29,8 @@ import { SkillsFormComponent } from './skills-form/skills-form.component'
 describe('EmployeeFormComponent', () => {
   let component: EmployeeFormComponent
   let fixture: ComponentFixture<EmployeeFormComponent>
+  let employeeService: EmployeesService
+  let snackBarService: SnackBarService
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -58,15 +61,44 @@ describe('EmployeeFormComponent', () => {
         { provide: SnackBarService, useClass: MockSnackBarService },
       ],
     }).compileComponents()
-  }))
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(EmployeeFormComponent)
     component = fixture.componentInstance
+
+    employeeService = TestBed.get(EmployeesService)
+    snackBarService = TestBed.get(SnackBarService)
+
     fixture.detectChanges()
-  })
+  }))
 
   it('should create', () => {
     expect(component).toBeTruthy()
+  })
+
+  describe('onSubmit', () => {
+    beforeEach(() => {
+      spyOn(employeeService, 'create').and.callThrough()
+      spyOn(employeeService, 'update').and.callThrough()
+      spyOn(snackBarService, 'observerFor').and.callThrough()
+    })
+    it('should call the API to create the employee when not editing', () => {
+      // Editing mode
+      component.formGroup.patchValue(dummyEmployees[0])
+
+      component.onSubmit()
+      expect(employeeService.create).toHaveBeenCalled()
+      expect(employeeService.update).not.toHaveBeenCalled()
+      expect(snackBarService.observerFor).toHaveBeenCalled()
+    })
+    it('should call the API to update the employee when editing', () => {
+      // Editing mode
+      component.employee$.next(dummyEmployees[0])
+      component.formGroup.patchValue(dummyEmployees[0])
+
+      component.onSubmit()
+      expect(employeeService.create).not.toHaveBeenCalled()
+      expect(employeeService.update).toHaveBeenCalled()
+      expect(snackBarService.observerFor).toHaveBeenCalled()
+    })
   })
 })
