@@ -9,7 +9,7 @@
     "internalContainerPort": "3000"
   },
   "scripts": {
-    "sonar": "sonar-scanner",
+    "sonar": "node_modules/sonar-scanner/bin/sonar-scanner",
     "ng": "ng",
     "prestart": "npm run standardize",
     "start": "ng serve",
