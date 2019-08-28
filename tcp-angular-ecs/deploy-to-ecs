@@ -102,7 +102,7 @@ fi
 echo "Bringing service up..."
 counter_limit=10
 counter=$counter_limit
-until [[ ecs-cli compose --aws-profile default service up ]] ; do
+until ( ecs-cli compose --aws-profile default service up ) ; do
     counter=$((counter - 1))
     if (( counter <= 0 )); then
         echo "ERROR: Could not bring service up after $counter_limit attempts.  Quitting..."
