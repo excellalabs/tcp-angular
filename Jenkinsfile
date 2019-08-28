@@ -41,7 +41,7 @@ pipeline {
     }
     stage('SonarQube analysis') {
       steps{
-        dir(${env.WORKSPACE}){
+        dir("${env.WORKSPACE}"){
           withSonarQubeEnv('default') {
             sh 'npm run sonar'
           }
