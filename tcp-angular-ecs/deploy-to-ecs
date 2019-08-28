@@ -92,8 +92,26 @@ if [ "$state" == "OTHER" ] ; then
     exit 2
 fi
 
+if [ "$state" == "ACTIVE" ] ; then
+   echo "Bringing service down (because current state is $state)..."
+   ecs-cli compose --aws-profile default service down
+   sleep 5  # give it some time to drain
+fi
+
+# If the service was running before, it will take some time (< 60 seconds) to drain
 echo "Bringing service up..."
-ecs-cli compose --aws-profile default service up
+counter_limit=10
+counter=$counter_limit
+until [[ ecs-cli compose --aws-profile default service up ]] ; do
+    counter=$((counter - 1))
+    if (( counter <= 0 )); then
+        echo "ERROR: Could not bring service up after $counter_limit attempts.  Quitting..."
+        date
+        cd ..
+        exit 3
+    fi
+    sleep 5
+done;
 
 echo "Checking state of service..."
 ecs-cli compose --aws-profile default service ps
