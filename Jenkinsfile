@@ -10,42 +10,39 @@ void setBuildStatus(String message, String state) {
 
 pipeline {
   agent {
-        docker {
-            image 'duluca/minimal-node-chromium'
-            label 'excellanator'
-        }
+      label 'excellanator'
     }
    environment {
      HOME = '.'
    }
   stages {
     stage('Checkout') {
+      agent { docker 'duluca/minimal-node-chromium' }
       steps {
         //slackSend(channel: '#tcp-angular', color: '#FFFF00', message: ":jenkins-triggered: Build Triggered - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
         checkout scm
       }
     }
     stage('Install') {
+      agent { docker 'duluca/minimal-node-chromium' }
       steps {
         sh 'npm install'
       }
     }
     stage('Build') {
+      agent { docker 'duluca/minimal-node-chromium' }
       steps {
         sh 'npm run build'
       }
     }
     stage('Test') {
+      agent { docker 'duluca/minimal-node-chromium' }
       steps {
         sh 'npm run test:headless -- --watch false --code-coverage'
       }
     }
     stage('SonarQube analysis') {
-      agent{
-        docker{
-          image 'daneweber/ubuntu-node-java'
-        }
-      }
+      agent { docker 'daneweber/ubuntu-node-java' }
       steps{
         //dir("${env.WORKSPACE}"){
           withSonarQubeEnv('default') {
