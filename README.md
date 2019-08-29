@@ -1,5 +1,9 @@
 # TCP Angular
-
+[![Build Status](https://prd-tcp-jenkins.excellalabs.com/buildStatus/icon?job=TCP%2FAngular%2Ftcp-angular%2Fmaster)](https://prd-tcp-jenkins.excellalabs.com/job/TCP/job/Angular/job/tcp-angular/job/master/)
+[![Bugs](http://prd-tcp-ecs-alb-1449891812.us-east-1.elb.amazonaws.com:9000/api/project_badges/measure?project=tcp-angular&metric=bugs)](http://prd-tcp-ecs-alb-1449891812.us-east-1.elb.amazonaws.com:9000/dashboard?id=tcp-angular)
+[![Coverage](http://prd-tcp-ecs-alb-1449891812.us-east-1.elb.amazonaws.com:9000/api/project_badges/measure?project=tcp-angular&metric=coverage)](http://prd-tcp-ecs-alb-1449891812.us-east-1.elb.amazonaws.com:9000/dashboard?id=tcp-angular)
+[![Vulnerabilities](http://prd-tcp-ecs-alb-1449891812.us-east-1.elb.amazonaws.com:9000/api/project_badges/measure?project=tcp-angular&metric=vulnerabilities)](http://prd-tcp-ecs-alb-1449891812.us-east-1.elb.amazonaws.com:9000/dashboard?id=tcp-angular)
+[![Reliability Rating](http://prd-tcp-ecs-alb-1449891812.us-east-1.elb.amazonaws.com:9000/api/project_badges/measure?project=tcp-angular&metric=reliability_rating)](http://prd-tcp-ecs-alb-1449891812.us-east-1.elb.amazonaws.com:9000/dashboard?id=tcp-angular)
 ## Purpose
 
 This is a front-end UI for a sample Tech-Challenge Platform:
@@ -62,20 +66,20 @@ and use ecs-cli to create and bring up the service.  Also open ports.
     Change the domain line in `src/environments/environment.prod.ts`
     to use that instead of localhost; e.g.:
     `const domain = 'tcp-testing-3-dev-cluster-alb-877192071.us-east-1.elb.amazonaws.com:8080'`
-    
+
     Note: do not include "http://"
-    
+
     Note: do include the port, `:8080`
-    
+
     Note: you *must* perform this step before doing the Docker image build.
 
 1. Build the production Docker image:
 
     `npm run docker:build`
-    
+
     Note: you may need to run this as root: `sudo npm run docker:build`
     This step will take about 4 minutes.  It uses the `prod.Dockerfile`.
-    
+
     Do `docker image ls` to make sure the image was built: `excellaco/tcp-angular`
 
 1. Push the image to the Elastic Container Repository (ECR):
@@ -96,21 +100,21 @@ and use ecs-cli to create and bring up the service.  Also open ports.
 
     Make sure the service is not running (either it doesn't show up, or it
     shows up with State = STOPPED). If it is running, do:
-    
+
     `ecs-cli compose --aws-profile default service down`
-    
+
     and wait for completion.
 
     Create the task and bring up the service on the ECS cluster:
-    
+
     `ecs-cli compose --aws-profile default service up`
-    
+
     This will take about 20 seconds.
-    
+
     Double-check that the service is running:
-    
+
     `ecs-cli compose --aws-profile default service ps`
-    
+
     This will also tell you which host(s) it's running on.
 
 1. Scale up the service (Optional)
@@ -166,7 +170,7 @@ There are three npm commands of importance:
 ## Architecture
 
 #### Application Architecture
-The application architecture follows the standard [Angular folder structure](https://angular.io/guide/file-structure). 
+The application architecture follows the standard [Angular folder structure](https://angular.io/guide/file-structure).
 
 Here is an overview of the purpose / contents of the files/folders in this project
 
@@ -218,7 +222,7 @@ Here is an overview of the purpose / contents of the files/folders in this proje
     |-- main.ts
     |-- styles.css  # globally applied styles
     |-- theme.css  # Material theme configuration
-|-- angular.json  # angular configuration 
+|-- angular.json  # angular configuration
 |-- docker-compose.yml
 |-- Jenkinsfile
 |-- package-lock.json # managed by NPM, don't change manually
@@ -306,9 +310,9 @@ export class SkillsService extends BaseCrudService<ISkill>
 
 ## Routing
 
-Base routing is handled through the `app-routing.module.ts` file. 
+Base routing is handled through the `app-routing.module.ts` file.
 
-Sub-routes such as the employee module will have their own `routing.module.ts` file for further routing within that sub-module. 
+Sub-routes such as the employee module will have their own `routing.module.ts` file for further routing within that sub-module.
 
 The `admin` module and `employees` module are both [lazy loaded](https://angular.io/guide/lazy-loading-ngmodules), which means they are not downloaded to the user's browser until they are requested.  
 
@@ -340,7 +344,7 @@ const routes = [
     // Authentication Guard wired in
     canActivate: [AuthGuard],
     data: { roles: [Role.admin] },  // data fed into Auth Guard
-    
+
     // Resolve these before trying to render the route
     resolve: { skills: SkillsService, categories: SkillCategoriesService },  
   },
@@ -354,13 +358,13 @@ const routes = [
 
 This brings in Google's [Material Design](https://material.io/design/) styling, plentiful web accessability features and built-in animations. A color theme already compliant with [USWDS](https://designsystem.digital.gov/) is defined in `theme.scss`.
 
-To add more [Angular Material](https://material.angular.io/components/categories) components to the application, import them in the `material.module.ts` file. Material components come with built in 508 compliance, so long as `aria` inputs are provided when they are used. 
+To add more [Angular Material](https://material.angular.io/components/categories) components to the application, import them in the `material.module.ts` file. Material components come with built in 508 compliance, so long as `aria` inputs are provided when they are used.
 
 ## Layout
 
 [Angular Flex Layout](https://github.com/angular/flex-layout/wiki) (@angular/flex-layout) is the library used for positioning components in the application.
 
-#### Narrative 
+#### Narrative
 
 This was chosen because the Flex Layout library has media-queries built in and thus provides a quick way to dictate different layouts based on user screen size.  This means we can easily make the entire ap reactive and mobile friendly by simply specifying different layouts based on screen size.
 
@@ -381,7 +385,7 @@ The application makes use of Angular Material's [SnackBar](https://material.angu
 
 #### SnackBar (toasts)
 
-1. Dependency inject the service into the component/service that will source the toast 
+1. Dependency inject the service into the component/service that will source the toast
 1.  Use `openSnackBar()` to send a toast to the user
 ```typescript
 constructor(private snackBarService: SnackBarService) {
@@ -424,7 +428,7 @@ onDeleteCategory(id: number) {
       },
       cancel: () => null,
     })
-  } 
+  }
 }
 ```
 
