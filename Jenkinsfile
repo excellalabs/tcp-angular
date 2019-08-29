@@ -12,6 +12,7 @@ pipeline {
   agent {
         docker {
             image 'duluca/minimal-node-chromium'
+            label 'excellanator'
         }
     }
    environment {
@@ -40,6 +41,11 @@ pipeline {
       }
     }
     stage('SonarQube analysis') {
+      agent{
+        docker{
+          image 'daneweber/ubuntu-node-java'
+        }
+      }
       steps{
         //dir("${env.WORKSPACE}"){
           withSonarQubeEnv('default') {
