@@ -9,46 +9,47 @@ void setBuildStatus(String message, String state) {
 }
 
 pipeline {
-  agent {
+    agent {
       label 'excellanator'
     }
-   environment {
+    environment {
      HOME = '.'
-   }
-  stages {
-    stage('Checkout') {
-      agent { docker 'duluca/minimal-node-chromium' }
-      steps {
-        slackSend(channel: '#tcp-angular', color: '#FFFF00', message: ":jenkins-triggered: Build Triggered - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
-        checkout scm
-      }
     }
-    stage('Install') {
-      agent { docker 'duluca/minimal-node-chromium' }
-      steps {
-        sh 'npm install'
+    stages {
+      stage('Checkout') {
+        agent { docker 'duluca/minimal-node-chromium' }
+        steps {
+          slackSend(channel: '#tcp-angular', color: '#FFFF00', message: ":jenkins-triggered: Build Triggered - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+          checkout scm
+        }
       }
-    }
-    stage('Build') {
-      agent { docker 'duluca/minimal-node-chromium' }
-      steps {
-        sh 'npm run build'
+      stage('Install') {
+        agent { docker 'duluca/minimal-node-chromium' }
+        steps {
+          sh 'npm install'
+        }
       }
-    }
-    stage('Test') {
-      agent { docker 'duluca/minimal-node-chromium' }
-      steps {
-        sh 'npm run test:headless -- --watch false --code-coverage'
+      stage('Build') {
+        agent { docker 'duluca/minimal-node-chromium' }
+        steps {
+          sh 'npm run build'
+        }
       }
-    }
-    stage('SonarQube analysis') {
-      agent { docker 'daneweber/ubuntu-node-java' }
-      steps{
-          withSonarQubeEnv('default') {
+      stage('Test') {
+        agent { docker 'duluca/minimal-node-chromium' }
+        steps {
+          sh 'npm run test:headless -- --watch false --code-coverage'
+        }
+      }
+      stage('SonarQube analysis') {
+        agent { docker 'daneweber/ubuntu-node-java' }
+        steps{
+            withSonarQubeEnv('default') {
             sh 'npm run sonar'
-          }
+        }
       }
     }
+  }
   post {
     success {
         setBuildStatus("Build succeeded", "SUCCESS");
