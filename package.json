@@ -35,7 +35,8 @@
     "docker:open:mac": "echo Trying to launch on MacOS && sleep 2 && URL=http://localhost:$npm_package_config_imagePort && open $URL",
     "docker:debugmessage": "echo Docker Debug Completed Successfully! Hit Ctrl+C to terminate log tailing.",
     "predocker:debug": "run-s -c docker:build docker:run",
-    "docker:debug": "run-s -cs docker:open:win docker:open:mac docker:debugmessage docker:taillogs"
+    "docker:debug": "run-s -cs docker:open:win docker:open:mac docker:debugmessage docker:taillogs",
+    "refresh": "rimraf ./node_modules/ && npm install"
   },
   "private": true,
   "dependencies": {
@@ -89,10 +90,11 @@
     "prettier": "^1.18.2",
     "protractor": "~5.4.0",
     "sonarqube-scanner": "~2.5.0",
+    "rimraf": "^3.0.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
-    "uswds": "^2.0.3",
-    "typescript": "~3.4.3"
+    "typescript": "~3.4.3",
+    "uswds": "^2.0.3"
   },
   "importSort": {
     ".ts, .tsx": {

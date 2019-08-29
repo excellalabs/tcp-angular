@@ -6,23 +6,25 @@
     <mat-toolbar></mat-toolbar>
     <mat-nav-list>
       <ng-container *ngIf="isLoggedIn(); else notLoggedIn">
-        <a mat-list-item routerLink="/home">Home</a>
-        <a mat-list-item routerLink="/employee/self">Manage My Skills</a>
-        <a mat-list-item routerLink="/employee/list">Employee List</a>
+        <a mat-list-item id="home" routerLink="/home">Home</a>
+        <a mat-list-item id="employee-self" routerLink="/employee/self">Manage My
+          Skills</a>
+        <a mat-list-item id="employee-list" routerLink="/employee/list">Employee List</a>
         <ng-container *ngIf="currentUserIsAdmin()">
           <mat-divider></mat-divider>
           <h3 mat-subheader>Admin Actions</h3>
-          <a mat-list-item routerLink="/employee/add">Add Employee</a>
-          <a mat-list-item routerLink="/admin/skills">Manage Skills</a>
-          <a mat-list-item routerLink="/admin/categories">Manage Categories</a>
+          <a mat-list-item id="employee-add" routerLink="/employee/add">Add Employee</a>
+          <a mat-list-item id="admin-skills" routerLink="/admin/skills">Manage Skills</a>
+          <a mat-list-item id="admin-categories" routerLink="/admin/categories">Manage
+            Categories</a>
         </ng-container>
         <ng-container>
           <mat-divider></mat-divider>
-          <a mat-list-item (click)="logout()">Logout</a>
+          <a mat-list-item id="logout" (click)="logout()">Logout</a>
         </ng-container>
       </ng-container>
       <ng-template #notLoggedIn>
-        <a mat-list-item routerLink="/login">Log In</a>
+        <a mat-list-item id="login" routerLink="/login">Log In</a>
       </ng-template>
     </mat-nav-list>
   </mat-sidenav>

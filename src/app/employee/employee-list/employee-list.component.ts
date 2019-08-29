@@ -51,7 +51,8 @@ export class EmployeeListComponent implements AfterViewInit {
         case 'email':
           return employee.contact.email
         case 'skills':
-          return employee.skills.find(s => s.primary === true).skill.name
+          const primarySkill = employee.skills.find(s => s.primary === true)
+          return primarySkill && primarySkill.skill ? primarySkill.skill.name : ''
         default:
           return employee[property]
       }
@@ -94,7 +95,9 @@ export class EmployeeListComponent implements AfterViewInit {
   }
 
   skillAriaLabel(skill: IEmployeeSkill): string {
-    return `${skill.skill.name} - ${skill.proficiency} proficiency`
+    return skill && skill.skill
+      ? `${skill.skill.name} - ${skill.proficiency} proficiency`
+      : ''
   }
 
   sortedSkills(skills: IEmployeeSkill[]): IEmployeeSkill[] {

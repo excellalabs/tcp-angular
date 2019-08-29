@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This is a front-end UI for Exella's proprietary Tech-Challenge Platform:
+This is a front-end UI for a sample Tech-Challenge Platform:
 
 ![Tech Challenge Platform Architecture](tcp-architecture.png)
 
@@ -21,6 +21,122 @@ This is a front-end UI for Exella's proprietary Tech-Challenge Platform:
 1. Start the Angular App via Docker or the Angular CLI (see the **Development** or **Production** sections below)
 1. Navigate to http://localhost:4200 to open the app
 1. Log in using the credentials specified in the chosen back-end service's README
+
+## Deployment
+Angular uses an environment file to manage deployment environment configurations.  They are found in `src/environments/`.
+
+Updating the `domain` constant should be all that is needed.
+
+```javascript
+// Base domain for the API
+const domain = 'localhost:8080'
+
+export const environment = {
+  // Whether or not this is a production environment
+  production: true,
+  // Base URL for all API calls
+  api: `http://${domain}/api`,
+  // List of domains that should utilize the user's JWT for API calls
+  whitelistedDomains: [domain],
+  // List of route(s) that should never use the user's JWT for API calls
+  blacklistedRoutes: [`${domain}/api/oauth/`],
+}
+```
+
+## Deployment to the ECS Cluster
+
+To deploy to the ECS cluster, you need to set the domain to point to
+the Java API, build the production Docker image, push it to the ECR,
+and use ecs-cli to create and bring up the service.  Also open ports.
+
+1. Installing and Configuring the aws and ecs-cli Command-Line Tools
+
+    Follow the instructions from the tcp-ecs repo's README, in the
+    section titled "Installing and Configuring the aws and ecs-cli Command-Line Tools".
+    https://github.com/excellaco/tcp-ecs/
+
+1. Setting the API domain:
+
+    Find out what the external FQDN of the Application Load Balancer (ALB)
+    is: this should be output when the tcp-ecs Terraform job runs.
+    Change the domain line in `src/environments/environment.prod.ts`
+    to use that instead of localhost; e.g.:
+    `const domain = 'tcp-testing-3-dev-cluster-alb-877192071.us-east-1.elb.amazonaws.com:8080'`
+    
+    Note: do not include "http://"
+    
+    Note: do include the port, `:8080`
+    
+    Note: you *must* perform this step before doing the Docker image build.
+
+1. Build the production Docker image:
+
+    `npm run docker:build`
+    
+    Note: you may need to run this as root: `sudo npm run docker:build`
+    This step will take about 4 minutes.  It uses the `prod.Dockerfile`.
+    
+    Do `docker image ls` to make sure the image was built: `excellaco/tcp-angular`
+
+1. Push the image to the Elastic Container Repository (ECR):
+
+    `ecs-cli push --aws-profile default excellaco/tcp-angular:latest`
+
+    or, if necessary,
+
+    `sudo ecs-cli push --aws-profile default excellaco/tcp-angular:latest`
+
+1. Use ecs-cli to create a new task and bring up the service:
+
+    Go to the tcp-angular-ecs subdirectory
+
+    Note: all `ecs-cli compose` commands *must* be run from this subdirectory.
+
+    `ecs-cli compose --aws-profile default service ps`
+
+    Make sure the service is not running (either it doesn't show up, or it
+    shows up with State = STOPPED). If it is running, do:
+    
+    `ecs-cli compose --aws-profile default service down`
+    
+    and wait for completion.
+
+    Create the task and bring up the service on the ECS cluster:
+    
+    `ecs-cli compose --aws-profile default service up`
+    
+    This will take about 20 seconds.
+    
+    Double-check that the service is running:
+    
+    `ecs-cli compose --aws-profile default service ps`
+    
+    This will also tell you which host(s) it's running on.
+
+1. Scale up the service (Optional)
+
+    `ecs-cli compose --aws-profile default service scale 2`
+
+1. Enable connections from the internet to the tcp-angular containers
+
+    [In the future, we will replace this step with Terraform automation.]
+
+    - a) Create a new target group; make its name end with "-to-3000-tg".
+        Make sure to select the correct VPC.
+        Set its type to Instance.  Set its protocol to HTTP. Set its target port to 3000.
+        Do *not* register any instances with it directly: the Auto-Scaling Group (ASG) will do that for us.
+
+    - b) Go to the cluster node ASG (name contains "-cluster-node") and attach the new target group:
+        "Details" tab, "Edit" button.  Click in the "Target Groups" box, type "3000", select the new target group.
+        Click "Save".
+
+    - c) Remove any exsiting Listeners on the ALB that are listening on port 80.
+        Add a Listener to the ALB: listen on 80, forward to the new target group.
+
+    - d) Make sure the ALB's Security Group (name ends with "-alb-sg") allows connections on port 80.
+
+    - e) Set the cluster node security group (name ends with "-cluster-instance-sg") to
+        accept connections on 3000 from the ALB's Security Group.
 
 ## Development
 
