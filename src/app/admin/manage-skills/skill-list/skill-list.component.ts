@@ -20,7 +20,7 @@ export class SkillListComponent implements OnInit {
   constructor(public skillService: SkillsService) {
     this.dataSource = new MatTableDataSource<ISkill>([])
     this.skillService.list.subscribe(skills => {
-      this.dataSource.data = skills.sort((a, b) => stringCompare(a.name, b.name))
+      this.dataSource.data = [...skills].sort((a, b) => stringCompare(a.name, b.name))
     })
   }
 

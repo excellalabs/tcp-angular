@@ -29,7 +29,7 @@ export class SkillFormComponent extends BaseForm implements OnInit, OnChanges {
   constructor(private fb: FormBuilder, private categoryService: SkillCategoriesService) {
     super()
     this.categories$ = this.categoryService.list.pipe(
-      map(cats => cats.sort((a, b) => stringCompare(a.name, b.name)))
+      map(cats => [...cats].sort((a, b) => stringCompare(a.name, b.name)))
     )
     this.formGroup = this.buildForm()
   }
