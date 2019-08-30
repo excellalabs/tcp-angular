@@ -62,7 +62,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     })
 
-    return categories
+    return [...categories]
       .sort((a, b) => stringCompare(a.name, b.name))
       .map(c => {
         const count = skills.filter(s => s.skill.category.id === c.id).length
