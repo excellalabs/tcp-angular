@@ -26,18 +26,21 @@ pipeline {
       stage('Install') {
         agent { docker 'duluca/minimal-node-chromium' }
         steps {
+          echo "$WORKSPACE"
           sh 'npm install'
         }
       }
       stage('Build') {
         agent { docker 'duluca/minimal-node-chromium' }
         steps {
+          echo "$WORKSPACE"
           sh 'npm run build'
         }
       }
       stage('Test') {
         agent { docker 'duluca/minimal-node-chromium' }
         steps {
+          echo "$WORKSPACE"
           sh 'npm run test:headless -- --watch false --code-coverage'
         }
       }
@@ -45,7 +48,8 @@ pipeline {
         agent { docker 'daneweber/ubuntu-node-java' }
         steps{
             withSonarQubeEnv('default') {
-            sh 'npm run sonar'
+              echo "$WORKSPACE"
+              sh 'npm run sonar'
           }
         }
       }
