@@ -11,7 +11,7 @@
 
 # Fail on any error; unset variables are errors; show commands before executing:
 set -eux
-
+ENV="$1"
 # TODO: see if logging anything from this script would be helpful
 
 # TODO: make sure we're in the correct directory (with ECS docker-compose.yml in it)
@@ -33,7 +33,7 @@ ecs-cli push --aws-profile default $IMAGE:latest
 
 aws_region=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed "s/[a-z]$//")
 
-cluster_name=$(aws ssm get-parameter --region $aws_region --name "/dev/cluster-name" --query "Parameter.Value" --out text)
+cluster_name=$(aws ssm get-parameter --region $aws_region --name "/$ENV/cluster-name" --query "Parameter.Value" --out text)
 
 echo "Configuring the default ECS cluster for ecs-cli to $cluster_name in region $aws_region..."
 ecs-cli configure --cluster $cluster_name --region $aws_region --default-launch-type EC2

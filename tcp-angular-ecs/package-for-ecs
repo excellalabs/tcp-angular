@@ -6,7 +6,7 @@
 
 # Fail on any error; unset variables are errors; show commands before executing:
 set -eux
-
+ENV="$1"
 # TODO: see if logging anything from this script would be helpful
 
 # TODO: make sure we're in the correct (root) directory
@@ -15,12 +15,13 @@ set -eux
 date
 
 echo "Running in $PWD"
+echo "Target Environment = $ENV"
 
 docker --version
 
 aws_region=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed "s/[a-z]$//")
 
-cluster_name=$(aws ssm get-parameter --region $aws_region --name "/dev/cluster-name" --query "Parameter.Value" --out text)
+cluster_name=$(aws ssm get-parameter --region $aws_region --name "/$ENV/cluster-name" --query "Parameter.Value" --out text)
 
 # Find out what the external FQDN of the Application Load Balancer (ALB) is;
 # change the domain line in ../src/environments/environment.prod.ts to
