@@ -9,45 +9,55 @@ void setBuildStatus(String message, String state) {
 }
 
 pipeline {
-  agent {
-        docker {
-            image 'duluca/minimal-node-chromium'
+    agent {
+      label 'excellanator'
+    }
+    environment {
+     HOME = '.'
+    }
+    stages {
+      stage('Checkout') {
+        agent { docker 'duluca/minimal-node-chromium' }
+        steps {
+          slackSend(channel: '#tcp-angular', color: '#FFFF00', message: ":jenkins-triggered: Build Triggered - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+          checkout scm
+        }
+      }
+      stage('Install') {
+        agent { docker 'duluca/minimal-node-chromium' }
+        steps {
+          sh 'npm install'
+        }
+      }
+      stage('Build') {
+        agent { docker 'duluca/minimal-node-chromium' }
+        steps {
+          sh 'npm run build'
+        }
+      }
+      stage('Test') {
+        agent { docker 'duluca/minimal-node-chromium' }
+        steps {
+          sh 'npm run test:headless -- --watch false --code-coverage'
+        }
+      }
+      stage('SonarQube analysis') {
+        agent { docker 'daneweber/ubuntu-node-java' }
+        steps{
+            withSonarQubeEnv('default') {
+              sh 'npm run sonar'
+          }
+        }
+      }
+    }
+    post {
+      success {
+          setBuildStatus("Build succeeded", "SUCCESS");
+          slackSend(channel: '#tcp-angular', color: '#00FF00', message: ":jenkins_ci: Build Successful!  ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>) :jenkins_ci:")
+        }
+      failure {
+          setBuildStatus("Build failed", "FAILURE");
+          slackSend(channel: '#tcp-angular', color: '#FF0000', message: ":alert: :jenkins_exploding: *Build Failed!  WHO BROKE THE FREAKING CODE??* ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>) :jenkins_exploding: :alert:")
         }
     }
-   environment {
-     HOME = '.'
-   }
-  stages {
-    stage('Checkout') {
-      steps {
-        slackSend(channel: '#tcp-angular', color: '#FFFF00', message: ":jenkins-triggered: Build Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
-        checkout scm
-      }
-    }
-    stage('Install') {
-      steps {
-        sh 'npm install'
-      }
-    }
-    stage('Build') {
-      steps {
-        sh 'npm run build'
-      }
-    }
-    stage('Test') {
-      steps {
-        sh 'npm run test:headless -- --watch false'
-      }
-    }
-  }
-  post {
-    success {
-        setBuildStatus("Build succeeded", "SUCCESS");
-        slackSend(channel: '#tcp-angular', color: '#00FF00', message: ":jenkins_ci: Build Successful!  ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>) :jenkins_ci:")
-    }
-    failure {
-        setBuildStatus("Build failed", "FAILURE");
-        slackSend(channel: '#tcp-angular', color: '#FF0000', message: ":alert: :jenkins_exploding: *Build Failed!  WHO BROKE THE FREAKING CODE??* ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>) :jenkins_exploding: :alert:")
-    }
-  }
 }

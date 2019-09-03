@@ -55,6 +55,6 @@ export class SelfServiceComponent extends BaseForm implements OnInit, OnDestroy 
   }
 
   sortedSkills(skills: IEmployeeSkill[]): IEmployeeSkill[] {
-    return skills.sort(sortEmployeeSkillsByImpact)
+    return [...skills].sort(sortEmployeeSkillsByImpact)
   }
 }

@@ -12,16 +12,27 @@ module.exports = function (config) {
       require('karma-coverage-istanbul-reporter'),
       require('@angular-devkit/build-angular/plugins/karma'),
       require('karma-spec-reporter'),
+      require('karma-sonarqube-reporter'),
     ],
     client: {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, './coverage/tcp-angular'),
-      reports: ['html', 'lcovonly', 'text-summary'],
+      reports: ['html', 'lcovonly', 'text-summary' ],
       fixWebpackSourcePaths: true
     },
-    reporters: ['progress', 'kjhtml', 'spec'],
+    sonarqubeReporter: {
+      basePath: 'src/app',
+      filePattern: '**/*spec.ts',
+      encoding: 'utf-8',
+      outputFolder: 'reports',
+      legacyMode: false,
+      reportName: (metadata) => {
+        return 'utExecution.xml'
+      }
+    },
+    reporters: ['progress', 'kjhtml', 'spec', 'sonarqube' ],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,

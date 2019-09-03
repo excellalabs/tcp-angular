@@ -5,6 +5,7 @@ import { BehaviorSubject, Subscription } from 'rxjs'
 import { switchMap } from 'rxjs/operators'
 
 import { BaseForm } from '../../abstracts/base-form.class'
+import { SnackBarService } from '../../messaging/services/snack-bar/snack-bar.service'
 import { IEmployee } from '../../models/employee.interface'
 import { EmployeesService } from '../../services/employees/employees.service'
 
@@ -20,7 +21,8 @@ export class EmployeeFormComponent extends BaseForm implements OnInit, OnDestroy
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private employeesService: EmployeesService
+    private employeesService: EmployeesService,
+    private snackBarService: SnackBarService
   ) {
     super()
     this.formGroup = this.buildForm()
@@ -41,6 +43,8 @@ export class EmployeeFormComponent extends BaseForm implements OnInit, OnDestroy
           )
           .subscribe((employee: IEmployee) => this.employee$.next(employee))
       )
+    } else {
+      this.employee$.next({} as IEmployee)
     }
   }
 
@@ -49,6 +53,23 @@ export class EmployeeFormComponent extends BaseForm implements OnInit, OnDestroy
   }
 
   onSubmit() {
-    console.log(this.formGroup.value)
+    const newEmployee = this.formGroup.value
+    if (this.employee$.value && this.employee$.value.id) {
+      this.employeesService
+        .update({ ...newEmployee, id: this.employee$.value.id })
+        .subscribe(
+          this.snackBarService.observerFor('Update Employee', () =>
+            this.employeesService.fetch().subscribe()
+          )
+        )
+    } else {
+      this.employeesService
+        .create(newEmployee)
+        .subscribe(
+          this.snackBarService.observerFor('Add Employee', () =>
+            this.employeesService.fetch().subscribe()
+          )
+        )
+    }
   }
 }

@@ -32,7 +32,7 @@ export class CategoryListComponent implements OnInit {
     combineLatest([this.categoryService.list, this.skillService.list])
       .pipe(
         map(([categories, skills]) => {
-          return categories
+          return [...categories]
             .sort((a, b) => stringCompare(a.name, b.name))
             .map(category => {
               return {
