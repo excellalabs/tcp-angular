@@ -45,7 +45,7 @@ pipeline {
         agent { docker 'daneweber/ubuntu-node-java' }
         steps{
             withSonarQubeEnv('default') {
-            sh 'npm run sonar'
+              sh 'npm run sonar'
           }
         }
       }
