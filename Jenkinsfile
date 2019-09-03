@@ -49,17 +49,51 @@ pipeline {
           }
         }
       }
-      stage('Deploy Dev'){
+      stage('Build Dev Image'){
         steps{
           nodejs('12') {
             sh 'npm install import-sort'
             sh './tcp-angular-ecs/package-for-ecs dev'
-            dir('tcp-angular-ecs'){
-              sh './deploy-to-ecs dev'
-            }
           }
         }
       }
+      stage('Deploy Dev Image'){
+        steps{
+          dir('tcp-angular-ecs'){
+            sh './deploy-to-ecs dev'
+          }
+        }
+      }
+      /* stage('Build Test Image'){
+        steps{
+          nodejs('12') {
+            sh 'npm install import-sort'
+            sh './tcp-angular-ecs/package-for-ecs test'
+          }
+        }
+      }
+      stage('Deploy Test Image'){
+        steps{
+          dir('tcp-angular-ecs'){
+            sh './deploy-to-ecs test'
+          }
+        }
+      }
+      stage('Build Prod Image'){
+        steps{
+          nodejs('12') {
+            sh 'npm install import-sort'
+            sh './tcp-angular-ecs/package-for-ecs prod'
+          }
+        }
+      }
+      stage('Deploy Prod Image'){
+        steps{
+          dir('tcp-angular-ecs'){
+            sh './deploy-to-ecs prod'
+          }
+        }
+      } */
     }
     post {
       success {
