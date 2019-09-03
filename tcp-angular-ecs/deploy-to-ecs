@@ -1,0 +1,90 @@
+#!/bin/bash
+
+# Deploy the containers for the tcp-angular service into the ECS cluster
+# This script does NOT wait until the deployed containers (web) are actually RUNNING
+# Pushes the latest local tcp-java-api image to ECR.
+#
+# Assumes it is run in the ECS service subdirectory (where the ECS docker-compose.yml is);
+# assumes credentials are already set up in the default aws profile;
+# assumes name of cluster to deploy to is in SSM key "/dev/cluster-name";
+# sets the default ecs-cli cluster to that cluster.
+
+# Fail on any error; unset variables are errors; show commands before executing:
+set -eux
+ENV="$1"
+# TODO: see if logging anything from this script would be helpful
+
+# TODO: make sure we're in the correct directory (with ECS docker-compose.yml in it)
+
+date
+
+echo "Running in $PWD"
+
+aws --version
+ecs-cli --version
+
+# TODO: ls any other necessary files here, so the script fails early
+
+IMAGE=$(grep "image: .*amazonaws.com/" docker-compose.yml | sed "s/^[^\/]*\///")
+echo "Image from docker-compose.yml is $IMAGE"
+
+aws_region=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed "s/[a-z]$//")
+
+cluster_name=$(aws ssm get-parameter --region $aws_region --name "/$ENV/cluster-name" --query "Parameter.Value" --out text)
+
+echo "Configuring the default ECS cluster for ecs-cli to $cluster_name in region $aws_region..."
+ecs-cli configure --cluster $cluster_name --region $aws_region --default-launch-type EC2
+
+echo "Pushing image $IMAGE to ECR..."
+ecs-cli push --aws-profile default $IMAGE:latest
+
+echo "Checking current state of service..."
+(ecs-cli compose --aws-profile default service ps ||:) | tee service-status
+
+# Remember: failed grep returns an error (1)
+
+# States not in { RUNNING, STOPPED } include { PENDING }
+state=OTHER
+
+# If ANY are RUNNING, state is ACTIVE
+if ( grep -q RUNNING service-status ) ; then
+    state=ACTIVE
+elif  ( grep -q STOPPED service-status ) ; then
+    state=INACTIVE
+elif  ( grep -q ServiceNotFoundException service-status ) ; then
+    state=NONEXISTENT
+fi
+
+echo "state is $state"
+
+if [ "$state" == "OTHER" ] ; then
+    echo "ERROR: unknown service state; see above.  Quitting...."
+    exit 2
+fi
+
+if [ "$state" == "ACTIVE" ] ; then
+   echo "Bringing service down (because current state is $state)..."
+   ecs-cli compose --aws-profile default service down
+   sleep 20  # give it some time to drain
+fi
+
+# If the service was running before, it will take some time (usually < 30 seconds) to drain
+echo "Bringing service up..."
+counter_limit=10
+counter=$counter_limit
+until ( ecs-cli compose --aws-profile default service up ) ; do
+    counter=$((counter - 1))
+    if (( counter <= 0 )); then
+        echo "ERROR: Could not bring service up after $counter_limit attempts.  Quitting..."
+        date
+        exit 3
+    fi
+    sleep 5
+done;
+
+echo "Checking state of service..."
+ecs-cli compose --aws-profile default service ps
+
+# TODO: wait around until at least two things are RUNNING
+
+date
