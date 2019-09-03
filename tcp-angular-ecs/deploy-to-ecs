@@ -28,15 +28,15 @@ ecs-cli --version
 IMAGE=$(grep "image: .*amazonaws.com/" docker-compose.yml | sed "s/^[^\/]*\///")
 echo "Image from docker-compose.yml is $IMAGE"
 
-echo "Pushing image $IMAGE to ECR..."
-ecs-cli push --aws-profile default $IMAGE:latest
-
 aws_region=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed "s/[a-z]$//")
 
 cluster_name=$(aws ssm get-parameter --region $aws_region --name "/$ENV/cluster-name" --query "Parameter.Value" --out text)
 
 echo "Configuring the default ECS cluster for ecs-cli to $cluster_name in region $aws_region..."
 ecs-cli configure --cluster $cluster_name --region $aws_region --default-launch-type EC2
+
+echo "Pushing image $IMAGE to ECR..."
+ecs-cli push --aws-profile default $IMAGE:latest
 
 echo "Checking current state of service..."
 (ecs-cli compose --aws-profile default service ps ||:) | tee service-status
