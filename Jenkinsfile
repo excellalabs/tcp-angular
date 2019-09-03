@@ -54,8 +54,9 @@ pipeline {
           nodejs('12') {
             sh 'npm install import-sort'
             sh './tcp-angular-ecs/package-for-ecs dev'
-            sh 'cd tcp-angular-ecs/'
-            sh './deploy-to-ecs'
+            dir('tcp-angular-ecs'){
+              sh './deploy-to-ecs dev'
+            }
           }
         }
       }
