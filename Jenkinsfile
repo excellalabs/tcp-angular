@@ -52,7 +52,6 @@ pipeline {
       stage('Build Dev Image'){
         steps{
           nodejs('12') {
-            sh 'npm install import-sort'
             sh './tcp-angular-ecs/package-for-ecs dev'
           }
         }
