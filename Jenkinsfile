@@ -26,13 +26,13 @@ pipeline {
       stage('Install') {
         agent { docker 'duluca/minimal-node-chromium' }
         steps {
-          sh 'npm install'
+          sh 'npm ci'
         }
       }
       stage('Build') {
         agent { docker 'duluca/minimal-node-chromium' }
         steps {
-          sh 'npm run build'
+          sh 'npm run build:prod'
         }
       }
       stage('Test') {
