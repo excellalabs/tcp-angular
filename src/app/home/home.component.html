@@ -1,6 +1,5 @@
 <div *ngIf="employee$ | async as employee" fxLayout="column" fxLayoutGap="20px">
-  <h3>Welcome, {{ employee.bio.firstName }} {{ employee.bio.lastName }}</h3>
-  <div fxLayoutGap="20px" fxLayout="space-between stretch">
+  <div fxLayoutGap="20px" fxLayout="space-between stretch" fxFlexOffset="20px">
     <tcp-chart fxFlex="49%" [data]="skillsByProficiency$ | async"
       chartLabel="Skill Count by Proficiency"></tcp-chart>
     <tcp-chart fxFlex="49%" [data]="skillsByCategory$ | async"
