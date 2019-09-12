@@ -103,8 +103,8 @@ pipeline {
           setBuildStatus("Build failed", "FAILURE");
           //slackSend(channel: '#tcp-angular', color: '#FF0000', message: ":alert: :jenkins_exploding: *Build Failed!  WHO BROKE THE FREAKING CODE??* ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>) :jenkins_exploding: :alert:")
         }
-        always {
-          cleanWs
-        }
+      always {
+        cleanWs()
+      }
     }
 }
