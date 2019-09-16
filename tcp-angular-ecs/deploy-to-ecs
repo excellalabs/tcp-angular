@@ -11,7 +11,8 @@
 
 # Fail on any error; unset variables are errors; show commands before executing:
 set -eux
-ENV="$1"
+PROJECT="$1"
+ENV="$2"
 # TODO: see if logging anything from this script would be helpful
 
 # TODO: make sure we're in the correct directory (with ECS docker-compose.yml in it)
@@ -19,25 +20,37 @@ ENV="$1"
 date
 
 echo "Running in $PWD"
+echo "Project = $PROJECT"
+echo "Target Environment = $ENV"
 
+# Check versions of required software #
+######################################
 aws --version
 ecs-cli --version
 
 # TODO: ls any other necessary files here, so the script fails early
 
+# Get image produced via previous 'package_for_ecs' script #
+############################################################
 IMAGE=$(grep "image: .*amazonaws.com/" docker-compose.yml | sed "s/^[^\/]*\///")
 echo "Image from docker-compose.yml is $IMAGE"
 
+# Configure ecs-cli #
+#####################
 aws_region=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | sed "s/[a-z]$//")
 
-cluster_name=$(aws ssm get-parameter --region $aws_region --name "/$ENV/cluster-name" --query "Parameter.Value" --out text)
+cluster_name=$(aws ssm get-parameter --region $aws_region --name "/$PROJECT/$ENV/cluster/id" --query "Parameter.Value" --out text)
 
 echo "Configuring the default ECS cluster for ecs-cli to $cluster_name in region $aws_region..."
 ecs-cli configure --cluster $cluster_name --region $aws_region --default-launch-type EC2
 
+# Upload image to ECR #
+#######################
 echo "Pushing image $IMAGE to ECR..."
 ecs-cli push --aws-profile default $IMAGE:latest
 
+# Check state of service, and wait until new version becomes active #
+#####################################################################
 echo "Checking current state of service..."
 (ecs-cli compose --aws-profile default service ps ||:) | tee service-status
 
@@ -47,12 +60,12 @@ echo "Checking current state of service..."
 state=OTHER
 
 # If ANY are RUNNING, state is ACTIVE
-if ( grep -q RUNNING service-status ) ; then
+if  ( grep -q ServiceNotFoundException service-status ) ; then
+    state=NONEXISTENT
+elif ( grep -q RUNNING service-status ) ; then
     state=ACTIVE
 elif  ( grep -q STOPPED service-status ) ; then
     state=INACTIVE
-elif  ( grep -q ServiceNotFoundException service-status ) ; then
-    state=NONEXISTENT
 fi
 
 echo "state is $state"
@@ -88,3 +101,6 @@ ecs-cli compose --aws-profile default service ps
 # TODO: wait around until at least two things are RUNNING
 
 date
+
+# DONE #
+########
