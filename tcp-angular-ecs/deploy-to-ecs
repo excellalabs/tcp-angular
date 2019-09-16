@@ -6,7 +6,7 @@
 #
 # Assumes it is run in the ECS service subdirectory (where the ECS docker-compose.yml is);
 # assumes credentials are already set up in the default aws profile;
-# assumes name of cluster to deploy to is in SSM key "/dev/cluster-name";
+# assumes name of cluster to deploy to is in SSM key "/$PROJECT/$ENV/cluster/id";
 # sets the default ecs-cli cluster to that cluster.
 
 # Fail on any error; unset variables are errors; show commands before executing:
