@@ -30,7 +30,7 @@ cluster_name=$(aws ssm get-parameter --region $aws_region --name "/$PROJECT/$ENV
 # use that instead of localhost; e.g.:
 # const domain = 'tcp-testing-3-dev-cluster-alb-877192071.us-east-1.elb.amazonaws.com:8080'
 
-alb=$(aws ssm get-parameter --region $aws_region --name "${cluster_name}_alb_endpoint" --query "Parameter.Value" --out text)
+alb=$(aws ssm get-parameter --region $aws_region --name "/$PROJECT/$ENV/alb/endpoint" --query "Parameter.Value" --out text)
 echo "ALB FQDN is $alb"
 
 # relative to project root:
