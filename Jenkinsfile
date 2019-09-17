@@ -53,14 +53,14 @@ pipeline {
         steps{
           nodejs('12') {
             sh 'npm install import-sort'
-            sh './tcp-angular-ecs/package-for-ecs dev'
+            sh './tcp-angular-ecs/package-for-ecs ${PROJECT_NAME} dev'
           }
         }
       }
       stage('Deploy Dev Image'){
         steps{
           dir('tcp-angular-ecs'){
-            sh './deploy-to-ecs dev'
+            sh './deploy-to-ecs ${PROJECT_NAME} dev'
           }
         }
       }
@@ -68,14 +68,14 @@ pipeline {
         steps{
           nodejs('12') {
             sh 'npm install import-sort'
-            sh './tcp-angular-ecs/package-for-ecs test'
+            sh './tcp-angular-ecs/package-for-ecs ${PROJECT_NAME} test'
           }
         }
       }
       stage('Deploy Test Image'){
         steps{
           dir('tcp-angular-ecs'){
-            sh './deploy-to-ecs test'
+            sh './deploy-to-ecs ${PROJECT_NAME} test'
           }
         }
       }
@@ -83,14 +83,14 @@ pipeline {
         steps{
           nodejs('12') {
             sh 'npm install import-sort'
-            sh './tcp-angular-ecs/package-for-ecs prod'
+            sh './tcp-angular-ecs/package-for-ecs ${PROJECT_NAME} prod'
           }
         }
       }
       stage('Deploy Prod Image'){
         steps{
           dir('tcp-angular-ecs'){
-            sh './deploy-to-ecs prod'
+            sh './deploy-to-ecs ${PROJECT_NAME} prod'
           }
         }
       } */
@@ -102,7 +102,7 @@ pipeline {
         }
       failure {
           setBuildStatus("Build failed", "FAILURE");
-          slackSend(channel: '#tcp-angular', color: '#FF0000', message: ":alert: :jenkins_exploding: *Build Failed!  WHO BROKE THE FREAKING CODE??* ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>) :jenkins_exploding: :alert:")
+          slackSend(channel: '#tcp-angular', color: '#FF0000', message: ":alert: :jenkins_exploding: *Build Failed!  Now we join up like Voltron to fix it!* ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>) :jenkins_exploding: :alert:")
         }
     }
 }
