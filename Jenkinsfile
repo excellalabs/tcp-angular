@@ -52,14 +52,15 @@ pipeline {
       stage('Build Dev Image'){
         steps{
           nodejs('12') {
-            sh './tcp-angular-ecs/package-for-ecs dev'
+            sh 'npm install import-sort'
+            sh './tcp-angular-ecs/package-for-ecs ${PROJECT_NAME} dev'
           }
         }
       }
       stage('Deploy Dev Image'){
         steps{
           dir('tcp-angular-ecs'){
-            sh './deploy-to-ecs dev'
+            sh './deploy-to-ecs ${PROJECT_NAME} dev'
           }
         }
       }
@@ -67,14 +68,14 @@ pipeline {
         steps{
           nodejs('12') {
             sh 'npm install import-sort'
-            sh './tcp-angular-ecs/package-for-ecs test'
+            sh './tcp-angular-ecs/package-for-ecs ${PROJECT_NAME} test'
           }
         }
       }
       stage('Deploy Test Image'){
         steps{
           dir('tcp-angular-ecs'){
-            sh './deploy-to-ecs test'
+            sh './deploy-to-ecs ${PROJECT_NAME} test'
           }
         }
       }
@@ -82,14 +83,14 @@ pipeline {
         steps{
           nodejs('12') {
             sh 'npm install import-sort'
-            sh './tcp-angular-ecs/package-for-ecs prod'
+            sh './tcp-angular-ecs/package-for-ecs ${PROJECT_NAME} prod'
           }
         }
       }
       stage('Deploy Prod Image'){
         steps{
           dir('tcp-angular-ecs'){
-            sh './deploy-to-ecs prod'
+            sh './deploy-to-ecs ${PROJECT_NAME} prod'
           }
         }
       } */
