@@ -16,23 +16,30 @@ pipeline {
      HOME = '.'
     }
     stages {
+      stage('SlackNotify'){
+        when {
+          expression { env.JOB_BASE_NAME.startsWith('PR') }
+        }
+        steps {
+          slackSend(channel: '#tcp-angular', color: '#FFFF00', message: ":jenkins-triggered: Build Triggered - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
+        }
+      }
       stage('Checkout') {
         agent { docker 'duluca/minimal-node-chromium' }
         steps {
-          slackSend(channel: '#tcp-angular', color: '#FFFF00', message: ":jenkins-triggered: Build Triggered - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)")
           checkout scm
         }
       }
       stage('Install') {
         agent { docker 'duluca/minimal-node-chromium' }
         steps {
-          sh 'npm install'
+          sh 'npm ci'
         }
       }
       stage('Build') {
         agent { docker 'duluca/minimal-node-chromium' }
         steps {
-          sh 'npm run build'
+          sh 'npm run build:prod'
         }
       }
       stage('Test') {
@@ -50,6 +57,9 @@ pipeline {
         }
       }
       stage('Build Dev Image'){
+        when {
+          not { expression { env.PROJECT_NAME.startsWith('prd') } }
+        }
         steps{
           nodejs('12') {
             sh 'npm install import-sort'
@@ -58,6 +68,9 @@ pipeline {
         }
       }
       stage('Deploy Dev Image'){
+        when {
+          not { expression { env.PROJECT_NAME.startsWith('prd') } }
+        }
         steps{
           dir('tcp-angular-ecs'){
             sh './deploy-to-ecs ${PROJECT_NAME} dev'
@@ -98,11 +111,21 @@ pipeline {
     post {
       success {
           setBuildStatus("Build succeeded", "SUCCESS");
-          slackSend(channel: '#tcp-angular', color: '#00FF00', message: ":jenkins_ci: Build Successful!  ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>) :jenkins_ci:")
+          script {
+            if (env.JOB_BASE_NAME.startsWith('PR'))
+             slackSend(channel: '#tcp-angular', color: '#00FF00', message: ":jenkins_ci: Build Successful!  ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>) :jenkins_ci:")
+           }
+          cleanWs()
         }
       failure {
           setBuildStatus("Build failed", "FAILURE");
-          slackSend(channel: '#tcp-angular', color: '#FF0000', message: ":alert: :jenkins_exploding: *Build Failed!  Now we join up like Voltron to fix it!* ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>) :jenkins_exploding: :alert:")
+          script {
+            if (env.JOB_BASE_NAME.startsWith('PR'))
+             slackSend(channel: '#tcp-angular', color: '#FF0000', message: ":alert: :jenkins_exploding: *Build Failed!  Please remedy this malbuildage at your earliest convenience* ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>) :jenkins_exploding: :alert:")
+           }
         }
+      always {
+        sh 'docker image prune -a --force --filter "until=120h"'
+      }
     }
 }
