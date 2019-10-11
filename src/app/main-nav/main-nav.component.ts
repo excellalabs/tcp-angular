@@ -1,18 +1,18 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout'
-import { Component, OnInit, OnDestroy } from '@angular/core'
+import { Component, OnDestroy } from '@angular/core'
 import { Observable, Subscription } from 'rxjs'
 import { map } from 'rxjs/operators'
-import { IEmployee } from '../models/employee.interface'
-import { EmployeesService } from '../services/employees/employees.service'
 
+import { IEmployee } from '../models/employee.interface'
 import { AuthService } from '../services/auth/auth.service'
+import { EmployeesService } from '../services/employees/employees.service'
 
 @Component({
   selector: 'tcp-main-nav',
   templateUrl: './main-nav.component.html',
   styleUrls: ['./main-nav.component.css'],
 })
-export class MainNavComponent implements OnInit, OnDestroy {
+export class MainNavComponent implements OnDestroy {
   employee$: Observable<IEmployee>
   subscriptions: Subscription[] = []
   isHandset$: Observable<boolean> = this.breakpointObserver
@@ -24,9 +24,6 @@ export class MainNavComponent implements OnInit, OnDestroy {
     private breakpointObserver: BreakpointObserver,
     private authService: AuthService
   ) {}
-
-  ngOnInit() {
-  }
 
   ngOnDestroy() {
     this.subscriptions.forEach(s => s.unsubscribe())
