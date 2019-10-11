@@ -36,7 +36,9 @@
       </button>
       <span>Employee Listing</span>
       <span class="spacer"></span>
-      <span>Welcome!</span>
+      <span *ngIf="isLoggedIn() && employee$ | async as employee" id="welcome">
+          Welcome, {{ employee.bio.firstName }} {{ employee.bio.lastName }}
+      </span>
     </mat-toolbar>
     <router-outlet></router-outlet>
   </mat-sidenav-content>

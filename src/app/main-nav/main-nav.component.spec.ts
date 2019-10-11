@@ -8,18 +8,27 @@ import { RouterTestingModule } from '@angular/router/testing'
 import { MaterialModule } from '../material.module'
 import { AuthService } from '../services/auth/auth.service'
 import { MockAuthService } from '../services/auth/auth.service.fake'
+import { EmployeesService } from '../services/employees/employees.service'
+import {
+  MockEmployeesService,
+  dummyEmployees,
+} from '../services/employees/employees.service.fake'
 import { MainNavComponent } from './main-nav.component'
 
 describe('MainNavComponent', () => {
   let component: MainNavComponent
   let fixture: ComponentFixture<MainNavComponent>
   let authService: AuthService
+  let employeesService: EmployeesService
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [MainNavComponent],
       imports: [NoopAnimationsModule, LayoutModule, MaterialModule, RouterTestingModule],
-      providers: [{ provide: AuthService, useClass: MockAuthService }],
+      providers: [
+        { provide: EmployeesService, useClass: MockEmployeesService },
+        { provide: AuthService, useClass: MockAuthService },
+      ],
     }).compileComponents()
   }))
 
@@ -29,6 +38,7 @@ describe('MainNavComponent', () => {
     fixture.detectChanges()
 
     authService = TestBed.get(AuthService)
+    employeesService = TestBed.get(EmployeesService)
   })
 
   it('should compile', () => {
@@ -58,6 +68,20 @@ describe('MainNavComponent', () => {
       expect(authService.isAdmin).toHaveBeenCalled()
     })
   })
+
+  describe('#getCurrentUser()', () => {
+    it('should utilize AuthService and EmployeeService to get the currently logged in user', done => {
+      const email = 'jon.doe@gmail.com'
+      spyOn(authService, 'getEmail').and.returnValue(email)
+      spyOn(employeesService, 'getByEmail').and.callThrough()
+      component.getCurrentUser().subscribe(user => {
+        expect(authService.getEmail).toHaveBeenCalled()
+        expect(employeesService.getByEmail).toHaveBeenCalledWith(email)
+        expect(user).toEqual(dummyEmployees.find(e => e.contact.email === email))
+        done()
+      })
+    })
+  })
 })
 
 describe('Main Nav Rendering', () => {
@@ -78,7 +102,10 @@ describe('Main Nav Rendering', () => {
     TestBed.configureTestingModule({
       declarations: [MainNavComponent],
       imports: [NoopAnimationsModule, LayoutModule, MaterialModule, RouterTestingModule],
-      providers: [{ provide: AuthService, useValue: authService }],
+      providers: [
+        { provide: AuthService, useValue: authService },
+        { provide: EmployeesService, useClass: MockEmployeesService },
+      ],
     }).compileComponents()
 
     fixture = TestBed.createComponent(MainNavComponent)
@@ -145,4 +172,5 @@ describe('Main Nav Rendering', () => {
     expect(adminSkillsLink).toBeTruthy()
     expect(adminCategoriesLink).toBeTruthy()
   })
+
 })
