@@ -1,5 +1,7 @@
 // Base domain for the API
+// BEGIN DOMAIN DEF  do not modify or move this line or put anything but the domain setting between BEGIN and END
 const domain = 'localhost:8080'
+// END DOMAIN DEF    do not modify or move this line or put anything but the domain setting between BEGIN and END
 
 export const environment = {
   // Whether or not this is a production environment
