@@ -50,6 +50,9 @@ pipeline {
         }
       }
       stage('Build Dev Image'){
+        when {
+          not { expression { env.PROJECT_NAME.startsWith('prd') } }
+        }
         steps{
           nodejs('12') {
             sh 'npm install import-sort'
@@ -58,6 +61,9 @@ pipeline {
         }
       }
       stage('Deploy Dev Image'){
+        when {
+          not { expression { env.PROJECT_NAME.startsWith('prd') } }
+        }
         steps{
           dir('tcp-angular-ecs'){
             sh './deploy-to-ecs ${PROJECT_NAME} dev'
