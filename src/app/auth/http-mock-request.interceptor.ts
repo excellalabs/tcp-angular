@@ -11,10 +11,12 @@ import { JwtHelperService } from '@auth0/angular-jwt'
 import { Observable, of } from 'rxjs'
 
 import { environment } from '../../environments/environment'
-
-import { dummySkills } from '../services/skills/skills.service.fake'
+import {
+  MockEmployeesService,
+  dummyEmployees,
+} from '../services/employees/employees.service.fake'
 import { dummySkillCategories } from '../services/skill-categories/skill-categories.service.fake'
-import { dummyEmployees } from '../services/employees/employees.service.fake';
+import { dummySkills } from '../services/skills/skills.service.fake'
 
 @Injectable()
 export class HttpMockRequestInterceptor implements HttpInterceptor {
@@ -26,28 +28,31 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
     switch (request.url) {
       case `${environment.api}/oauth/token`:
         return this.mockLogin(request);
-      // case `${environment.api}/skill/`:
-      //   return this.mockGetSkills();
-      // case `${environment.api}/employee/`:
-      //     return this.mockGetEmployees();
+      case `${environment.api}/skill/`:
+        return this.mockGetSkills();
+      case `${environment.api}/skill-category/`:
+        return this.mockGetSkillCategories();
+      case `${environment.api}/employee/`:
+        return this.mockGetEmployees();
       default:
-        console.log(`no mock configuration for ${request.url}`);
+        console.log(`no mock configuration for ${request.url}`)
     }
 
     return next.handle(request)
   }
 
   mockLogin(request: HttpRequest<any>): Observable<HttpEvent<any>> {
-    const username = request.body.updates.find(u => u.param === 'username').value;
-    const password = request.body.updates.find(u => u.param === 'password').value;
+    const username = request.body.updates.find(u => u.param === 'username').value
+    const password = request.body.updates.find(u => u.param === 'password').value
 
     if (username === 'user' && password === 'pass') {
       return of(
         new HttpResponse({
           status: 200,
           body: {
-            access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1NjAzNTQ4MTk5MjEsImV4cCI6MTU5MTk4NDMyOTA4OSwiZW1haWwiOiJqb24uZG9lQGdtYWlsLmNvbSIsImtleSI6ImFzZGYyNHNkIiwicm9sZSI6ImFkbWluIn0.1dxln22U-jkWVN0WDLH0ltpkW47YrI550OXn90v6ahI'
-          }
+            access_token:
+              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1NjAzNTQ4MTk5MjEsImV4cCI6MTU5MTk4NDMyOTA4OSwiZW1haWwiOiJqb24uZG9lQGdtYWlsLmNvbSIsImtleSI6ImFzZGYyNHNkIiwicm9sZSI6ImFkbWluIn0.1dxln22U-jkWVN0WDLH0ltpkW47YrI550OXn90v6ahI',
+          },
         })
       )
     } else {
@@ -59,7 +64,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
     return of(
       new HttpResponse({
         status: 200,
-        body: { dummySkills }
+        body: dummySkills
       })
     )
   }
@@ -68,7 +73,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
     return of(
       new HttpResponse({
         status: 200,
-        body: { dummySkillCategories }
+        body: dummySkillCategories
       })
     )
   }
@@ -77,7 +82,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
     return of(
       new HttpResponse({
         status: 200,
-        body: { dummyEmployees }
+        body: dummyEmployees
       })
     )
   }
