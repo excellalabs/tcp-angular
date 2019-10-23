@@ -18,6 +18,7 @@ import { dummySkills } from '../services/skills/skills.service.fake'
 import { ISkill } from '../models/skill.interface';
 
 import { ICategory } from '../models/skill.interface';
+import { IEmployee } from '../models/employee.interface';
 
 @Injectable()
 export class HttpMockRequestInterceptor implements HttpInterceptor {
@@ -103,6 +104,12 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
   }
 
   mockEmployees(request: HttpRequest<any>): Observable<HttpEvent<any>> {
+    if (request.method === 'POST') {
+      const employee: IEmployee = request.body
+      employee.id = Math.max(...this.localEmployees.map(x => x.id), 0) + 1;
+      this.localEmployees.push(employee);
+    }
+
     return of(
       new HttpResponse({
         status: 200,
