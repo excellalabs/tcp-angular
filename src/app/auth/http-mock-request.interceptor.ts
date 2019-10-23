@@ -11,16 +11,17 @@ import { JwtHelperService } from '@auth0/angular-jwt'
 import { Observable, of } from 'rxjs'
 
 import { environment } from '../../environments/environment'
-import {
-  MockEmployeesService,
-  dummyEmployees,
-} from '../services/employees/employees.service.fake'
+import { dummyEmployees} from '../services/employees/employees.service.fake'
 import { dummySkillCategories } from '../services/skill-categories/skill-categories.service.fake'
 import { dummySkills } from '../services/skills/skills.service.fake'
 
 @Injectable()
 export class HttpMockRequestInterceptor implements HttpInterceptor {
   jwtHelper = new JwtHelperService()
+
+  localEmployees = dummyEmployees;
+  localSkills = dummySkills;
+  localSkillCategories = dummySkillCategories;
 
   constructor(private injector: Injector) {}
 
@@ -50,8 +51,16 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
         new HttpResponse({
           status: 200,
           body: {
-            access_token:
-              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1NjAzNTQ4MTk5MjEsImV4cCI6MTU5MTk4NDMyOTA4OSwiZW1haWwiOiJqb24uZG9lQGdtYWlsLmNvbSIsImtleSI6ImFzZGYyNHNkIiwicm9sZSI6ImFkbWluIn0.1dxln22U-jkWVN0WDLH0ltpkW47YrI550OXn90v6ahI',
+            access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1NjAzNTQ4MTk5MjEsImV4cCI6MTU5MTk4NDMyOTA4OSwiZW1haWwiOiJqb24uZG9lQGdtYWlsLmNvbSIsImtleSI6ImFzZGYyNHNkIiwicm9sZSI6ImFkbWluIn0.1dxln22U-jkWVN0WDLH0ltpkW47YrI550OXn90v6ahI',
+          },
+        })
+      )
+    } else if (username === 'admin' && password === 'pass') {
+      return of(
+        new HttpResponse({
+          status: 200,
+          body: {
+            access_token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX25hbWUiOiJhZG1pbiIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJleHAiOjE1NzE4NjM4MjksImF1dGhvcml0aWVzIjpbIlJPTEVfQURNSU4iXSwianRpIjoiZjI0NzBhMWUtMmE4My00YTZiLWEzZmQtZTcxOTc1NDFjYTlhIiwiZW1haWwiOiJsZXNsaWUua25vcGVAaW4ucGFya3MuZ292IiwiY2xpZW50X2lkIjoiYXBwIiwiaWF0IjoxNTcxODYwMjI5fQ.In73yyejYOBzbMoyQ40BD4vZ6TASYsbYiyGewwX1htI'
           },
         })
       )
@@ -64,7 +73,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
     return of(
       new HttpResponse({
         status: 200,
-        body: dummySkills
+        body: this.localSkills
       })
     )
   }
@@ -73,7 +82,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
     return of(
       new HttpResponse({
         status: 200,
-        body: dummySkillCategories
+        body: this.localSkillCategories
       })
     )
   }
@@ -82,7 +91,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
     return of(
       new HttpResponse({
         status: 200,
-        body: dummyEmployees
+        body: this.localEmployees
       })
     )
   }
