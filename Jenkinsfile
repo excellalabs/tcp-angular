@@ -73,7 +73,7 @@ pipeline {
         }
         steps{
           dir('tcp-angular-ecs'){
-            sh './deploy-to-ecs ${PROJECT_NAME} dev'
+            sh './deploy-to-ecs ${PROJECT_NAME} dev ${AWS_REGION}'
           }
         }
       }
@@ -88,7 +88,7 @@ pipeline {
       stage('Deploy Test Image'){
         steps{
           dir('tcp-angular-ecs'){
-            sh './deploy-to-ecs ${PROJECT_NAME} test'
+            sh './deploy-to-ecs ${PROJECT_NAME} test ${AWS_REGION}'
           }
         }
       }
@@ -103,7 +103,7 @@ pipeline {
       stage('Deploy Prod Image'){
         steps{
           dir('tcp-angular-ecs'){
-            sh './deploy-to-ecs ${PROJECT_NAME} prod'
+            sh './deploy-to-ecs ${PROJECT_NAME} prod ${AWS_REGION}'
           }
         }
       } */
