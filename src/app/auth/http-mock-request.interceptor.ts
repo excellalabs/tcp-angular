@@ -15,6 +15,10 @@ import { dummyEmployees} from '../services/employees/employees.service.fake'
 import { dummySkillCategories } from '../services/skill-categories/skill-categories.service.fake'
 import { dummySkills } from '../services/skills/skills.service.fake'
 
+import { ISkill } from '../models/skill.interface';
+
+import { ICategory } from '../models/skill.interface';
+
 @Injectable()
 export class HttpMockRequestInterceptor implements HttpInterceptor {
   jwtHelper = new JwtHelperService()
@@ -30,11 +34,11 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
       case `${environment.api}/oauth/token`:
         return this.mockLogin(request);
       case `${environment.api}/skill/`:
-        return this.mockGetSkills();
+        return this.mockSkills(request);
       case `${environment.api}/skill-category/`:
-        return this.mockGetSkillCategories();
+        return this.mockSkillCategories(request);
       case `${environment.api}/employee/`:
-        return this.mockGetEmployees();
+        return this.mockEmployees(request);
       default:
         console.log(`no mock configuration for ${request.url}`)
     }
@@ -60,7 +64,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
         new HttpResponse({
           status: 200,
           body: {
-            access_token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX25hbWUiOiJhZG1pbiIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJleHAiOjE1NzE4NjM5NjEsImF1dGhvcml0aWVzIjpbIlJPTEVfQURNSU4iXSwianRpIjoiZjI0NzBhMWUtMmE4My00YTZiLWEzZmQtZTcxOTc1NDFjYTlhIiwiZW1haWwiOiJqb24uZG9lQGdtYWlsLmNvbSIsImNsaWVudF9pZCI6ImFwcCIsImlhdCI6MTU3MTg2MDM2MX0.E4R2zUK2S5TdVRmbJMWvqaRSb7haIRf2vqDom-2e0tU'},
+            access_token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX25hbWUiOiJhZG1pbiIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJleHAiOjE1NzE4NjQ1Mjk5LCJhdXRob3JpdGllcyI6WyJST0xFX0FETUlOIl0sImp0aSI6ImYyNDcwYTFlLTJhODMtNGE2Yi1hM2ZkLWU3MTk3NTQxY2E5YSIsImVtYWlsIjoiam9uLmRvZUBnbWFpbC5jb20iLCJjbGllbnRfaWQiOiJhcHAiLCJpYXQiOjE1NzE4NjAzNjF9.dGwAo6XINwY2wkg8jaFeo6DHId3eJCYy2moLUt3LDOk'},
         })
       )
     } else {
@@ -68,7 +72,13 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
     }
   }
 
-  mockGetSkills(): Observable<HttpEvent<any>> {
+  mockSkills(request: HttpRequest<any>): Observable<HttpEvent<any>> {
+    if (request.method === 'POST') {
+        const skill: ISkill = request.body
+        skill.id = Math.max(...this.localSkills.map(x => x.id), 0) + 1;
+        this.localSkills.push(skill);
+    }
+
     return of(
       new HttpResponse({
         status: 200,
@@ -77,7 +87,13 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
     )
   }
 
-  mockGetSkillCategories(): Observable<HttpEvent<any>> {
+  mockSkillCategories(request: HttpRequest<any>): Observable<HttpEvent<any>> {
+    if (request.method === 'POST') {
+      const category: ICategory = request.body
+      category.id = Math.max(...this.localSkillCategories.map(x => x.id), 0) + 1;
+      this.localSkillCategories.push(category);
+    }
+
     return of(
       new HttpResponse({
         status: 200,
@@ -86,7 +102,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
     )
   }
 
-  mockGetEmployees(): Observable<HttpEvent<any>> {
+  mockEmployees(request: HttpRequest<any>): Observable<HttpEvent<any>> {
     return of(
       new HttpResponse({
         status: 200,
