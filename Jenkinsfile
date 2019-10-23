@@ -63,7 +63,7 @@ pipeline {
         steps{
           nodejs('12') {
             sh 'npm install import-sort'
-            sh './tcp-angular-ecs/package-for-ecs ${PROJECT_NAME} dev'
+            sh './tcp-angular-ecs/package-for-ecs ${PROJECT_NAME} dev ${AWS_REGION}'
           }
         }
       }
@@ -81,7 +81,7 @@ pipeline {
         steps{
           nodejs('12') {
             sh 'npm install import-sort'
-            sh './tcp-angular-ecs/package-for-ecs ${PROJECT_NAME} test'
+            sh './tcp-angular-ecs/package-for-ecs ${PROJECT_NAME} test ${AWS_REGION}'
           }
         }
       }
@@ -96,7 +96,7 @@ pipeline {
         steps{
           nodejs('12') {
             sh 'npm install import-sort'
-            sh './tcp-angular-ecs/package-for-ecs ${PROJECT_NAME} prod'
+            sh './tcp-angular-ecs/package-for-ecs ${PROJECT_NAME} prod ${AWS_REGION}'
           }
         }
       }
