@@ -23,8 +23,6 @@ echo "Target Environment = $ENV"
 
 docker --version
 
-cluster_name=$(aws ssm get-parameter --region $aws_region --name "/$PROJECT/$ENV/cluster/id" --query "Parameter.Value" --out text)
-
 # Find out what the external FQDN of the Application Load Balancer (ALB) is;
 # change the domain line in ../src/environments/environment.prod.ts to
 # use that instead of localhost; e.g.:
