@@ -60,8 +60,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
         new HttpResponse({
           status: 200,
           body: {
-            access_token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX25hbWUiOiJhZG1pbiIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJleHAiOjE1NzE4NjM4MjksImF1dGhvcml0aWVzIjpbIlJPTEVfQURNSU4iXSwianRpIjoiZjI0NzBhMWUtMmE4My00YTZiLWEzZmQtZTcxOTc1NDFjYTlhIiwiZW1haWwiOiJsZXNsaWUua25vcGVAaW4ucGFya3MuZ292IiwiY2xpZW50X2lkIjoiYXBwIiwiaWF0IjoxNTcxODYwMjI5fQ.In73yyejYOBzbMoyQ40BD4vZ6TASYsbYiyGewwX1htI'
-          },
+            access_token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX25hbWUiOiJhZG1pbiIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJleHAiOjE1NzE4NjM5NjEsImF1dGhvcml0aWVzIjpbIlJPTEVfQURNSU4iXSwianRpIjoiZjI0NzBhMWUtMmE4My00YTZiLWEzZmQtZTcxOTc1NDFjYTlhIiwiZW1haWwiOiJqb24uZG9lQGdtYWlsLmNvbSIsImNsaWVudF9pZCI6ImFwcCIsImlhdCI6MTU3MTg2MDM2MX0.E4R2zUK2S5TdVRmbJMWvqaRSb7haIRf2vqDom-2e0tU'},
         })
       )
     } else {
