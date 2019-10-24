@@ -63,7 +63,7 @@ pipeline {
         steps{
           nodejs('12') {
             sh 'npm install import-sort'
-            sh './tcp-angular-ecs/package-for-ecs ${PROJECT_NAME} dev'
+            sh './tcp-angular-ecs/package-for-ecs ${PROJECT_NAME} dev ${AWS_REGION}'
           }
         }
       }
@@ -73,7 +73,7 @@ pipeline {
         }
         steps{
           dir('tcp-angular-ecs'){
-            sh './deploy-to-ecs ${PROJECT_NAME} dev'
+            sh './deploy-to-ecs ${PROJECT_NAME} dev ${AWS_REGION}'
           }
         }
       }
@@ -81,14 +81,14 @@ pipeline {
         steps{
           nodejs('12') {
             sh 'npm install import-sort'
-            sh './tcp-angular-ecs/package-for-ecs ${PROJECT_NAME} test'
+            sh './tcp-angular-ecs/package-for-ecs ${PROJECT_NAME} test ${AWS_REGION}'
           }
         }
       }
       stage('Deploy Test Image'){
         steps{
           dir('tcp-angular-ecs'){
-            sh './deploy-to-ecs ${PROJECT_NAME} test'
+            sh './deploy-to-ecs ${PROJECT_NAME} test ${AWS_REGION}'
           }
         }
       }
@@ -96,14 +96,14 @@ pipeline {
         steps{
           nodejs('12') {
             sh 'npm install import-sort'
-            sh './tcp-angular-ecs/package-for-ecs ${PROJECT_NAME} prod'
+            sh './tcp-angular-ecs/package-for-ecs ${PROJECT_NAME} prod ${AWS_REGION}'
           }
         }
       }
       stage('Deploy Prod Image'){
         steps{
           dir('tcp-angular-ecs'){
-            sh './deploy-to-ecs ${PROJECT_NAME} prod'
+            sh './deploy-to-ecs ${PROJECT_NAME} prod ${AWS_REGION}'
           }
         }
       } */
