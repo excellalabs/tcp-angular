@@ -28,6 +28,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (request.url.indexOf(`${environment.api}/oauth/token`) >= 0) {
+      // This cannot be used with real HTTP calls since it uses a fake token
       return this.mockLogin(request)
     } else if (request.url.indexOf(`${environment.api}/skill/`) >= 0) {
       return this.mockSkills(request)
