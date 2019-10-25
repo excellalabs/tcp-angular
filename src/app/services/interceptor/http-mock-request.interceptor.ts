@@ -10,14 +10,13 @@ import { Injectable, Injector } from '@angular/core'
 import { JwtHelperService } from '@auth0/angular-jwt'
 import { Observable, of } from 'rxjs'
 
-import { environment } from '../../environments/environment'
-import { IEmployee } from '../models/employee.interface'
-import { ISkill, ICategory } from '../models/skill.interface'
-import { IBaseItem } from '../models/base-item.interface'
-
-import { dummyEmployees } from '../services/employees/employees.service.fake'
-import { dummySkillCategories } from '../services/skill-categories/skill-categories.service.fake'
-import { dummySkills } from '../services/skills/skills.service.fake'
+import { environment } from '../../../environments/environment'
+import { IBaseItem } from '../../models/base-item.interface'
+import { IEmployee } from '../../models/employee.interface'
+import { ICategory, ISkill } from '../../models/skill.interface'
+import { dummyEmployees } from '../employees/employees.service.fake'
+import { dummySkillCategories } from '../skill-categories/skill-categories.service.fake'
+import { dummySkills } from '../skills/skills.service.fake'
 
 @Injectable()
 export class HttpMockRequestInterceptor implements HttpInterceptor {
@@ -84,7 +83,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
     return of(
       new HttpResponse({
         status: 200,
-        body: this.localSkills
+        body: this.localSkills,
       })
     )
   }
@@ -99,7 +98,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
     return of(
       new HttpResponse({
         status: 200,
-        body: this.localSkillCategories
+        body: this.localSkillCategories,
       })
     )
   }
@@ -115,11 +114,11 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
     if (request.method === 'GET' && request.url.match(/employee\/\d/)) {
       const parsedURL = request.url.split('/')
       const id = Number(parsedURL[parsedURL.length - 1])
-      const matchingItem = this.localEmployees.find((i) => i.id === id);
+      const matchingItem = this.localEmployees.find(i => i.id === id)
       return of(
         new HttpResponse({
           status: 200,
-          body: matchingItem
+          body: matchingItem,
         })
       )
     }
@@ -127,7 +126,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
     return of(
       new HttpResponse({
         status: 200,
-        body: this.localEmployees
+        body: this.localEmployees,
       })
     )
   }
@@ -138,7 +137,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
   }
 
   mockPut(updatedItem: IBaseItem, localItems: IBaseItem[]): void {
-      const existingItemIndex = localItems.findIndex(c => c.id === updatedItem.id)
-      localItems[existingItemIndex] = updatedItem
+    const existingItemIndex = localItems.findIndex(c => c.id === updatedItem.id)
+    localItems[existingItemIndex] = updatedItem
   }
 }
