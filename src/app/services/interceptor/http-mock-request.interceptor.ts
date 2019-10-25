@@ -78,6 +78,8 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
       this.mockPost(request.body, this.localSkills)
     } else if (request.method === 'PUT') {
       this.mockPut(request.body, this.localSkills)
+    } else if (request.method === 'DELETE') {
+      this.mockDelete(request.url, this.localSkills)
     }
 
     return of(
@@ -93,6 +95,8 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
       this.mockPost(request.body, this.localSkillCategories)
     } else if (request.method === 'PUT') {
       this.mockPut(request.body, this.localSkillCategories)
+    } else if (request.method === 'DELETE') {
+      this.mockDelete(request.url, this.localSkillCategories)
     }
 
     return of(
@@ -108,12 +112,13 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
       this.mockPost(request.body, this.localEmployees)
     } else if (request.method === 'PUT') {
       this.mockPut(request.body, this.localEmployees)
+    } else if (request.method === 'DELETE') {
+      this.mockDelete(request.url, this.localEmployees)
     }
 
     // getById
     if (request.method === 'GET' && request.url.match(/employee\/\d/)) {
-      const parsedURL = request.url.split('/')
-      const id = Number(parsedURL[parsedURL.length - 1])
+      const id = this.getIdFromUrl(request.url)
       const matchingItem = this.localEmployees.find(i => i.id === id)
       return of(
         new HttpResponse({
@@ -132,12 +137,23 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
   }
 
   mockPost(item: IBaseItem, localItems: IBaseItem[]): void {
-    item.id = Math.max(...localItems.map(x => x.id), 0) + 1
+    item.id = Math.max(...localItems.map(i => i.id), 0) + 1
     localItems.push(item)
   }
 
   mockPut(updatedItem: IBaseItem, localItems: IBaseItem[]): void {
-    const existingItemIndex = localItems.findIndex(c => c.id === updatedItem.id)
+    const existingItemIndex = localItems.findIndex(i => i.id === updatedItem.id)
     localItems[existingItemIndex] = updatedItem
+  }
+
+  mockDelete(url: string, localItems: IBaseItem[]): void {
+    const id = this.getIdFromUrl(url)
+    const index = localItems.findIndex(i => i.id === id)
+    localItems.splice(index, 1)
+  }
+
+  getIdFromUrl(url: string): number {
+    const parsedURL = url.split('/')
+    return Number(parsedURL[parsedURL.length - 1])
   }
 }
