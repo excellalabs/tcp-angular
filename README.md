@@ -1,9 +1,9 @@
 # TCP Angular
-[![Build Status](https://prd-tcp-jenkins.excellalabs.com/buildStatus/icon?job=TCP%2FAngular%2Ftcp-angular%2Fmaster)](https://prd-tcp-jenkins.excellalabs.com/job/TCP/job/Angular/job/tcp-angular/job/master/)
-[![Bugs](http://prd-tcp-ecs-alb-1449891812.us-east-1.elb.amazonaws.com:9000/api/project_badges/measure?project=tcp-angular&metric=bugs)](http://prd-tcp-ecs-alb-1449891812.us-east-1.elb.amazonaws.com:9000/dashboard?id=tcp-angular)
-[![Coverage](http://prd-tcp-ecs-alb-1449891812.us-east-1.elb.amazonaws.com:9000/api/project_badges/measure?project=tcp-angular&metric=coverage)](http://prd-tcp-ecs-alb-1449891812.us-east-1.elb.amazonaws.com:9000/dashboard?id=tcp-angular)
-[![Vulnerabilities](http://prd-tcp-ecs-alb-1449891812.us-east-1.elb.amazonaws.com:9000/api/project_badges/measure?project=tcp-angular&metric=vulnerabilities)](http://prd-tcp-ecs-alb-1449891812.us-east-1.elb.amazonaws.com:9000/dashboard?id=tcp-angular)
-[![Reliability Rating](http://prd-tcp-ecs-alb-1449891812.us-east-1.elb.amazonaws.com:9000/api/project_badges/measure?project=tcp-angular&metric=reliability_rating)](http://prd-tcp-ecs-alb-1449891812.us-east-1.elb.amazonaws.com:9000/dashboard?id=tcp-angular)
+[![Build Status](https://core-tcp-jenkins.excellalabs.com/buildStatus/icon?job=CORE-TCP%2Ftcp-angular%2Fmaster)](https://core-tcp-jenkins.excellalabs.com/job/CORE-TCP/job/tcp-angular/job/master/)
+[![Bugs](http://sonarqube.excellalabs.com:9000/api/project_badges/measure?project=tcp-angular&metric=bugs)](http://sonarqube.excellalabs.com:9000/dashboard?id=tcp-angular)
+[![Coverage](http://sonarqube.excellalabs.com:9000/api/project_badges/measure?project=tcp-angular&metric=coverage)](http://sonarqube.excellalabs.com:9000/dashboard?id=tcp-angular)
+[![Vulnerabilities](http://sonarqube.excellalabs.com:9000/api/project_badges/measure?project=tcp-angular&metric=vulnerabilities)](http://sonarqube.excellalabs.com:9000/dashboard?id=tcp-angular)
+[![Reliability Rating](http://sonarqube.excellalabs.com:9000/api/project_badges/measure?project=tcp-angular&metric=reliability_rating)](http://sonarqube.excellalabs.com:9000/dashboard?id=tcp-angular)
 ## Purpose
 
 This is a front-end UI for a sample Tech-Challenge Platform:
