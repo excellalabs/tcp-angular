@@ -111,6 +111,19 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
       this.mockPut(request.body, this.localEmployees)
     }
 
+    // getById
+    if (request.method === 'GET' && request.url.match(/employee\/\d/)) {
+      const parsedURL = request.url.split('/')
+      const id = Number(parsedURL[parsedURL.length - 1])
+      const matchingItem = this.localEmployees.find((i) => i.id === id);
+      return of(
+        new HttpResponse({
+          status: 200,
+          body: matchingItem
+        })
+      )
+    }
+
     return of(
       new HttpResponse({
         status: 200,
