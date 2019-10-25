@@ -78,9 +78,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
     if (request.method === 'POST') {
       this.mockPost(request.body, this.localSkills)
     } else if (request.method === 'PUT') {
-      const skillUpdate: ISkill = request.body
-      const existingSkillIndex = this.localSkills.findIndex(c => c.id === skillUpdate.id)
-      this.localSkills[existingSkillIndex] = skillUpdate
+      this.mockPut(request.body, this.localSkills)
     }
 
     return of(
@@ -95,11 +93,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
     if (request.method === 'POST') {
       this.mockPost(request.body, this.localSkillCategories)
     } else if (request.method === 'PUT') {
-      const categoryUpdate: ICategory = request.body
-      const existingCategoryIndex = this.localSkillCategories.findIndex(
-        c => c.id === categoryUpdate.id
-      )
-      this.localSkillCategories[existingCategoryIndex] = categoryUpdate
+      this.mockPut(request.body, this.localSkillCategories)
     }
 
     return of(
@@ -113,6 +107,8 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
   mockEmployees(request: HttpRequest<any>): Observable<HttpEvent<any>> {
     if (request.method === 'POST') {
       this.mockPost(request.body, this.localEmployees)
+    } else if (request.method === 'PUT') {
+      this.mockPut(request.body, this.localEmployees)
     }
 
     return of(
@@ -126,5 +122,10 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
   mockPost(item: IBaseItem, localItems: IBaseItem[]): void {
     item.id = Math.max(...localItems.map(x => x.id), 0) + 1
     localItems.push(item)
+  }
+
+  mockPut(updatedItem: IBaseItem, localItems: IBaseItem[]): void {
+      const existingItemIndex = localItems.findIndex(c => c.id === updatedItem.id)
+      localItems[existingItemIndex] = updatedItem
   }
 }
