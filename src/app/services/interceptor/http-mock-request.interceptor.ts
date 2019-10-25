@@ -12,8 +12,6 @@ import { Observable, of } from 'rxjs'
 
 import { environment } from '../../../environments/environment'
 import { IBaseItem } from '../../models/base-item.interface'
-import { IEmployee } from '../../models/employee.interface'
-import { ICategory, ISkill } from '../../models/skill.interface'
 import { dummyEmployees } from '../employees/employees.service.fake'
 import { dummySkillCategories } from '../skill-categories/skill-categories.service.fake'
 import { dummySkills } from '../skills/skills.service.fake'
