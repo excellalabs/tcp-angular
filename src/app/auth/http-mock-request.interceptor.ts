@@ -16,7 +16,6 @@ import { dummySkillCategories } from '../services/skill-categories/skill-categor
 import { dummySkills } from '../services/skills/skills.service.fake'
 
 import { ISkill } from '../models/skill.interface';
-
 import { ICategory } from '../models/skill.interface';
 import { IEmployee } from '../models/employee.interface';
 
@@ -77,6 +76,10 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
         const skill: ISkill = request.body
         skill.id = Math.max(...this.localSkills.map(x => x.id), 0) + 1
         this.localSkills.push(skill)
+    } else if (request.method === 'PUT') {
+      const skillUpdate: ISkill = request.body
+      const existingSkillIndex = this.localSkills.findIndex((c) => c.id === skillUpdate.id);
+      this.localSkills[existingSkillIndex] = skillUpdate;
     }
 
     return of(
@@ -92,6 +95,10 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
       const category: ICategory = request.body
       category.id = Math.max(...this.localSkillCategories.map(x => x.id), 0) + 1
       this.localSkillCategories.push(category)
+    } else if (request.method === 'PUT') {
+      const categoryUpdate: ICategory = request.body
+      const existingCategoryIndex = this.localSkillCategories.findIndex((c) => c.id === categoryUpdate.id);
+      this.localSkillCategories[existingCategoryIndex] = categoryUpdate;
     }
 
     return of(
