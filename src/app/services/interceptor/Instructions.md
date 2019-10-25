@@ -1,7 +1,9 @@
-An HTTP interceptor is included in this repository (`src/app/services/interceptor/http-mock-request.interceptor.ts`) that mocks out API requests and enables development without a back-end service running. See Angular's documentation for details about the framework's implementation: https://angular.io/api/common/http/HttpInterceptor
+An HTTP interceptor is included in this repository (`src/app/services/interceptor/http-mock-request.interceptor.ts`) that mocks out API requests and enables development without a back-end service running.
+
+ See Angular's documentation for details about the framework's implementation: https://angular.io/api/common/http/HttpInterceptor
 
 ## How to use
-1. In `app.module`, uncomment the provider for the interceptor:
+1. In `app.module.ts`, uncomment the provider for the interceptor:
 ```
 {
   provide: HTTP_INTERCEPTORS,

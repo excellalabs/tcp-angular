@@ -62,11 +62,11 @@ export function tokenGetterFn() {
   ],
   providers: [
     AuthService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpMockRequestInterceptor,
-      multi: true,
-    },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: HttpMockRequestInterceptor,
+    //   multi: true,
+    // },
     EmployeesService,
     SkillsService,
     SkillCategoriesService,
