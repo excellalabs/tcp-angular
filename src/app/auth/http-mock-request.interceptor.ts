@@ -11,21 +11,21 @@ import { JwtHelperService } from '@auth0/angular-jwt'
 import { Observable, of } from 'rxjs'
 
 import { environment } from '../../environments/environment'
-import { dummyEmployees} from '../services/employees/employees.service.fake'
+import { IEmployee } from '../models/employee.interface'
+import { ISkill, ICategory } from '../models/skill.interface'
+import { IBaseItem } from '../models/base-item.interface'
+
+import { dummyEmployees } from '../services/employees/employees.service.fake'
 import { dummySkillCategories } from '../services/skill-categories/skill-categories.service.fake'
 import { dummySkills } from '../services/skills/skills.service.fake'
-
-import { ISkill } from '../models/skill.interface';
-import { ICategory } from '../models/skill.interface';
-import { IEmployee } from '../models/employee.interface';
 
 @Injectable()
 export class HttpMockRequestInterceptor implements HttpInterceptor {
   jwtHelper = new JwtHelperService()
 
-  localEmployees = dummyEmployees;
-  localSkills = dummySkills;
-  localSkillCategories = dummySkillCategories;
+  localEmployees = dummyEmployees
+  localSkills = dummySkills
+  localSkillCategories = dummySkillCategories
 
   constructor(private injector: Injector) {}
 
@@ -54,7 +54,8 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
         new HttpResponse({
           status: 200,
           body: {
-            access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1NjAzNTQ4MTk5MjEsImV4cCI6MTU5MTk4NDMyOTA4OSwiZW1haWwiOiJqb24uZG9lQGdtYWlsLmNvbSIsImtleSI6ImFzZGYyNHNkIiwicm9sZSI6ImFkbWluIn0.1dxln22U-jkWVN0WDLH0ltpkW47YrI550OXn90v6ahI',
+            access_token:
+              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1NjAzNTQ4MTk5MjEsImV4cCI6MTU5MTk4NDMyOTA4OSwiZW1haWwiOiJqb24uZG9lQGdtYWlsLmNvbSIsImtleSI6ImFzZGYyNHNkIiwicm9sZSI6ImFkbWluIn0.1dxln22U-jkWVN0WDLH0ltpkW47YrI550OXn90v6ahI',
           },
         })
       )
@@ -63,7 +64,9 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
         new HttpResponse({
           status: 200,
           body: {
-            access_token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX25hbWUiOiJhZG1pbiIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJleHAiOjE1NzE4NjQ1Mjk5LCJhdXRob3JpdGllcyI6WyJST0xFX0FETUlOIl0sImp0aSI6ImYyNDcwYTFlLTJhODMtNGE2Yi1hM2ZkLWU3MTk3NTQxY2E5YSIsImVtYWlsIjoiam9uLmRvZUBnbWFpbC5jb20iLCJjbGllbnRfaWQiOiJhcHAiLCJpYXQiOjE1NzE4NjAzNjF9.dGwAo6XINwY2wkg8jaFeo6DHId3eJCYy2moLUt3LDOk'},
+            access_token:
+              'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX25hbWUiOiJhZG1pbiIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJleHAiOjE1NzE4NjQ1Mjk5LCJhdXRob3JpdGllcyI6WyJST0xFX0FETUlOIl0sImp0aSI6ImYyNDcwYTFlLTJhODMtNGE2Yi1hM2ZkLWU3MTk3NTQxY2E5YSIsImVtYWlsIjoiam9uLmRvZUBnbWFpbC5jb20iLCJjbGllbnRfaWQiOiJhcHAiLCJpYXQiOjE1NzE4NjAzNjF9.dGwAo6XINwY2wkg8jaFeo6DHId3eJCYy2moLUt3LDOk',
+          },
         })
       )
     } else {
@@ -73,13 +76,11 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
 
   mockSkills(request: HttpRequest<any>): Observable<HttpEvent<any>> {
     if (request.method === 'POST') {
-        const skill: ISkill = request.body
-        skill.id = Math.max(...this.localSkills.map(x => x.id), 0) + 1
-        this.localSkills.push(skill)
+      this.mockPost(request.body, this.localSkills)
     } else if (request.method === 'PUT') {
       const skillUpdate: ISkill = request.body
-      const existingSkillIndex = this.localSkills.findIndex((c) => c.id === skillUpdate.id);
-      this.localSkills[existingSkillIndex] = skillUpdate;
+      const existingSkillIndex = this.localSkills.findIndex(c => c.id === skillUpdate.id)
+      this.localSkills[existingSkillIndex] = skillUpdate
     }
 
     return of(
@@ -92,13 +93,13 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
 
   mockSkillCategories(request: HttpRequest<any>): Observable<HttpEvent<any>> {
     if (request.method === 'POST') {
-      const category: ICategory = request.body
-      category.id = Math.max(...this.localSkillCategories.map(x => x.id), 0) + 1
-      this.localSkillCategories.push(category)
+      this.mockPost(request.body, this.localSkillCategories)
     } else if (request.method === 'PUT') {
       const categoryUpdate: ICategory = request.body
-      const existingCategoryIndex = this.localSkillCategories.findIndex((c) => c.id === categoryUpdate.id);
-      this.localSkillCategories[existingCategoryIndex] = categoryUpdate;
+      const existingCategoryIndex = this.localSkillCategories.findIndex(
+        c => c.id === categoryUpdate.id
+      )
+      this.localSkillCategories[existingCategoryIndex] = categoryUpdate
     }
 
     return of(
@@ -111,9 +112,7 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
 
   mockEmployees(request: HttpRequest<any>): Observable<HttpEvent<any>> {
     if (request.method === 'POST') {
-      const employee: IEmployee = request.body
-      employee.id = Math.max(...this.localEmployees.map(x => x.id), 0) + 1
-      this.localEmployees.push(employee)
+      this.mockPost(request.body, this.localEmployees)
     }
 
     return of(
@@ -122,5 +121,10 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
         body: this.localEmployees
       })
     )
+  }
+
+  mockPost(item: IBaseItem, localItems: IBaseItem[]): void {
+    item.id = Math.max(...localItems.map(x => x.id), 0) + 1
+    localItems.push(item)
   }
 }
