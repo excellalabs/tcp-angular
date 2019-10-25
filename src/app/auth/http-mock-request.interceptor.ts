@@ -31,17 +31,16 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
   constructor(private injector: Injector) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    switch (request.url) {
-      case `${environment.api}/oauth/token`:
-        return this.mockLogin(request);
-      case `${environment.api}/skill/`:
-        return this.mockSkills(request);
-      case `${environment.api}/skill-category/`:
-        return this.mockSkillCategories(request);
-      case `${environment.api}/employee/`:
-        return this.mockEmployees(request);
-      default:
-        console.log(`no mock configuration for ${request.url}`)
+    if (request.url.indexOf(`${environment.api}/oauth/token`) >= 0) {
+      return this.mockLogin(request)
+    } else if (request.url.indexOf(`${environment.api}/skill/`) >= 0) {
+      return this.mockSkills(request)
+    } else if (request.url.indexOf(`${environment.api}/skill-category/`) >= 0) {
+      return this.mockSkillCategories(request)
+    } else if (request.url.indexOf(`${environment.api}/employee/`) >= 0) {
+      return this.mockEmployees(request)
+    } else {
+      console.log(`no mock configuration for ${request.url}`)
     }
 
     return next.handle(request)
@@ -76,8 +75,8 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
   mockSkills(request: HttpRequest<any>): Observable<HttpEvent<any>> {
     if (request.method === 'POST') {
         const skill: ISkill = request.body
-        skill.id = Math.max(...this.localSkills.map(x => x.id), 0) + 1;
-        this.localSkills.push(skill);
+        skill.id = Math.max(...this.localSkills.map(x => x.id), 0) + 1
+        this.localSkills.push(skill)
     }
 
     return of(
@@ -91,8 +90,8 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
   mockSkillCategories(request: HttpRequest<any>): Observable<HttpEvent<any>> {
     if (request.method === 'POST') {
       const category: ICategory = request.body
-      category.id = Math.max(...this.localSkillCategories.map(x => x.id), 0) + 1;
-      this.localSkillCategories.push(category);
+      category.id = Math.max(...this.localSkillCategories.map(x => x.id), 0) + 1
+      this.localSkillCategories.push(category)
     }
 
     return of(
@@ -106,8 +105,8 @@ export class HttpMockRequestInterceptor implements HttpInterceptor {
   mockEmployees(request: HttpRequest<any>): Observable<HttpEvent<any>> {
     if (request.method === 'POST') {
       const employee: IEmployee = request.body
-      employee.id = Math.max(...this.localEmployees.map(x => x.id), 0) + 1;
-      this.localEmployees.push(employee);
+      employee.id = Math.max(...this.localEmployees.map(x => x.id), 0) + 1
+      this.localEmployees.push(employee)
     }
 
     return of(
