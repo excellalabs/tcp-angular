@@ -159,6 +159,9 @@ When finished developing, terminate the running container (`CTRL+C`) and run `do
 
 To run the app using the Angular CLI approach, simply run `npm start`. The app can be accessed via `localhost:4200`.
 
+#### Mocking out backend calls
+If you need to run the app without an actual backend service running, refer to the instructions in `src/app/services/interceptor/Instructions.md`
+
 ## Production
 
 There are three npm commands of importance:
