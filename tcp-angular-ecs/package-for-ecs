@@ -46,6 +46,17 @@ cat $envfile.orig
 echo -e "\nModified environment file:"
 cat $envfile
 
+echo "Generating .env file for ECS deployment..."
+cp -p .env tcp-angular-ecs/ ||:
+# Note: do NOT use double-quotes around the values; bash isn't interpreting .env: ecs-cli compose is, and it does not drop quotes.
+cat >> tcp-java-ecs/.env <<EOF
+AWS_REGION=${aws_region}
+EOF
+
+echo ".env file for ECS deployment:"
+cat tcp-angular-ecs/.env
+echo "--------"
+
 echo
 
 echo "Building the Docker image...."

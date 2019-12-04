@@ -1,7 +1,7 @@
 version: '2'
 services:
   web:
-    image: 090999229429.dkr.ecr.us-east-1.amazonaws.com/excellaco/tcp-angular
+    image: 090999229429.dkr.ecr.${AWS_REGION}.amazonaws.com/excellaco/tcp-angular
     ports:
       - "3000:3000"
     # npm run start:docker just runs this anyway: (after "npm run standardize")
