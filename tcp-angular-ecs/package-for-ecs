@@ -3,12 +3,16 @@
 # Create the Docker image for the tcp-angular service.
 # All actions are local to the VM; does not use aws or ecs-cli.
 # Should be run before deploy-to-ecs is run.
+# Assumes the directory for the service exists in this directory,
+# its name matches "*-ecs", and it is the only directory that matches.
 
 # Fail on any error; unset variables are errors; show commands before executing:
 set -eux
 PROJECT="$1"
 ENV="$2"
 aws_region="$3"
+
+ECS_DIR=$(find . -type d -name "*-ecs" -depth 1)
 
 # TODO: see if logging anything from this script would be helpful
 
@@ -47,14 +51,14 @@ echo -e "\nModified environment file:"
 cat $envfile
 
 echo "Generating .env file for ECS deployment..."
-cp -p .env tcp-angular-ecs/ ||:
+cp -p .env $ECS_DIR/ ||:
 # Note: do NOT use double-quotes around the values; bash isn't interpreting .env: ecs-cli compose is, and it does not drop quotes.
-cat >> tcp-java-ecs/.env <<EOF
+cat >> $ECS_DIR/.env <<EOF
 AWS_REGION=${aws_region}
 EOF
 
 echo ".env file for ECS deployment:"
-cat tcp-angular-ecs/.env
+cat $ECS_DIR/.env
 echo "--------"
 
 echo
