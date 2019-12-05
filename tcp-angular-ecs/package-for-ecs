@@ -35,9 +35,8 @@ docker --version
 alb=$(aws ssm get-parameter --region $aws_region --name "/$PROJECT/$ENV/alb/endpoint" --query "Parameter.Value" --out text)
 echo "ALB FQDN is $alb"
 
+# relative to project root:
 for envfile in src/environments/environment.ts src/environments/environment.prod.ts ; do
-    # relative to project root:
-    envfile=src/environments/environment.ts
     mv $envfile $envfile.orig
     # The const domain setting can span multiple lines, so we have to do this song and dance:
     touch $envfile
