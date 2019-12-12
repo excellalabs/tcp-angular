@@ -66,7 +66,9 @@ echo "Checking current state of service..."
 state=OTHER
 
 # If ANY are RUNNING, state is ACTIVE
-if  ( grep -q ServiceNotFoundException service-status ) ; then
+if  [[ ! -s service-status ]] ; then  # status file doesn't exist or is empty:
+    state=NONEXISTENT
+elif  ( grep -q ServiceNotFoundException service-status ) ; then
     state=NONEXISTENT
 elif ( grep -q RUNNING service-status ) ; then
     state=ACTIVE
