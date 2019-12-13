@@ -2,9 +2,10 @@
 
 # Deploy the containers for the service into the ECS cluster
 # This script does NOT wait until the deployed containers are actually RUNNING
-# Pushes the latest local tcp-java-api image to ECR.
+# Pushes the local image labeled with $GIT_COMMIT to ECR along with the :latest label.
 #
-# Assumes it is run in the ECS service subdirectory (where the ECS docker-compose.yml is);
+# Assumes the environemnt variable GIT_COMMIT is set (typically by Jenkins);
+# assumes it is run in the ECS service subdirectory (where the ECS docker-compose.yml is);
 # assumes credentials are already set up in the default aws profile;
 # assumes name of cluster to deploy to is in SSM key "/$PROJECT/$ENV/cluster/id";
 # sets the default ecs-cli cluster to that cluster.
@@ -15,6 +16,8 @@ PROJECT="$1"
 ENV="$2"
 aws_region="$3"
 
+GIT_COMMIT=${GIT_COMMIT:-unknown}
+
 # TODO: see if logging anything from this script would be helpful
 
 # TODO: make sure we're in the correct directory (with ECS docker-compose.yml in it)
@@ -24,6 +27,7 @@ date
 echo "Running in $PWD"
 echo "Project = $PROJECT"
 echo "Target Environment = $ENV"
+echo "Git commit hash = $GIT_COMMIT"
 
 # Check versions of required software #
 ######################################
@@ -34,8 +38,9 @@ ecs-cli --version
 
 # Get image produced via previous 'package_for_ecs' script #
 ############################################################
-IMAGE=$(grep "image: .*amazonaws.com/" docker-compose.yml | sed "s/^[^\/]*\///")
-echo "Image from docker-compose.yml is $IMAGE"
+grep "image: .*amazonaws.com/" docker-compose.yml
+IMAGE_REPO=$(grep "image: .*amazonaws.com/" docker-compose.yml | sed "s/^[^\/]*\///")
+echo "Image repository from docker-compose.yml is $IMAGE_REPO"
 
 # Configure ecs-cli #
 #####################
@@ -45,8 +50,10 @@ ecs-cli configure --cluster $cluster_name --region $aws_region --default-launch-
 
 # Upload image to ECR #
 #######################
-echo "Pushing image $IMAGE to ECR..."
-ecs-cli push --aws-profile default $IMAGE:latest
+echo "Pushing image $IMAGE_REPO to ECR..."
+ecs-cli push --aws-profile default $IMAGE_REPO:$GIT_COMMIT
+# TODO: should we even be tagging it "latest" yet?
+ecs-cli push --aws-profile default $IMAGE_REPO:latest
 
 # Check state of service, and wait until new version becomes active #
 #####################################################################
@@ -59,7 +66,9 @@ echo "Checking current state of service..."
 state=OTHER
 
 # If ANY are RUNNING, state is ACTIVE
-if  ( grep -q ServiceNotFoundException service-status ) ; then
+if  [[ ! -s service-status ]] ; then  # status file doesn't exist or is empty:
+    state=NONEXISTENT
+elif  ( grep -q ServiceNotFoundException service-status ) ; then
     state=NONEXISTENT
 elif ( grep -q RUNNING service-status ) ; then
     state=ACTIVE
