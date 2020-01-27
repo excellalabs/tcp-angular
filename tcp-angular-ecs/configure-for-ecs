@@ -35,6 +35,7 @@ echo
 # const domain = 'tcp-testing-3-dev-cluster-alb-877192071.us-east-1.elb.amazonaws.com:8080'
 
 WEB_DOMAIN=$(aws ssm get-parameter --region $aws_region --name "/$PROJECT/$ENV/alb/endpoint" --query "Parameter.Value" --out text)
+WEB_DOMAIN+=":8080"
 echo "ALB FQDN is $WEB_DOMAIN"
 
 # Use the below if using a DNS registered in Route53 (or other DNS provider)
