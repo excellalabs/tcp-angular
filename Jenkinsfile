@@ -75,6 +75,7 @@ pipeline {
         steps{
           nodejs('12') {
             sh 'npm install import-sort'
+            echo "***** running package-for-ecs"
             sh "./tcp-angular-ecs/package-for-ecs excellaco/tcp-angular"
           }
         }
