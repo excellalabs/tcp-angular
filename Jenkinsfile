@@ -33,7 +33,6 @@ pipeline {
       stage('Install') {
         agent { docker 'duluca/minimal-node-chromium' }
         steps {
-          sh 'npm install'
           sh 'npm ci'
         }
       }
@@ -70,9 +69,9 @@ pipeline {
           }
       }
       stage('Build Dev Image'){
-        when {
+        /*when {
           expression { env.JOB_BASE_NAME.startsWith('PR') }
-        }
+        }*/
         steps{
           nodejs('12') {
             sh 'npm install import-sort'
@@ -81,9 +80,9 @@ pipeline {
         }
       }
       stage('Deploy Dev Image'){
-        when {
+        /*when {
           expression { env.JOB_BASE_NAME.startsWith('PR') }
-        }
+        }*/
         steps{
           dir('tcp-angular-ecs'){
             sh "./configure-for-ecs ${PROJECT_NAME} dev ${AWS_REGION} ${env.GIT_COMMIT}"
