@@ -56,7 +56,9 @@ for envfile in src/environments/environment.ts src/environments/environment.prod
     # (The first "c" in "cconst" is a sed command, not part of the inserted text.)
     #sed -e "/BEGIN DOMAIN DEF/,/END DOMAIN DEF/cconst domain = '$alb:8080'" $envfile.orig >> $envfile
     sed -e "/BEGIN DOMAIN DEF/,/END DOMAIN DEF/cconst domain = 'THEDOMAINLITERAL'" $envfile.orig >> $envfile
-    sed -i "s/http:/https:/" $envfile
+
+    # Uncomment when using SSL
+    #sed -i "s/http:/https:/" $envfile
 
     echo "Original $envfile:"
     cat $envfile.orig
