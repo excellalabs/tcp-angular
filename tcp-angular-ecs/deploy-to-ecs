@@ -2,10 +2,10 @@
 
 # Deploy the containers for the service into the ECS cluster
 # This script does NOT wait until the deployed containers are actually RUNNING
-# Pushes the local image labeled with $GIT_COMMIT to ECR along with the :latest label.
+# Pushes (to ECR) the local image tagged with whatever label was given to configure-for-ecs.
 #
-# Assumes the environemnt variable GIT_COMMIT is set (typically by Jenkins);
-# assumes it is run in the ECS service subdirectory (where the ECS docker-compose.yml is);
+# Assumes it is run in the ECS service subdirectory (where the ECS docker-compose.yml is);
+# assumes configure-for-ecs has already been run for the environment we're deploying to;
 # assumes credentials are already set up in the default aws profile;
 # assumes name of cluster to deploy to is in SSM key "/$PROJECT/$ENV/cluster/id";
 # sets the default ecs-cli cluster to that cluster.
@@ -16,18 +16,18 @@ PROJECT="$1"
 ENV="$2"
 aws_region="$3"
 
-GIT_COMMIT=${GIT_COMMIT:-unknown}
-
 # TODO: see if logging anything from this script would be helpful
 
 # TODO: make sure we're in the correct directory (with ECS docker-compose.yml in it)
 
+echo "=== deploy-to-ecs - $ENV ==="
 date
+start_time=$(date +%s)
 
 echo "Running in $PWD"
 echo "Project = $PROJECT"
 echo "Target Environment = $ENV"
-echo "Git commit hash = $GIT_COMMIT"
+echo "AWS Region = $aws_region"
 
 # Check versions of required software #
 ######################################
@@ -38,22 +38,23 @@ ecs-cli --version
 
 # Get image produced via previous 'package_for_ecs' script #
 ############################################################
-grep "image: .*amazonaws.com/" docker-compose.yml
-IMAGE_REPO=$(grep "image: .*amazonaws.com/" docker-compose.yml | sed "s/^[^\/]*\///")
-echo "Image repository from docker-compose.yml is $IMAGE_REPO"
+eval "$(grep '^IMAGE_REPO=' .env)"
+echo "Image repository from .env is $IMAGE_REPO"
+eval "$(grep '^IMAGE_LABEL=' .env)"
+echo "Image label from .env is $IMAGE_LABEL"
+
+# Upload image to ECR #
+#######################
+echo "Pushing image $IMAGE_REPO:$IMAGE_LABEL to ECR..."
+ecs-cli push --aws-profile default $IMAGE_REPO:$IMAGE_LABEL
+# TODO: should we even be tagging it "latest" yet?
+#ecs-cli push --aws-profile default $IMAGE_REPO:latest
 
 # Configure ecs-cli #
 #####################
 cluster_name=$(aws ssm get-parameter --region $aws_region --name "/$PROJECT/$ENV/cluster/id" --query "Parameter.Value" --out text)
 echo "Configuring the default ECS cluster for ecs-cli to $cluster_name in region $aws_region..."
 ecs-cli configure --cluster $cluster_name --region $aws_region --default-launch-type EC2
-
-# Upload image to ECR #
-#######################
-echo "Pushing image $IMAGE_REPO to ECR..."
-ecs-cli push --aws-profile default $IMAGE_REPO:$GIT_COMMIT
-# TODO: should we even be tagging it "latest" yet?
-ecs-cli push --aws-profile default $IMAGE_REPO:latest
 
 # Check state of service, and wait until new version becomes active #
 #####################################################################
@@ -84,17 +85,16 @@ if [ "$state" == "OTHER" ] ; then
 fi
 
 if [ "$state" == "ACTIVE" ] ; then
-   echo "Bringing service down (because current state is $state)..."
-   ecs-cli compose --aws-profile default service down
-   sleep 30  # give it some time to drain
+   echo "Scaling service to 0 (because current state is $state)..."
+   ecs-cli compose --aws-profile default service scale 0
 fi
 
-# If the service was running before, it will take some time (usually around 40 seconds) to drain
-echo "Creating service..."
+echo "Updating service..."
 counter_limit=10
 counter=$counter_limit
-until ( ecs-cli compose --aws-profile default service create ) ; do
+until ( ecs-cli compose --aws-profile default service up ) ; do
     counter=$((counter - 1))
+    ecs-cli compose --aws-profile default service ps
     if (( counter <= 0 )); then
         echo "ERROR: Could not bring service up after $counter_limit attempts.  Quitting..."
         date
@@ -104,7 +104,7 @@ until ( ecs-cli compose --aws-profile default service create ) ; do
 done;
 
 scale=2
-echo "Bringing service up and scaling to $scale containers..."
+echo "Scaling service to $scale containers..."
 ecs-cli compose --aws-profile default service scale $scale
 
 echo "Checking state of service..."
@@ -112,6 +112,7 @@ ecs-cli compose --aws-profile default service ps
 
 # TODO: wait around until at least two things are RUNNING
 
+echo duration: $(( $(date +%s) - $start_time )) seconds
 date
 
 # DONE #

@@ -1,3 +1,8 @@
 FROM duluca/minimal-node-web-server:lts-alpine
 WORKDIR /usr/src/app
-COPY dist/tcp-angular public
+USER root
+RUN chown -R node:node public
+USER node
+COPY --chown=node:node dist/tcp-angular public
+COPY configure-and-run .
+CMD ["/usr/src/app/configure-and-run"]
