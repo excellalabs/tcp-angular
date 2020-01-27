@@ -5,4 +5,5 @@ RUN chown -R node:node public
 USER node
 COPY --chown=node:node dist/tcp-angular public
 COPY --chown=node:node configure-and-run .
+RUN chmod a+x /usr/src/app/configure-and-run
 CMD ["/usr/src/app/configure-and-run"]
