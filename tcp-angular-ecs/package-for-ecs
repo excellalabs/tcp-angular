@@ -82,7 +82,8 @@ mkdir -p $commitfiledir
 git log -1 > $commitfiledir/commit
 
 echo "Building the $IMAGE_REPO Docker image..."
-npm ci
+#npm ci
+npm install
 npm run docker:build
 # package.json -> config.imageRepo has the name of the image repo npm built
 docker tag $IMAGE_REPO $IMAGE_REPO:$GIT_COMMIT
