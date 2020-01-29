@@ -106,8 +106,13 @@ pipeline {
         steps{
           dir('tcp-angular-ecs'){
             sh './tag-as-latest'
+            /*
+            // We don't currently have a "Production" environment, so this stage would fail
+            // But want to tag master at latest when a PR is merged.
+            // TODO: Remove the comments once a "Production" environment is available...
             sh "./configure-for-ecs ${PROJECT_NAME} prod ${AWS_REGION} latest"
             sh './deploy-to-ecs ${PROJECT_NAME} prod ${AWS_REGION}'
+            */
           }
         }
       }
