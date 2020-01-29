@@ -69,21 +69,16 @@ pipeline {
           }
       }
       stage('Build Dev Image'){
-        /*when {
-          expression { env.JOB_BASE_NAME.startsWith('PR') }
-        }*/
+        when { anyOf {{ branch 'master' }; expression { env.JOB_BASE_NAME.startsWith('PR') }} }
         steps{
           nodejs('12') {
             sh 'npm install import-sort'
-            echo "***** running package-for-ecs"
             sh "./tcp-angular-ecs/package-for-ecs excellaco/tcp-angular"
           }
         }
       }
       stage('Deploy Dev Image'){
-        /*when {
-          expression { env.JOB_BASE_NAME.startsWith('PR') }
-        }*/
+        when { anyOf {{ branch 'master' }; expression { env.JOB_BASE_NAME.startsWith('PR') }} }
         steps{
           dir('tcp-angular-ecs'){
             sh "./configure-for-ecs ${PROJECT_NAME} dev ${AWS_REGION} ${env.GIT_COMMIT}"
