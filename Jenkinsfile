@@ -33,13 +33,7 @@ pipeline {
       stage('Install') {
         agent { docker 'duluca/minimal-node-chromium' }
         steps {
-          sh 'npm ci'
-        }
-      }
-      stage('Build') {
-        agent { docker 'duluca/minimal-node-chromium' }
-        steps {
-          sh 'npm run build:prod'
+          sh 'npm install'
         }
       }
       stage('Test') {
@@ -56,57 +50,67 @@ pipeline {
           }
         }
       }
+      stage('Record Coverage') {
+          when { branch 'master' }
+          steps {
+              script {
+                  currentBuild.result = 'SUCCESS'
+               }
+              step([$class: 'MasterCoverageAction', scmVars: [GIT_URL: "${env.GIT_URL}"]])
+          }
+      }
+      stage('PR Coverage to Github') {
+          when { allOf {not { branch 'master' }; expression { return env.CHANGE_ID != null }} }
+          steps {
+              script {
+                  currentBuild.result = 'SUCCESS'
+               }
+              step([$class: 'CompareCoverageAction', publishResultAs: 'statusCheck', scmVars: [GIT_URL: "${env.GIT_URL}"]])
+          }
+      }
       stage('Build Dev Image'){
-        when {
-          not { expression { env.PROJECT_NAME.startsWith('prd') } }
-        }
+        /*when {
+          expression { env.JOB_BASE_NAME.startsWith('PR') }
+        }*/
         steps{
           nodejs('12') {
             sh 'npm install import-sort'
-            sh './tcp-angular-ecs/package-for-ecs ${PROJECT_NAME} dev ${AWS_REGION}'
+            echo "***** running package-for-ecs"
+            sh "./tcp-angular-ecs/package-for-ecs excellaco/tcp-angular"
           }
         }
       }
       stage('Deploy Dev Image'){
-        when {
-          not { expression { env.PROJECT_NAME.startsWith('prd') } }
-        }
+        /*when {
+          expression { env.JOB_BASE_NAME.startsWith('PR') }
+        }*/
         steps{
           dir('tcp-angular-ecs'){
-            sh './deploy-to-ecs ${PROJECT_NAME} dev ${AWS_REGION}'
+            sh "./configure-for-ecs ${PROJECT_NAME} dev ${AWS_REGION} ${env.GIT_COMMIT}"
+            sh "./deploy-to-ecs ${PROJECT_NAME} dev ${AWS_REGION}"
           }
         }
       }
-      /* stage('Build Test Image'){
-        steps{
-          nodejs('12') {
-            sh 'npm install import-sort'
-            sh './tcp-angular-ecs/package-for-ecs ${PROJECT_NAME} test ${AWS_REGION}'
-          }
-        }
-      }
-      stage('Deploy Test Image'){
+      /* stage('Deploy Test Image'){
         steps{
           dir('tcp-angular-ecs'){
+            sh "./configure-for-ecs ${PROJECT_NAME} test ${AWS_REGION} ${env.GIT_COMMIT}"
             sh './deploy-to-ecs ${PROJECT_NAME} test ${AWS_REGION}'
           }
         }
-      }
-      stage('Build Prod Image'){
-        steps{
-          nodejs('12') {
-            sh 'npm install import-sort'
-            sh './tcp-angular-ecs/package-for-ecs ${PROJECT_NAME} prod ${AWS_REGION}'
-          }
-        }
-      }
+      }*/
       stage('Deploy Prod Image'){
+        when {
+          branch 'master'
+        }
         steps{
           dir('tcp-angular-ecs'){
+            sh './tag-as-latest'
+            sh "./configure-for-ecs ${PROJECT_NAME} prod ${AWS_REGION} latest"
             sh './deploy-to-ecs ${PROJECT_NAME} prod ${AWS_REGION}'
           }
         }
-      } */
+      }
     }
     post {
       success {
@@ -125,7 +129,7 @@ pipeline {
            }
         }
       always {
-        sh 'docker image prune -a --force --filter "until=120h"'
+        sh 'docker image prune -a --force --filter "until=72h"'
       }
     }
 }

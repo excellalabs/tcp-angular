@@ -1,0 +1,12 @@
+#!/bin/sh
+# Needs to be able to run under Alpine, so can't be bash
+
+echo "Running with DOMAIN = '$WEB_DOMAIN'"
+
+cd /usr/src/app/public
+for fname in main-*.js ; do
+    sed -i "s/THEDOMAINLITERAL/$WEB_DOMAIN/g" $fname
+done
+cd ..
+
+npm start

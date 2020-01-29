@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Tag the local image specified by .env as :latest
+#
+# Assumes it is run in the ECS service subdirectory (where the ECS docker-compose.yml is);
+# assumes credentials are already set up in the default aws profile;
+
+echo "=== tag-as-latest ==="
+date
+
+# Get image produced via previous 'package_for_ecs' script #
+############################################################
+eval "$(grep '^IMAGE_REPO=' .env)"
+echo "Image repository from .env is $IMAGE_REPO"
+eval "$(grep '^IMAGE_LABEL=' .env)"
+echo "Image label from .env is $IMAGE_LABEL"
+
+echo "Tagging image $IMAGE_REPO:$IMAGE_LABEL as latest..."
+docker tag $IMAGE_REPO:$IMAGE_LABEL $IMAGE_REPO:latest
