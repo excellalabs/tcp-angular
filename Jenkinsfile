@@ -69,21 +69,16 @@ pipeline {
           }
       }
       stage('Build Dev Image'){
-        /*when {
-          expression { env.JOB_BASE_NAME.startsWith('PR') }
-        }*/
+        when { anyOf { branch 'master'; expression { env.JOB_BASE_NAME.startsWith('PR') }} }
         steps{
           nodejs('12') {
             sh 'npm install import-sort'
-            echo "***** running package-for-ecs"
             sh "./tcp-angular-ecs/package-for-ecs excellaco/tcp-angular"
           }
         }
       }
       stage('Deploy Dev Image'){
-        /*when {
-          expression { env.JOB_BASE_NAME.startsWith('PR') }
-        }*/
+        when { anyOf { branch 'master'; expression { env.JOB_BASE_NAME.startsWith('PR') }} }
         steps{
           dir('tcp-angular-ecs'){
             sh "./configure-for-ecs ${PROJECT_NAME} dev ${AWS_REGION} ${env.GIT_COMMIT}"
@@ -106,8 +101,13 @@ pipeline {
         steps{
           dir('tcp-angular-ecs'){
             sh './tag-as-latest'
+            /*
+            // We don't currently have a "Production" environment, so this stage would fail
+            // But want to tag master at latest when a PR is merged.
+            // TODO: Remove the comments once a "Production" environment is available...
             sh "./configure-for-ecs ${PROJECT_NAME} prod ${AWS_REGION} latest"
             sh './deploy-to-ecs ${PROJECT_NAME} prod ${AWS_REGION}'
+            */
           }
         }
       }
