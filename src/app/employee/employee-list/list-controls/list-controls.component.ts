@@ -27,8 +27,8 @@ export class ListControlsComponent extends BaseForm {
   allSkills: ISkill[]
   displayFn = displaySkillFn
 
-  @ViewChild('skillInput', { static: false }) skillInput: ElementRef<HTMLInputElement>
-  @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete
+  @ViewChild('skillInput') skillInput: ElementRef<HTMLInputElement>
+  @ViewChild('auto') matAutocomplete: MatAutocomplete
 
   constructor(private fb: FormBuilder, private skillService: SkillsService) {
     super()

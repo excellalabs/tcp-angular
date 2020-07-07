@@ -26,7 +26,7 @@ export class EmployeeListComponent implements AfterViewInit {
   dataFilter$ = new BehaviorSubject<IEmployeeFilters>({} as IEmployeeFilters)
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator
-  @ViewChild(MatSort, { static: false }) sort: MatSort
+  @ViewChild(MatSort) sort: MatSort
 
   constructor(
     private authService: AuthService,
