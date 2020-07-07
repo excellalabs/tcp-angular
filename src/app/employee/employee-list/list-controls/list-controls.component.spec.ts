@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing'
 import { FlexLayoutModule } from '@angular/flex-layout'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { MatChipInputEvent } from '@angular/material'
+import { MatChipInputEvent } from '@angular/material/chips';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'
 import { ISkill } from 'src/app/models/skill.interface'
 import { IBaseCrudService } from 'src/app/services/abstract/base-crud.service'

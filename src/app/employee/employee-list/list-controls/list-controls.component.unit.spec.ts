@@ -1,12 +1,8 @@
 import { ElementRef } from '@angular/core'
 import { FormBuilder, FormGroup } from '@angular/forms'
-import {
-  MatAutocomplete,
-  MatAutocompleteDefaultOptions,
-  MatAutocompleteSelectedEvent,
-  MatChipInputEvent,
-  MatOption,
-} from '@angular/material'
+import { MatAutocomplete, MatAutocompleteDefaultOptions, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { MatOption } from '@angular/material/core';
 
 import { ISkill, displaySkillFn } from '../../../models/skill.interface'
 import { SkillsService } from '../../../services/skills/skills.service'

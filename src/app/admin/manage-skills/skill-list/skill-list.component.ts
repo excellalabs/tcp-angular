@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core'
-import { MatTableDataSource } from '@angular/material'
+import { MatTableDataSource } from '@angular/material/table';
 
 import { ISkill } from '../../../models/skill.interface'
 import { SkillsService } from '../../../services/skills/skills.service'
