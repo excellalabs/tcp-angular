@@ -84,7 +84,10 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "codeCoverageExclude": ["/**/*mock*.ts", "/**/*fake*.ts"],
+            "codeCoverageExclude": [
+              "/**/*mock*.ts",
+              "/**/*fake*.ts"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -122,6 +125,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "tcp-angular"
+    }
+  },
+  "defaultProject": "tcp-angular",
+  "cli": {
+    "analytics": false
+  }
 }
