@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core'
-import { MatTableDataSource } from '@angular/material'
+import { MatTableDataSource } from '@angular/material/table';
 import { combineLatest } from 'rxjs'
 import { map } from 'rxjs/operators'
 

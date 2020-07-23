@@ -1,5 +1,7 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core'
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material'
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { BehaviorSubject, Subscription } from 'rxjs'
 
 import { IEmployee } from '../../models/employee.interface'
@@ -26,7 +28,7 @@ export class EmployeeListComponent implements AfterViewInit {
   dataFilter$ = new BehaviorSubject<IEmployeeFilters>({} as IEmployeeFilters)
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator
-  @ViewChild(MatSort, { static: false }) sort: MatSort
+  @ViewChild(MatSort) sort: MatSort
 
   constructor(
     private authService: AuthService,

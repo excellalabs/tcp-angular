@@ -1,11 +1,8 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes'
 import { Component, ElementRef, Output, ViewChild } from '@angular/core'
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms'
-import {
-  MatAutocomplete,
-  MatAutocompleteSelectedEvent,
-  MatChipInputEvent,
-} from '@angular/material'
+import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs'
 import { debounceTime, map, startWith } from 'rxjs/operators'
 
@@ -27,8 +24,8 @@ export class ListControlsComponent extends BaseForm {
   allSkills: ISkill[]
   displayFn = displaySkillFn
 
-  @ViewChild('skillInput', { static: false }) skillInput: ElementRef<HTMLInputElement>
-  @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete
+  @ViewChild('skillInput') skillInput: ElementRef<HTMLInputElement>
+  @ViewChild('auto') matAutocomplete: MatAutocomplete
 
   constructor(private fb: FormBuilder, private skillService: SkillsService) {
     super()

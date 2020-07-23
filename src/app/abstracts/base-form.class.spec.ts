@@ -1,8 +1,9 @@
-import { EventEmitter } from '@angular/core'
+import { EventEmitter, Directive } from '@angular/core'
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms'
 
 import { BaseForm } from './base-form.class'
 
+@Directive()
 class BasicBaseForm extends BaseForm {
   constructor() {
     super()

@@ -1,6 +1,7 @@
-import { EventEmitter, Output } from '@angular/core'
+import { EventEmitter, Output, Directive } from '@angular/core'
 import { AbstractControl, FormGroup } from '@angular/forms'
 
+@Directive()
 export abstract class BaseForm {
   @Output() formReady: EventEmitter<AbstractControl>
   formGroup: FormGroup
